@@ -98,8 +98,8 @@ The site is a single `index.html` with no build step. Every item (indicator, not
 
 ## 👥 Team
 
-**Core team:** Carlos Mendez (Nagoya University, Japan) · Theara Khoun (UNDP Cambodia) · Ate Poortinga (Spatial Informatics Group, USA)
-**Research associates:** LI Xiaomeng (Nagoya University, Japan) · Du He (Nagoya University, Japan)
+**Core team:** [Carlos Mendez](https://carlos-mendez.org) (Nagoya University, Japan) · Theara Khoun (UNDP Cambodia) · Ate Poortinga (Spatial Informatics Group, USA)
+**Research associates:** [Li Xiaomeng](https://carlos-mendez.org/authors/lixiaomeng/) (Nagoya University, Japan) · [He Du](https://carlos-mendez.org/authors/hedu/) (Nagoya University, Japan)
 
 **Contact:** [carlos.mendez.n9@f.mail.nagoya-u.ac.jp](mailto:carlos.mendez.n9@f.mail.nagoya-u.ac.jp) · [theara.khoun@undp.org](mailto:theara.khoun@undp.org) · [apoortinga@sig-gis.com](mailto:apoortinga@sig-gis.com)
 **Community:** [GitHub Discussions](https://github.com/quarcs-lab/geo4cambodia/discussions)

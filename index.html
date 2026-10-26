@@ -92,9 +92,9 @@
           "spatialCoverage": { "@type": "Place", "name": "Cambodia" },
           "keywords": ["GDP per capita", "districts", "regional convergence", "Cambodia"],
           "creator": [
-            { "@type": "Person", "name": "He Du" },
+            { "@type": "Person", "name": "He Du", "url": "https://carlos-mendez.org/authors/hedu/" },
             { "@type": "Person", "name": "Carlos Mendez" },
-            { "@type": "Person", "name": "Xiaomeng Li" }
+            { "@type": "Person", "name": "Li Xiaomeng", "url": "https://carlos-mendez.org/authors/lixiaomeng/" }
           ],
           "distribution": [
             { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/districts202-gdppc/wide_y.csv" },
@@ -438,7 +438,7 @@ xtsum y ln_y trend400_ln_y`,
             references: [
               { text: 'Kummu, M., Kosonen, M., & Masoumzadeh Sayyar, S. (2025). Downscaled gridded global dataset for gross domestic product (GDP) per capita PPP over 1990–2022. Scientific Data, 12, 178.', url: 'https://doi.org/10.1038/s41597-025-04487-x' },
             ],
-            citation: 'Du, H., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc',
+            citation: 'He, D., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc',
             related: ['districts202-eda', 'districts202-esda', 'egdp-dynamics', 'space-time-egdp'],
           },
           {
@@ -783,8 +783,8 @@ twoway scatter HDI lnNTL`,
             { name: 'Ate Poortinga', affiliation: 'Spatial Informatics Group, USA', avatar: 'images/people/ate-poortinga.webp' },
           ],
           associates: [
-            { name: 'LI Xiaomeng', affiliation: 'Nagoya University, Japan' },
-            { name: 'Du He', affiliation: 'Nagoya University, Japan' },
+            { name: 'Li Xiaomeng', affiliation: 'Nagoya University, Japan', avatar: 'images/people/li-xiaomeng.webp', website: 'https://carlos-mendez.org/authors/lixiaomeng/' },
+            { name: 'He Du', affiliation: 'Nagoya University, Japan', avatar: 'images/people/he-du.webp', website: 'https://carlos-mendez.org/authors/hedu/' },
           ],
         };
 
@@ -1470,7 +1470,7 @@ twoway scatter HDI lnNTL`,
               )}
               <h4 className={`${small ? 'text-base' : 'text-lg'} font-bold text-white`}>
                 {person.website
-                  ? <a href={person.website} target="_blank" rel="noopener noreferrer" className="hover:text-brand-sky inline-flex items-center gap-1">{person.name} <ExternalLink size={12} /><span className="sr-only"> (personal website, opens in a new tab)</span></a>
+                  ? <a href={person.website} target="_blank" rel="noopener noreferrer" className="hover:text-brand-sky inline-flex items-center gap-1">{person.name} <ExternalLink size={12} /><span className="sr-only"> (profile, opens in a new tab)</span></a>
                   : person.name}
               </h4>
               <p className="text-slate-400 text-sm mt-1">{person.affiliation}</p>

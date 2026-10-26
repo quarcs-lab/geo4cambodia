@@ -73,7 +73,7 @@ xtsum y ln_y
 
 ## Recommended Citation
 
-> Du, H., Mendez, C., & Li, X. (2025). *Estimates of district-level GDP per capita in Cambodia 1990–2022*. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc
+> He, D., Mendez, C., & Li, X. (2025). *Estimates of district-level GDP per capita in Cambodia 1990–2022*. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc
 
 Original repository: [gdo-cambodia/cambodia202-1990-2022-GDPpc](https://github.com/gdo-cambodia/cambodia202-1990-2022-GDPpc)
 
