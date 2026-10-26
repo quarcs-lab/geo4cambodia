@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use the GeoDevelopment Observatory of Cambodia, please cite it as below."
+title: "GeoDevelopment Observatory of Cambodia"
+type: dataset
+authors:
+  - family-names: Mendez
+    given-names: Carlos
+    affiliation: "Nagoya University"
+  - family-names: Khoun
+    given-names: Theara
+    affiliation: "UNDP Cambodia"
+  - family-names: Poortinga
+    given-names: Ate
+    affiliation: "Spatial Informatics Group"
+date-released: 2026-10-26
+url: "https://quarcs-lab.github.io/geo4cambodia/"
+repository-code: "https://github.com/quarcs-lab/geo4cambodia"
+license: MIT
+keywords:
+  - Cambodia
+  - regional development
+  - remote sensing
+  - night-time lights
+  - spatial data science
+  - sustainable development

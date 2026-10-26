@@ -1,0 +1,34 @@
+dataset,varname,varlabel,source
+provinces17-hdi,id,Region ID,
+provinces17-hdi,GDLcode,Global Data Lab region code,Smits & Permanyer (2019)
+provinces17-hdi,region,Region name,Smits & Permanyer (2019)
+provinces17-hdi,year,Year,
+provinces17-hdi,NTL,Night-time lights (sum of DMSP-like digital numbers),Li et al. (2020)
+provinces17-hdi,GNI,Gross national income (thousands of 2011 PPP USD),Smits & Permanyer (2019)
+provinces17-hdi,GNIpc,Gross national income per capita (2011 PPP USD),Smits & Permanyer (2019)
+provinces17-hdi,HDI,Subnational Human Development Index (0-1),Smits & Permanyer (2019)
+provinces17-hdi,POP,Population (thousands),Smits & Permanyer (2019)
+provinces17-hdi,lnNTL,Log night-time lights,Derived
+provinces17-hdi,lnGNI,Log GNI,Derived
+provinces17-hdi,lnGNIpc,Log GNI per capita (rescaled as in source panel),Derived
+provinces17-hdi,lnNTLpc,Log night-time lights per capita (rescaled as in source panel),Derived
+provinces25-env,shapeISO,ISO 3166-2 province code,geoBoundaries
+provinces25-env,shapeName,Province name,geoBoundaries
+provinces25-env,shapeID,geoBoundaries ADM1 identifier,geoBoundaries
+provinces25-env,year,Year,
+provinces25-env,total_GlobPOP_Density,Zonal sum of gridded population density (1990-2022),Liu et al. (2024)
+provinces25-env,total_GlobPOP_Count,Zonal sum of gridded population count (1990-2022),Liu et al. (2024)
+provinces25-env,total_VNL,Zonal sum of NPP-VIIRS-like night-time lights (2000-2023),Chen et al. (2021)
+provinces25-env,total_EGDP,Zonal sum of electricity-based revised real GDP (1992-2019),Chen et al. (2022)
+provinces25-env,total_NPP,Zonal sum of net primary productivity (known issue: all zeros),Robinson et al. (2018)
+provinces25-env,total_GHAP,Zonal sum of PM2.5 concentration (2017-2022),Wei et al. (2023)
+districts202-gdppc,GID_2,GADM level-2 code,Kummu et al. (2025)
+districts202-gdppc,id,District ID,
+districts202-gdppc,year,Year,
+districts202-gdppc,province,Province name,Kummu et al. (2025)
+districts202-gdppc,district,District name,Kummu et al. (2025)
+districts202-gdppc,y,"GDP per capita (PPP, constant 2017 international USD)",Kummu et al. (2025)
+districts202-gdppc,ln_y,Log GDP per capita,Derived
+districts202-gdppc,trend6_ln_y,HP trend of log GDP per capita (lambda 6.25),Derived
+districts202-gdppc,trend100_ln_y,HP trend of log GDP per capita (lambda 100),Derived
+districts202-gdppc,trend400_ln_y,HP trend of log GDP per capita (lambda 400),Derived

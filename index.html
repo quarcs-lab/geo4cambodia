@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoDevelopment Observatory of Cambodia | GDO-Cambodia</title>
+    <meta name="description" content="GDO-Cambodia is a public-access platform of open subnational indicators, notebooks, web apps, and research insights for monitoring sustainable regional development in Cambodia with satellite data and AI.">
+    <meta name="theme-color" content="#060d1f">
+    <link rel="canonical" href="https://quarcs-lab.github.io/geo4cambodia/">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logo/emblem-32.png">
+    <link rel="apple-touch-icon" href="images/logo/emblem-180.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="GDO-Cambodia">
+    <meta property="og:title" content="GeoDevelopment Observatory of Cambodia">
+    <meta property="og:description" content="Open subnational indicators, tools, and insights for monitoring sustainable regional development in Cambodia.">
+    <meta property="og:url" content="https://quarcs-lab.github.io/geo4cambodia/">
+    <meta property="og:image" content="https://quarcs-lab.github.io/geo4cambodia/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GeoDevelopment Observatory of Cambodia">
+    <meta name="twitter:description" content="Open subnational indicators, tools, and insights for monitoring sustainable regional development in Cambodia.">
+    <meta name="twitter:image" content="https://quarcs-lab.github.io/geo4cambodia/images/og-image.jpg">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://quarcs-lab.github.io/geo4cambodia/#website",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/",
+          "name": "GeoDevelopment Observatory of Cambodia",
+          "alternateName": "GDO-Cambodia",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" }
+        },
+        {
+          "@type": "ResearchProject",
+          "@id": "https://quarcs-lab.github.io/geo4cambodia/#org",
+          "name": "GeoDevelopment Observatory of Cambodia",
+          "alternateName": "GDO-Cambodia",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/",
+          "logo": "https://quarcs-lab.github.io/geo4cambodia/images/logo/emblem-512.png",
+          "sameAs": ["https://github.com/quarcs-lab/geo4cambodia"],
+          "member": [
+            { "@type": "Person", "name": "Carlos Mendez", "affiliation": "Nagoya University" },
+            { "@type": "Person", "name": "Theara Khoun", "affiliation": "UNDP Cambodia" },
+            { "@type": "Person", "name": "Ate Poortinga", "affiliation": "Spatial Informatics Group" }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Human development, income, night-time lights and population in Cambodia (17 provinces, 2013–2019)",
+          "description": "Annual panel of the subnational Human Development Index, gross national income, population and DMSP-like night-time lights for 17 Global Data Lab regions of Cambodia, 2013–2019.",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/#/indicators/provinces17-hdi",
+          "license": "https://opensource.org/licenses/MIT",
+          "temporalCoverage": "2013/2019",
+          "spatialCoverage": { "@type": "Place", "name": "Cambodia" },
+          "keywords": ["human development index", "night-time lights", "Cambodia", "subnational"],
+          "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" },
+          "distribution": [
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.csv" },
+            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/maps/provinces17_wide.geojson" }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Population, VIIRS-like lights, electricity-based GDP, NPP and PM2.5 in Cambodia (25 provinces, 1990–2023)",
+          "description": "Province-level zonal sums of gridded population, NPP-VIIRS-like night-time lights, electricity-based GDP, net primary productivity and PM2.5 for Cambodia's 25 provinces.",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/#/indicators/provinces25-env",
+          "license": "https://opensource.org/licenses/MIT",
+          "temporalCoverage": "1990/2023",
+          "spatialCoverage": { "@type": "Place", "name": "Cambodia" },
+          "keywords": ["night-time lights", "PM2.5", "population", "GDP", "Cambodia", "remote sensing"],
+          "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" },
+          "distribution": [
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv" }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Estimates of district-level GDP per capita in Cambodia (202 districts, 1990–2022)",
+          "description": "Annual GDP per capita (PPP) for Cambodia's 202 districts, 1990–2022, aggregated from Kummu et al. (2025), with log levels and Hodrick–Prescott trends.",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/#/indicators/districts202-gdppc",
+          "license": "https://opensource.org/licenses/MIT",
+          "temporalCoverage": "1990/2022",
+          "spatialCoverage": { "@type": "Place", "name": "Cambodia" },
+          "keywords": ["GDP per capita", "districts", "regional convergence", "Cambodia"],
+          "creator": [
+            { "@type": "Person", "name": "He Du" },
+            { "@type": "Person", "name": "Carlos Mendez" },
+            { "@type": "Person", "name": "Xiaomeng Li" }
+          ],
+          "distribution": [
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/districts202-gdppc/wide_y.csv" },
+            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/maps/districts202_wide_y.geojson" }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="images/hero.webp">
+
+    <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'] },
+            colors: {
+              navy: { 950: '#060d1f', 900: '#0b1733', 800: '#13224a', 700: '#1c2f5e', 600: '#204387', 500: '#2f56c4' },
+              brand: { red: '#d23c3c', redHover: '#b93232', sky: '#7cc4ff', cream: '#faf5f1' },
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'fade-in': 'fadeIn 0.6s ease-out forwards',
+            },
+            keyframes: {
+              fadeInUp: { '0%': { opacity: '0', transform: 'translate3d(0, 30px, 0)' }, '100%': { opacity: '1', transform: 'translate3d(0, 0, 0)' } },
+              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+      body { -webkit-font-smoothing: antialiased; background: #060d1f; color: #e2e8f0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+      .gradient-text {
+        background: linear-gradient(135deg, #7cc4ff 0%, #e8eefc 55%, #ff7a7a 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      }
+      .nav-link-underline { position: relative; }
+      .nav-link-underline::after {
+        content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+        background: linear-gradient(90deg, #7cc4ff, #d23c3c); transition: width .3s ease;
+      }
+      .nav-link-underline:hover::after, .nav-link-underline.active::after { width: 100%; }
+      .contributor-avatar { transition: transform .3s ease, box-shadow .3s ease; }
+      .contributor-avatar:hover { transform: scale(1.05); box-shadow: 0 10px 25px -5px rgba(0,0,0,.5); }
+      @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+      .typing-cursor { animation: blink 1s step-end infinite; }
+      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+      .float-slow { animation: float 8s ease-in-out infinite; }
+      .float-slower { animation: float 12s ease-in-out infinite; }
+      :focus-visible { outline: 2px solid #7cc4ff; outline-offset: 2px; border-radius: 4px; }
+      .prose-gdo p { margin-bottom: 1rem; line-height: 1.75; }
+      details > summary { list-style: none; cursor: pointer; }
+      details > summary::-webkit-details-marker { display: none; }
+      details[open] .chev { transform: rotate(90deg); }
+      .static-fallback a { color: #7cc4ff; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        .float-slow, .float-slower, .typing-cursor { animation: none !important; }
+      }
+    </style>
+</head>
+<body class="bg-navy-950 text-slate-200">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-brand-red focus:text-white">Skip to content</a>
+
+    <div id="root">
+      <!-- Static, crawlable fallback. React replaces this on load. -->
+      <main class="static-fallback" style="max-width:56rem;margin:0 auto;padding:6rem 1.5rem;font-family:Inter,system-ui,sans-serif;color:#e2e8f0;background:#060d1f">
+        <img src="images/logo/emblem-192.png" alt="GDO-Cambodia emblem" width="72" height="72">
+        <h1 style="font-size:2.25rem;font-weight:800;margin:1rem 0">GeoDevelopment Observatory of Cambodia</h1>
+        <p>A public-access platform for analyzing, monitoring, and evaluating sustainable regional development in Cambodia. It brings together environmental, social, and economic indicators from satellite imagery, surveys, and administrative records; makes them explorable through notebooks and web apps; and turns the results into accessible insights.</p>
+        <h2>GeoDevelopment Indicators</h2>
+        <ul>
+          <li><a href="provinces17-hdi/">Human development, income, night-time lights and population (17 provinces, 2013–2019)</a></li>
+          <li><a href="provinces25-env/">Population, night-time lights, electricity-based GDP, NPP and PM2.5 (25 provinces, 1990–2023)</a></li>
+          <li><a href="districts202-gdppc/">Estimated GDP per capita (202 districts, 1990–2022)</a></li>
+        </ul>
+        <h2>GeoDevelopment Tools and Insights</h2>
+        <p>Notebooks, Earth Engine apps, papers, videos and slides. See the <a href="https://github.com/quarcs-lab/geo4cambodia">GitHub repository</a>.</p>
+        <noscript><p><strong>This site works best with JavaScript enabled.</strong> All data and documentation are also available in the <a href="https://github.com/quarcs-lab/geo4cambodia">GitHub repository</a>.</p></noscript>
+      </main>
+    </div>
+
+    <script type="text/babel" data-presets="react">
+        const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+        // ====================================================================
+        // Site constants
+        // ====================================================================
+        const SITE_URL = 'https://quarcs-lab.github.io/geo4cambodia/';
+        const REPO_URL = 'https://github.com/quarcs-lab/geo4cambodia';
+        const RAW_URL = 'https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/';
+        const COLAB_URL = 'https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/';
+        const DEFAULT_TITLE = 'GeoDevelopment Observatory of Cambodia | GDO-Cambodia';
+
+        // ====================================================================
+        // Icons (inline SVG, Lucide style)
+        // ====================================================================
+        const IconWrapper = ({ size = 24, className = '', children, ...rest }) => (
+          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+               className={className} aria-hidden="true" focusable="false" {...rest}>
+            {children}
+          </svg>
+        );
+        const MapIcon = (p) => (<IconWrapper {...p}><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" /><line x1="8" y1="2" x2="8" y2="18" /><line x1="16" y1="6" x2="16" y2="22" /></IconWrapper>);
+        const Database = (p) => (<IconWrapper {...p}><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></IconWrapper>);
+        const Terminal = (p) => (<IconWrapper {...p}><polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" /></IconWrapper>);
+        const BarChart2 = (p) => (<IconWrapper {...p}><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></IconWrapper>);
+        const Globe = (p) => (<IconWrapper {...p}><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></IconWrapper>);
+        const BookOpen = (p) => (<IconWrapper {...p}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></IconWrapper>);
+        const Github = (p) => (<IconWrapper {...p}><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></IconWrapper>);
+        const ExternalLink = (p) => (<IconWrapper {...p}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></IconWrapper>);
+        const Copy = (p) => (<IconWrapper {...p}><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></IconWrapper>);
+        const Check = (p) => (<IconWrapper {...p}><polyline points="20 6 9 17 4 12" /></IconWrapper>);
+        const Menu = (p) => (<IconWrapper {...p}><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></IconWrapper>);
+        const X = (p) => (<IconWrapper {...p}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></IconWrapper>);
+        const ChevronRight = (p) => (<IconWrapper {...p}><polyline points="9 18 15 12 9 6" /></IconWrapper>);
+        const ArrowLeft = (p) => (<IconWrapper {...p}><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></IconWrapper>);
+        const ArrowRight = (p) => (<IconWrapper {...p}><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></IconWrapper>);
+        const Layers = (p) => (<IconWrapper {...p}><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></IconWrapper>);
+        const FileText = (p) => (<IconWrapper {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></IconWrapper>);
+        const Download = (p) => (<IconWrapper {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></IconWrapper>);
+        const Lightbulb = (p) => (<IconWrapper {...p}><path d="M9 18h6" /><path d="M10 22h4" /><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" /></IconWrapper>);
+        const Calendar = (p) => (<IconWrapper {...p}><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></IconWrapper>);
+        const MapPin = (p) => (<IconWrapper {...p}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></IconWrapper>);
+        const Clock = (p) => (<IconWrapper {...p}><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></IconWrapper>);
+        const Play = (p) => (<IconWrapper {...p}><polygon points="6 3 20 12 6 21 6 3" fill="currentColor" stroke="none" /></IconWrapper>);
+        const Mail = (p) => (<IconWrapper {...p}><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></IconWrapper>);
+        const Users = (p) => (<IconWrapper {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></IconWrapper>);
+        const MessageCircle = (p) => (<IconWrapper {...p}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></IconWrapper>);
+        const Satellite = (p) => (<IconWrapper {...p}><path d="M13 7 9 3 5 7l4 4" /><path d="m17 11 4 4-4 4-4-4" /><path d="m8 12 4 4 6-6-4-4Z" /><path d="m16 8 3-3" /><path d="M9 21a6 6 0 0 0-6-6" /></IconWrapper>);
+        const Headphones = (p) => (<IconWrapper {...p}><path d="M3 18v-6a9 9 0 0 1 18 0v6" /><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" /></IconWrapper>);
+        const Presentation = (p) => (<IconWrapper {...p}><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></IconWrapper>);
+        const Sparkles = (p) => (<IconWrapper {...p}><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" /></IconWrapper>);
+        const Bot = (p) => (<IconWrapper {...p}><rect x="3" y="11" width="18" height="10" rx="2" /><circle cx="12" cy="5" r="2" /><path d="M12 7v4" /><line x1="8" y1="16" x2="8" y2="16" /><line x1="16" y1="16" x2="16" y2="16" /></IconWrapper>);
+        const Code = (p) => (<IconWrapper {...p}><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></IconWrapper>);
+        const AlertTriangle = (p) => (<IconWrapper {...p}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></IconWrapper>);
+
+        // ====================================================================
+        // Hooks
+        // ====================================================================
+        const usePrefersReducedMotion = () => {
+          const query = '(prefers-reduced-motion: reduce)';
+          const [reduced, setReduced] = useState(() => window.matchMedia && window.matchMedia(query).matches);
+          useEffect(() => {
+            if (!window.matchMedia) return;
+            const mq = window.matchMedia(query);
+            const onChange = () => setReduced(mq.matches);
+            mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange);
+            return () => (mq.removeEventListener ? mq.removeEventListener('change', onChange) : mq.removeListener(onChange));
+          }, []);
+          return reduced;
+        };
+
+        const useInView = (options = {}) => {
+          const { threshold = 0.1, once = true } = options;
+          const ref = useRef(null);
+          const [isInView, setIsInView] = useState(false);
+          useEffect(() => {
+            const element = ref.current;
+            if (!element) return;
+            const observer = new IntersectionObserver(([entry]) => {
+              if (entry.isIntersecting) {
+                setIsInView(true);
+                if (once) observer.unobserve(element);
+              } else if (!once) {
+                setIsInView(false);
+              }
+            }, { threshold });
+            observer.observe(element);
+            return () => observer.disconnect();
+          }, [threshold, once]);
+          return [ref, isInView];
+        };
+
+        const useActiveSection = (sectionIds, enabled) => {
+          const [activeId, setActiveId] = useState('');
+          useEffect(() => {
+            if (!enabled) { setActiveId(''); return; }
+            const observers = [];
+            sectionIds.forEach((id) => {
+              const el = document.getElementById(id);
+              if (!el) return;
+              const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) setActiveId(id);
+              }, { threshold: 0.15, rootMargin: '-80px 0px -50% 0px' });
+              observer.observe(el);
+              observers.push(observer);
+            });
+            return () => observers.forEach((o) => o.disconnect());
+          }, [enabled]);
+          return activeId;
+        };
+
+        const useTypingEffect = (phrases, disabled, typingSpeed = 80, deletingSpeed = 40, pauseDuration = 2000) => {
+          const [text, setText] = useState('');
+          const [phraseIndex, setPhraseIndex] = useState(0);
+          const [isDeleting, setIsDeleting] = useState(false);
+          useEffect(() => {
+            if (disabled) return;
+            const currentPhrase = phrases[phraseIndex];
+            let timeout;
+            if (!isDeleting && text === currentPhrase) {
+              timeout = setTimeout(() => setIsDeleting(true), pauseDuration);
+            } else if (isDeleting && text === '') {
+              setIsDeleting(false);
+              setPhraseIndex((prev) => (prev + 1) % phrases.length);
+            } else {
+              timeout = setTimeout(() => {
+                setText(currentPhrase.substring(0, text.length + (isDeleting ? -1 : 1)));
+              }, isDeleting ? deletingSpeed : typingSpeed);
+            }
+            return () => clearTimeout(timeout);
+          }, [text, isDeleting, phraseIndex, phrases, disabled]);
+          return disabled ? phrases.join(', ') : text;
+        };
+
+        const useCopy = () => {
+          const [copied, setCopied] = useState(false);
+          const copy = (text) => {
+            const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2000); };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(done).catch(() => {});
+            }
+          };
+          return [copied, copy];
+        };
+
+        // Hash router: "#/<section>/<id>" renders a detail view; anything else is the landing page.
+        const parseHash = () => {
+          const h = window.location.hash || '';
+          if (h.startsWith('#/')) {
+            const [section, id] = h.slice(2).split('/');
+            if (section && id) return { view: 'detail', section, id: decodeURIComponent(id) };
+            return { view: 'home', anchor: '' };
+          }
+          return { view: 'home', anchor: h.replace(/^#/, '') };
+        };
+        const useHashRoute = () => {
+          const [route, setRoute] = useState(parseHash);
+          useEffect(() => {
+            const onChange = () => setRoute(parseHash());
+            window.addEventListener('hashchange', onChange);
+            return () => window.removeEventListener('hashchange', onChange);
+          }, []);
+          return route;
+        };
+
+        // ====================================================================
+        // Animation wrapper
+        // ====================================================================
+        const ReducedMotionContext = React.createContext(false);
+
+        const AnimateIn = ({ children, delay = 0, className = '' }) => {
+          const reduced = React.useContext(ReducedMotionContext);
+          const [ref, isInView] = useInView({ threshold: 0.1 });
+          if (reduced) return <div className={className}>{children}</div>;
+          return (
+            <div ref={ref} className={className} style={{
+              opacity: isInView ? 1 : 0,
+              transform: isInView ? 'translateY(0)' : 'translateY(30px)',
+              transition: `opacity 0.6s ease-out ${delay}ms, transform 0.6s ease-out ${delay}ms`,
+            }}>
+              {children}
+            </div>
+          );
+        };
+
+        // ====================================================================
+        // Content registry: every indicator, tool, insight and event
+        // ====================================================================
+        const PYTHON_SETUP = `import pandas as pd
+import geopandas as gpd
+
+BASE = "${RAW_URL}"`;
+
+        const CONTENT_REGISTRY = [
+          // ---------------------------------------------------------------- Indicators
+          {
+            id: 'districts202-gdppc', type: 'indicator', section: 'indicators',
+            title: 'Estimated GDP per capita',
+            scope: '202 districts · 1990–2022',
+            summary: 'Three decades of district-level GDP per capita, with log levels and long-run trends for studying regional growth and convergence.',
+            description: 'Annual estimates of GDP per capita (PPP, constant 2017 international dollars) for all 202 districts of Cambodia from 1990 to 2022, aggregated from the downscaled global grid of Kummu et al. (2025). The module adds log GDP per capita and Hodrick–Prescott trends with three smoothing parameters (λ = 6.25, 100, 400), so you can separate short-run fluctuations from long-run regional dynamics.',
+            geography: 'District', units: 202, period: '1990–2022', frequency: 'Annual', key: 'GID_2',
+            categories: ['Economy'], tags: ['GDP per capita', 'districts', 'convergence', 'panel data'],
+            image: 'images/indicators/districts202-gdppc.webp',
+            imageAlt: 'Quantile map of GDP per capita across 202 Cambodian districts in 2022, highest around Phnom Penh, Siem Reap and Sihanoukville',
+            date: '2025-09-22', pinned: true, folder: 'districts202-gdppc',
+            variables: [
+              ['GID_2', 'GADM level-2 code, used for geographic merges', 'Kummu et al. (2025)'],
+              ['id', 'District ID (1–202)', 'Based on Kummu et al. (2025)'],
+              ['year', 'Year', 'Kummu et al. (2025)'],
+              ['province', 'Province name', 'Kummu et al. (2025)'],
+              ['district', 'District name', 'Kummu et al. (2025)'],
+              ['y', 'GDP per capita (PPP, constant 2017 international USD)', 'Kummu et al. (2025)'],
+              ['ln_y', 'Log GDP per capita', 'Based on Kummu et al. (2025)'],
+              ['trend6_ln_y', 'HP trend of log GDP per capita (λ = 6.25)', 'Based on Kummu et al. (2025)'],
+              ['trend100_ln_y', 'HP trend of log GDP per capita (λ = 100)', 'Based on Kummu et al. (2025)'],
+              ['trend400_ln_y', 'HP trend of log GDP per capita (λ = 400)', 'Based on Kummu et al. (2025)'],
+            ],
+            files: [
+              { format: 'DTA', form: 'Long panel · all variables', path: 'districts202-gdppc/cambodia202-1990-2022-GDPpc.dta' },
+              { format: 'CSV', form: 'Wide · GDP per capita', path: 'districts202-gdppc/wide_y.csv' },
+              { format: 'CSV', form: 'Wide · log GDP per capita', path: 'districts202-gdppc/wide_ln_y.csv' },
+              { format: 'CSV', form: 'Wide · HP trend (λ = 6.25)', path: 'districts202-gdppc/wide_trend6_ln_y.csv' },
+              { format: 'CSV', form: 'Wide · HP trend (λ = 100)', path: 'districts202-gdppc/wide_trend100_ln_y.csv' },
+              { format: 'CSV', form: 'Wide · HP trend (λ = 400)', path: 'districts202-gdppc/wide_trend400_ln_y.csv' },
+              { format: 'GeoJSON', form: 'Wide · GDP per capita + polygons', path: 'maps/districts202_wide_y.geojson' },
+              { format: 'GeoJSON', form: 'Wide · log GDP per capita + polygons', path: 'maps/districts202_wide_ln_y.geojson' },
+              { format: 'GeoJSON', form: 'Wide · HP trend (λ = 400) + polygons', path: 'maps/districts202_wide_trend400_ln_y.geojson' },
+              { format: 'GeoJSON', form: 'District boundaries', path: 'maps/districts202.geojson' },
+            ],
+            code: {
+              python: `${PYTHON_SETUP}
+
+# Wide panel with district polygons
+gdf = gpd.read_file(BASE + "maps/districts202_wide_y.geojson")
+
+# Map GDP per capita in 2022 (quintiles)
+gdf.plot(column="y2022", cmap="magma", scheme="quantiles", k=5,
+         legend=True, edgecolor="white", linewidth=0.2)`,
+              stata: `* Long panel: 202 districts x 33 years
+use "${RAW_URL}districts202-gdppc/cambodia202-1990-2022-GDPpc.dta", clear
+describe
+xtset id year
+xtsum y ln_y trend400_ln_y`,
+            },
+            references: [
+              { text: 'Kummu, M., Kosonen, M., & Masoumzadeh Sayyar, S. (2025). Downscaled gridded global dataset for gross domestic product (GDP) per capita PPP over 1990–2022. Scientific Data, 12, 178.', url: 'https://doi.org/10.1038/s41597-025-04487-x' },
+            ],
+            citation: 'Du, H., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc',
+            related: ['districts202-eda', 'districts202-esda', 'egdp-dynamics', 'space-time-egdp'],
+          },
+          {
+            id: 'provinces25-env', type: 'indicator', section: 'indicators',
+            title: 'Population, night-time lights, electricity-based GDP, NPP and PM2.5',
+            scope: '25 provinces · 1990–2023',
+            summary: 'Five global remote-sensing products summarized for every province: people, lights, output, vegetation and air quality.',
+            description: 'A province-level panel that aggregates five global gridded remote-sensing products to the 25 present-day provinces: gridded population (GlobPOP), NPP-VIIRS-like night-time lights, electricity-consumption-based GDP, net primary productivity, and PM2.5 concentration (GHAP). Each variable is the zonal sum of the grid values inside a province, and each has its own time coverage.',
+            geography: 'Province', units: 25, period: '1990–2023', frequency: 'Annual', key: 'shapeISO',
+            categories: ['Economy', 'Social', 'Environment'], tags: ['night-time lights', 'PM2.5', 'population', 'remote sensing'],
+            image: 'images/indicators/provinces25-env.webp',
+            imageAlt: 'Charts of province-level night-time lights, GDP and PM2.5 in Cambodia',
+            date: '2025-09-09', pinned: false, folder: 'provinces25-env',
+            variables: [
+              ['shapeISO', 'ISO 3166-2 province code (e.g. KH-12)', 'geoBoundaries'],
+              ['shapeName', 'Province name', 'geoBoundaries'],
+              ['shapeID', 'geoBoundaries ADM1 identifier', 'geoBoundaries'],
+              ['year', 'Year (1986–2023)', '—'],
+              ['total_GlobPOP_Count', 'Gridded population count, 1990–2022', 'Liu et al. (2024)'],
+              ['total_GlobPOP_Density', 'Gridded population density, 1990–2022', 'Liu et al. (2024)'],
+              ['total_VNL', 'NPP-VIIRS-like night-time lights, 2000–2023', 'Chen et al. (2021)'],
+              ['total_EGDP', 'Electricity-consumption-based real GDP, 1992–2019', 'Chen et al. (2022)'],
+              ['total_NPP', 'Net primary productivity (see known issue)', 'Robinson et al. (2018)'],
+              ['total_GHAP', 'PM2.5 concentration, 2017–2022', 'Wei et al. (2023)'],
+            ],
+            notice: 'Known issue: total_NPP is 0 for every province and year in the current release. Treat it as missing until the module is regenerated.',
+            files: [
+              { format: 'CSV', form: 'Long panel · 950 rows', path: 'provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv' },
+              { format: 'DTA', form: 'Long panel · Stata', path: 'provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.dta' },
+            ],
+            code: {
+              python: `${PYTHON_SETUP}
+
+df = pd.read_csv(BASE + "provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv")
+
+# Night-time lights per person by province, 2000-2022
+df["vnl_pc"] = df["total_VNL"] / df["total_GlobPOP_Count"]
+(df.query("2000 <= year <= 2022")
+   .pivot(index="year", columns="shapeName", values="vnl_pc")
+   .plot(legend=False, title="Night-time lights per person"))`,
+              stata: `use "${RAW_URL}provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.dta", clear
+encode shapeISO, gen(pid)
+xtset pid year
+xtsum total_VNL total_EGDP total_GHAP`,
+            },
+            references: [
+              { text: 'Liu, L., Cao, X., Li, S., & Jie, N. (2024). A 31-year (1990–2020) global gridded population dataset generated by cluster analysis and statistical learning. Scientific Data, 11, 124.', url: 'https://doi.org/10.1038/s41597-024-02913-0' },
+              { text: 'Chen, Z., Yu, B., Yang, C., Zhou, Y., Yao, S., Qian, X., Wang, C., Wu, B., & Wu, J. (2021). An extended time series (2000–2018) of global NPP-VIIRS-like nighttime light data from a cross-sensor calibration. Earth System Science Data, 13, 889–906.', url: 'https://doi.org/10.5194/essd-13-889-2021' },
+              { text: 'Chen, J., Gao, M., Cheng, S., Hou, W., Song, M., Liu, X., & Liu, Y. (2022). Global 1 km × 1 km gridded revised real gross domestic product and electricity consumption during 1992–2019 based on calibrated nighttime light data. Scientific Data, 9, 202.', url: 'https://doi.org/10.1038/s41597-022-01322-5' },
+              { text: 'Robinson, N. P., Allred, B. W., Smith, W. K., et al. (2018). Terrestrial primary production for the conterminous United States derived from Landsat 30 m and MODIS 250 m. Remote Sensing in Ecology and Conservation, 4(3), 264–280.', url: 'https://doi.org/10.1002/rse2.74' },
+              { text: 'Wei, J., Li, Z., Lyapustin, A., et al. (2023). First close insight into global daily gapless 1 km PM2.5 pollution, variability, and health impact. Nature Communications, 14, 8349.', url: 'https://doi.org/10.1038/s41467-023-43862-3' },
+            ],
+            extraLinks: [
+              { label: 'Getting remote sensing data in Python (Colab)', url: 'https://colab.research.google.com/drive/1VQFcaKJl0Lz_c_gGrb4FZ2uJvAVseEKp?usp=sharing', kind: 'colab' },
+            ],
+            citation: 'GeoDevelopment Observatory of Cambodia (2025). Population, (VIIRS-like) lights, electricity-based GDP, net primary productivity, and PM2.5 (25 provinces, 1990–2023). https://github.com/quarcs-lab/geo4cambodia/tree/main/provinces25-env',
+            related: ['egdp-dynamics', 'space-time-egdp', 'lst-smc-lulc'],
+          },
+          {
+            id: 'provinces17-hdi', type: 'indicator', section: 'indicators',
+            title: 'Human development, income, night-time lights and population',
+            scope: '17 provinces · 2013–2019',
+            summary: 'The subnational Human Development Index next to income, population and night-time lights, for comparing well-being with what satellites see.',
+            description: 'An annual panel for the 17 subnational regions of Cambodia used by the Global Data Lab. It combines the subnational Human Development Index, gross national income and population (Smits & Permanyer, 2019) with harmonized DMSP-like night-time lights (Li et al., 2020). Some regions group several present-day provinces; for example, Battambang and Pailin form one region.',
+            geography: 'Province (GDL region)', units: 17, period: '2013–2019', frequency: 'Annual', key: 'GDLcode',
+            categories: ['Economy', 'Health', 'Social'], tags: ['HDI', 'night-time lights', 'income', 'population'],
+            image: 'images/indicators/provinces17-hdi.webp',
+            imageAlt: 'Choropleth map of the Human Development Index across 17 Cambodian regions in 2019, highest in Phnom Penh',
+            date: '2025-08-26', pinned: false, folder: 'provinces17-hdi',
+            variables: [
+              ['id', 'Region ID (1–17)', '—'],
+              ['GDLcode', 'Global Data Lab region code', 'Smits & Permanyer (2019)'],
+              ['region', 'Region name', 'Smits & Permanyer (2019)'],
+              ['year', 'Year', '—'],
+              ['HDI', 'Subnational Human Development Index (0–1)', 'Smits & Permanyer (2019)'],
+              ['GNI', 'Gross national income (thousands of 2011 PPP USD)', 'Smits & Permanyer (2019)'],
+              ['GNIpc', 'GNI per capita (2011 PPP USD)', 'Smits & Permanyer (2019)'],
+              ['POP', 'Population (thousands)', 'Smits & Permanyer (2019)'],
+              ['NTL', 'Night-time lights: sum of DMSP-like digital numbers', 'Li et al. (2020)'],
+              ['lnNTL, lnGNI, lnGNIpc, lnNTLpc', 'Log transformations (per-capita logs are rescaled as in the source panel)', 'Derived'],
+            ],
+            files: [
+              { format: 'CSV', form: 'Long panel · 119 rows', path: 'provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.csv' },
+              { format: 'CSV', form: 'Wide panel · 17 rows', path: 'provinces17-hdi/df_cambodia17_20132019_widePanel_HDI_GNI_NTL_POP.csv' },
+              { format: 'DTA', form: 'Long panel · Stata', path: 'provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.dta' },
+              { format: 'DTA', form: 'Wide panel · Stata', path: 'provinces17-hdi/df_cambodia17_20132019_widePanel_HDI_GNI_NTL_POP.dta' },
+              { format: 'GeoJSON', form: 'Wide panel + polygons', path: 'maps/provinces17_wide.geojson' },
+              { format: 'GeoJSON', form: 'Region boundaries', path: 'maps/provinces17.geojson' },
+            ],
+            code: {
+              python: `${PYTHON_SETUP}
+
+# Wide panel with region polygons
+gdf = gpd.read_file(BASE + "maps/provinces17_wide.geojson")
+
+# Map the Human Development Index in 2019
+gdf.plot(column="HDI2019", cmap="viridis", legend=True)`,
+              stata: `use "${RAW_URL}provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.dta", clear
+xtset id year
+xtsum HDI GNIpc NTL
+twoway scatter HDI lnNTL`,
+            },
+            references: [
+              { text: 'Smits, J., & Permanyer, I. (2019). The Subnational Human Development Database. Scientific Data, 6, 190038.', url: 'https://doi.org/10.1038/sdata.2019.38' },
+              { text: 'Li, X., Zhou, Y., Zhao, M., & Zhao, X. (2020). A harmonized global nighttime light dataset 1992–2018. Scientific Data, 7, 168.', url: 'https://doi.org/10.1038/s41597-020-0510-y' },
+            ],
+            citation: 'GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/tree/main/provinces17-hdi',
+            related: ['hdi-ntl-esda'],
+          },
+
+          // ---------------------------------------------------------------- Tools: notebooks
+          {
+            id: 'hdi-ntl-esda', type: 'notebook', section: 'tools',
+            title: 'Monitoring subnational human development',
+            summary: 'A geocomputational notebook that maps the Human Development Index, tests spatial dependence, and compares it with night-time lights.',
+            description: 'This Colab notebook walks through the full workflow for monitoring subnational human development in Cambodia. It loads the Global Data Lab HDI and harmonized night-time lights, makes interactive and static maps, tracks regional trajectories over time, and applies exploratory spatial data analysis (Moran’s I, LISA clusters) to find spatial patterns and outliers. It runs in the browser, with no installation needed.',
+            tags: ['HDI', 'ESDA', 'night-time lights', 'Python'],
+            image: 'images/tools/hdi-ntl-esda.webp',
+            imageAlt: 'Collage of maps, time-series and Moran scatterplot from the human development notebook',
+            date: '2025-08-28', pinned: true,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'hdi_ntl_esda.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/hdi_ntl_esda.ipynb', kind: 'github' },
+            ],
+            related: ['provinces17-hdi'],
+          },
+          {
+            id: 'districts202-eda', type: 'notebook', section: 'tools',
+            title: 'District GDP per capita: exploratory data analysis',
+            summary: 'Load the 202-district panel, summarize it, and chart three decades of growth across districts and provinces.',
+            description: 'An introductory notebook for the district-level GDP per capita module. It reads the long panel directly from this repository, computes descriptive statistics, and builds interactive charts of growth paths and distributions across districts and provinces between 1990 and 2022.',
+            tags: ['GDP per capita', 'EDA', 'Python', 'plotly'],
+            image: 'images/tools/districts202-eda.webp',
+            imageAlt: 'Line chart of GDP per capita growth paths for 202 districts, 1990–2022, with the median district and Phnom Penh highlighted',
+            date: '2025-09-22', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'districts202_gdppc_eda.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/districts202_gdppc_eda.ipynb', kind: 'github' },
+            ],
+            related: ['districts202-gdppc'],
+          },
+          {
+            id: 'districts202-esda', type: 'notebook', section: 'tools',
+            title: 'District GDP per capita: spatial clusters and dependence',
+            summary: 'Exploratory spatial data analysis of trend GDP per capita: choropleths, spatial weights, Moran’s I and LISA clusters.',
+            description: 'This notebook applies exploratory spatial data analysis to the long-run trend (HP, λ = 400) of log GDP per capita across Cambodia’s 202 districts. It builds spatial weights, measures global spatial autocorrelation with Moran’s I, and maps local clusters and outliers to show where prosperity and lagging regions concentrate.',
+            tags: ['ESDA', 'spatial autocorrelation', 'GDP per capita', 'Python'],
+            image: 'images/tools/districts202-esda.webp',
+            imageAlt: 'LISA cluster map of trend GDP per capita in 2022: high-high clusters around Phnom Penh and Siem Reap, low-low clusters in the northeast; Moran’s I = 0.63',
+            date: '2025-09-22', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'districts202_gdppc_esda.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/districts202_gdppc_esda.ipynb', kind: 'github' },
+            ],
+            related: ['districts202-gdppc'],
+          },
+
+          // ---------------------------------------------------------------- Tools: apps
+          {
+            id: 'egdp-dynamics', type: 'app', section: 'tools',
+            title: 'Localized dynamics of luminosity-based GDP',
+            summary: 'Click anywhere in Cambodia to chart how luminosity-based GDP changed within 1, 5 and 10 km of that point.',
+            description: 'An Earth Engine app titled “Economic Growth in Cambodia: A View from Space”. Click any location on the map to generate a time-series chart (2000–2019) of luminosity-based GDP within three neighborhoods around the point: 1 km, 5 km and 10 km. The app opens on Phnom Penh. Data: gridded GDP from calibrated night-time lights (Chen et al., 2022). Visualization code by Jeff Howarth (Middlebury College) and Carlos Mendez (Nagoya University).',
+            tags: ['Earth Engine', 'night-time lights', 'GDP', 'interactive map'],
+            image: 'images/tools/egdp-dynamics.webp',
+            imageAlt: 'Earth Engine app with a satellite map of Cambodia and a chart of luminosity-based GDP around Phnom Penh',
+            date: '2025-08-29', pinned: true,
+            links: [
+              { label: 'Launch app', url: 'https://carlos-mendez.projects.earthengine.app/view/egdp-dynamics-cambodia', kind: 'launch' },
+              { label: 'Source code', url: REPO_URL + '/blob/main/apps/egdp-dynamics-cambodia.js', kind: 'github' },
+              { label: 'Open in Earth Engine', url: 'https://code.earthengine.google.com/5600cd685ba72015d770d685b7676dd1?hideCode=true', kind: 'gee-code' },
+            ],
+            related: ['provinces25-env', 'districts202-gdppc'],
+          },
+          {
+            id: 'space-time-egdp', type: 'app', section: 'tools',
+            title: 'Comparative regional dynamics of luminosity-based GDP',
+            summary: 'Compare the space-time evolution of luminosity-based GDP across Cambodian regions side by side.',
+            description: 'An Earth Engine app for comparing how luminosity-based GDP evolves across regions of Cambodia. Pick regions to compare their trajectories and see where economic activity has expanded fastest.',
+            tags: ['Earth Engine', 'night-time lights', 'regional dynamics', 'interactive map'],
+            image: 'images/tools/space-time-dynamics-egdp.webp',
+            imageAlt: 'Earth Engine app comparing luminosity-based GDP across Cambodian regions',
+            date: '2025-08-26', pinned: false,
+            links: [
+              { label: 'Launch app', url: 'https://carlos-mendez.projects.earthengine.app/view/space-time-dynamics-egdp-cambodia', kind: 'launch' },
+              { label: 'Open in Earth Engine', url: 'https://code.earthengine.google.com/3dee778f1c961375c1882082aad33f32?hideCode=true', kind: 'gee-code' },
+            ],
+            related: ['provinces25-env', 'districts202-gdppc'],
+          },
+          {
+            id: 'lst-smc-lulc', type: 'app', section: 'tools',
+            title: 'Land surface temperature, soil moisture and land cover',
+            summary: 'Explore land surface temperature, soil moisture content, and land use / land cover across Cambodia’s regions.',
+            description: 'An Earth Engine app that combines satellite-derived land surface temperature, soil moisture content, and land use / land cover for Cambodia, summarized by region. Use it to study environmental conditions and their links to agriculture, urban heat and climate risk.',
+            tags: ['Earth Engine', 'climate', 'land cover', 'environment'],
+            image: 'images/tools/lst-smc-byregion.webp',
+            imageAlt: 'Earth Engine app showing land surface temperature and soil moisture by region in Cambodia',
+            date: '2025-08-26', pinned: false,
+            links: [
+              { label: 'Launch app', url: 'https://ee-yukietohjaxa.projects.earthengine.app/view/lst-smc-byregion', kind: 'launch' },
+            ],
+            related: ['provinces25-env'],
+          },
+          {
+            id: 'poverty-mapping', type: 'app', section: 'tools',
+            title: 'Poverty mapping dashboard',
+            summary: 'High-resolution maps of multidimensional poverty in Cambodia, built from surveys, Earth observation and machine learning.',
+            description: 'An interactive dashboard by Spatial Informatics Group that maps the probability of deprivation across ten multidimensional poverty indicators (health, education and living standards) at high spatial resolution. It puts into practice the methods of the paper “Mapping the dimensions of poverty through big data, socioeconomic surveys and machine learning in Cambodia”.',
+            tags: ['poverty', 'machine learning', 'dashboard', 'MPI'],
+            image: 'images/tools/poverty-mapping-dashboard.webp',
+            imageAlt: 'Poverty mapping dashboard showing a deprivation map of Cambodia',
+            date: '2025-09-11', pinned: false,
+            links: [
+              { label: 'Launch dashboard', url: 'https://cambodiapovertymapping.sig-gis.com/en/map/', kind: 'launch' },
+              { label: 'About the project', url: 'https://cambodiapovertymapping.sig-gis.com/en/home/', kind: 'external' },
+            ],
+            related: ['poverty-paper'],
+          },
+
+          // ---------------------------------------------------------------- Insights
+          {
+            id: 'poverty-paper', type: 'insight', subtype: 'Paper', section: 'insights',
+            title: 'Mapping Cambodian poverty with big data and AI',
+            summary: 'How surveys, satellites and machine learning combine to map ten dimensions of poverty, with a video, story books and a chatbot.',
+            description: 'This study combines the Cambodia Socio-Economic Survey with Earth observation, infrastructure and building-footprint data. A random-forest model predicts the probability of deprivation for ten indicators of the Multidimensional Poverty Index, producing high-resolution maps that can be aggregated to communes, districts and provinces. Explore it as a paper, a video, slides, an AI notebook, illustrated story books in three languages, or by asking a chatbot.',
+            citation: 'Khoun, T., Poortinga, A., Thwal, N. S., González de Alba, I., McMahon, A., & Mendez, C. (2025). Mapping the dimensions of poverty through big data, socioeconomic surveys and machine learning in Cambodia. Social Indicators Research, 180(3), 1593–1618.',
+            doi: 'https://doi.org/10.1007/s11205-025-03718-3',
+            tags: ['poverty', 'machine learning', 'MPI', 'SDGs'],
+            image: 'images/insights/poverty-paper.webp',
+            imageAlt: 'Title card for Mapping Cambodian Poverty with Big Data and AI',
+            date: '2025-10-06', pinned: true,
+            media: [
+              { kind: 'youtube', id: 'Nt5lrCl_hRE', label: 'Video overview' },
+              { kind: 'youtube', id: '0DdBFtaOP4U', label: 'Story book: The quest for the poverty map of Cambodia' },
+            ],
+            links: [
+              { label: 'Read the paper', url: 'https://doi.org/10.1007/s11205-025-03718-3', kind: 'paper' },
+              { label: 'Slides', url: 'https://www.canva.com/design/DAF2R9fiBiA/LVE9XbyyzylkrdLUThjqvw/view', kind: 'slides' },
+              { label: 'AI notebook (NotebookLM)', url: 'https://notebooklm.google.com/notebook/ee489fdb-5be5-4db6-8358-84c37e7cb5e5', kind: 'notebooklm' },
+              { label: 'Story book · English', url: 'https://g.co/gemini/share/825c2192fae2', kind: 'story' },
+              { label: 'Story book · ខ្មែរ (Khmer)', url: 'https://g.co/gemini/share/8b35b8b992b7', kind: 'story' },
+              { label: 'Story book · 日本語 (Japanese)', url: 'https://g.co/gemini/share/1dc505c01861', kind: 'story' },
+              { label: 'Ask the AI chatbot', url: 'https://app.edcafe.ai/chatbots/68ad8ae401555d7da378a190', kind: 'chatbot' },
+            ],
+            note: 'The story books are AI-illustrated companions to the paper. Their maps are artistic and do not reproduce the maps of Cambodia or the results in the published paper.',
+            summarySections: [
+              { h: 'Why it matters', p: 'Cambodia grew fast, yet 17.8% of the population still lived below the national poverty line in 2019. Poverty is more than income: health, education and living standards matter too. Traditional poverty statistics are expensive, infrequent and spatially coarse.' },
+              { h: 'Data', p: 'About 10,000 households from the Cambodia Socio-Economic Survey (CSES); satellite and Earth-observation layers such as night-time lights, land cover and population density; infrastructure data on roads, schools, hospitals and utilities; and 3.8 million building footprints for downscaling to the household level.' },
+              { h: 'Method', p: 'A random-forest classifier, trained on 90% of the data and validated on the rest, predicts the probability of deprivation for each of ten Global MPI indicators. Health: food consumption, healthcare access. Education: attainment, attendance. Living standards: cooking fuel, sanitation, water, electricity, housing, assets.' },
+              { h: 'Findings', p: 'Night-time lights, population density and road networks are the strongest predictors. Predictions are best for infrastructure-related deprivations (cooking fuel, clean water, sanitation, electricity) and weakest for school attendance, healthcare and assets. Deprivation is lowest in Phnom Penh, Siem Reap and Battambang and highest in remote provinces such as Preah Vihear, Ratanakiri and Mondulkiri; it also falls near main roads and borders.' },
+              { h: 'Implications', p: 'Combining Earth observation, surveys and machine learning gives granular, regularly updatable poverty maps for targeting policy, in support of SDGs 1, 3, 4, 6 and 7. Survey designs that capture location and accessibility better would further improve such models.' },
+            ],
+            related: ['poverty-mapping'],
+          },
+          {
+            id: 'development-age-of-ai', type: 'insight', subtype: 'Slides', section: 'insights',
+            title: 'Development studies in the age of AI',
+            summary: 'New data, new methods and new insights: how satellites and AI are changing development research, as a video, podcast and slides.',
+            description: 'A talk on how new data sources (satellite imagery, night-time lights, gridded socioeconomic estimates) and AI-enhanced methods are reshaping the study of sustainable development, with examples from the GeoDevelopment Observatory of Cambodia. It was first presented at the 2025 Phnom Penh workshop. Watch the AI-generated video overview (also in Japanese and Spanish), listen to the podcast, or browse the slides.',
+            tags: ['AI', 'development economics', 'satellite data', 'teaching'],
+            image: 'images/insights/development-age-of-ai.webp',
+            imageAlt: 'Title slide for Development studies in the age of AI',
+            date: '2025-09-11', pinned: false,
+            media: [
+              { kind: 'youtube', id: '9CcppQpArWI', label: 'Video overview (English)' },
+              { kind: 'youtube', id: 'VATMuozPPK8', label: 'Video overview (Japanese)' },
+              { kind: 'youtube', id: 'YWrUmDADrUw', label: 'Investigación y aprendizaje en la era de IA (Spanish)' },
+              { kind: 'youtube', id: 'rvfJv6yBx2Y', label: 'Investigación y aprendizaje en la era de la inteligencia artificial (Spanish)' },
+              { kind: 'audio', src: 'media/development-in-the-age-of-ai.mp3', label: 'AI podcast: Development in the age of AI' },
+            ],
+            links: [
+              { label: 'Slides', url: 'https://www.canva.com/design/DAGye-QAKJY/W0nsfoueC3jXXgojBCFhOQ/view', kind: 'slides' },
+              { label: 'AI notebook (NotebookLM)', url: 'https://notebooklm.google.com/notebook/845df4c8-6c9b-4c2b-b403-a3c9b4449d56', kind: 'notebooklm' },
+            ],
+            related: ['workshop-2025-ai'],
+          },
+          {
+            id: 'view-from-above', type: 'insight', subtype: 'Video', section: 'insights',
+            title: 'The view from above',
+            summary: 'A short video on observing our world from outer space, and what satellite data reveal about development on the ground.',
+            description: 'A short introductory video from the QuaRCS Network on exploring our world from outer space: how satellite imagery and night-time lights let us observe human activity, economic development and environmental change, and why these views from above complement traditional statistics.',
+            tags: ['satellite data', 'night-time lights', 'video'],
+            image: 'images/insights/view-from-above.webp',
+            imageAlt: 'Animated globe at night with glowing city lights and a network overlay',
+            date: '2025-08-26', pinned: false,
+            media: [{ kind: 'youtube', id: 'Hy-b7kjLFds', label: 'The view from above' }],
+            links: [],
+            related: [],
+          },
+
+          // ---------------------------------------------------------------- Events
+          {
+            id: 'workshop-2025-ai', type: 'event', subtype: 'Workshop', section: 'events',
+            title: 'Development studies in the age of AI: New data, new methods, and new insights',
+            summary: 'An international, interdisciplinary research workshop in Phnom Penh on integrating satellite imagery with socioeconomic data.',
+            description: 'The Asian Satellite Campuses Institute (ASCI), the Graduate School of International Development (GSID) and the Institute for Space–Earth Environmental Research (ISEE) of Nagoya University, with the Royal University of Phnom Penh and UNDP Cambodia, convened a hybrid research workshop. It offered an interdisciplinary platform to advance research on sustainable development in Cambodia and Asia by integrating satellite imagery with socioeconomic data, and closed with a panel on the GeoDevelopment Observatory of Cambodia.',
+            date: '2025-09-18', dateLabel: 'Thursday, September 18, 2025', time: '14:00–18:05 (Cambodia time, UTC+7)',
+            venue: 'National Incubation Center of Cambodia (NICC), First Floor Seminar Room, Russian Federation Blvd (110), Phnom Penh. Hybrid: on-site and on Zoom.',
+            image: 'images/events/workshop-2025-flyer.webp',
+            imageAlt: 'Workshop flyer: Development Studies in the age of AI, September 18, 2025, with logos of Nagoya University ASCI, GSID, ISEE, Royal University of Phnom Penh and UNDP',
+            tags: ['workshop', 'AI', 'satellite data', 'Phnom Penh'],
+            organizers: ['Asian Satellite Campuses Institute (ASCI), Nagoya University', 'Graduate School of International Development (GSID), Nagoya University', 'Institute for Space–Earth Environmental Research (ISEE), Nagoya University', 'Royal University of Phnom Penh (RUPP)', 'United Nations Development Programme (UNDP) Cambodia'],
+            themes: ['Space–Earth environmental studies', 'Economics and geography', 'Development studies', 'Area and urban studies', 'Data science', 'Geoinformatics'],
+            objectives: ['Survey novel datasets and AI-enabled methods for monitoring sustainable development.', 'Show how remote-sensing data can be integrated with household surveys and administrative microdata.', 'Present applied case studies from Cambodia and the wider Asian region.', 'Build an interdisciplinary network for collaborative research.'],
+            program: [
+              ['14:00–14:20', 'Opening remarks', 'Chealy Chet (RUPP) and Akira Yamauchi (Nagoya University)'],
+              ['14:25–14:55', 'Development studies in the age of AI', 'Carlos Mendez (Nagoya University)'],
+              ['14:55–15:25', 'Big data and artificial intelligence for mapping poverty vulnerability in Cambodia', 'Theara Khoun (UNDP Cambodia)'],
+              ['15:25–15:55', 'Turning geospatial data into insights for sustainable development', 'Vanna Teck (Spatial Informatics Group)'],
+              ['16:15–16:45', 'Urban heat island in a tropical city of Phnom Penh', 'SE Bunleng (RUPP)'],
+              ['16:45–17:15', 'Status, challenges, and opportunities for ecosystems in Kep City', 'Seak Sophat and Phat Chandara (RUPP)'],
+              ['17:15–18:00', 'Panel: the GeoDevelopment Observatory of Cambodia', 'Satoshi Shimizutani (Nagoya University), Penghuy Ngov (RUPP), Theara Khoun (UNDP Cambodia), Carlos Mendez (Nagoya University)'],
+              ['18:00–18:05', 'Closing remarks', ''],
+            ],
+            links: [{ label: 'Event page on Luma', url: 'https://luma.com/ebw5y0k4', kind: 'external' }],
+            related: ['development-age-of-ai', 'poverty-paper'],
+          },
+        ];
+
+        const REGISTRY_BY_ID = Object.fromEntries(CONTENT_REGISTRY.map((i) => [i.id, i]));
+        const byType = (types) => CONTENT_REGISTRY.filter((i) => types.includes(i.type))
+          .sort((a, b) => (a.pinned !== b.pinned ? b.pinned - a.pinned : new Date(b.date) - new Date(a.date)));
+        const itemHref = (item) => `#/${item.section}/${item.id}`;
+
+        const TYPE_STYLE = {
+          indicator: { label: 'Indicator', text: 'text-sky-300', bg: 'bg-sky-400/10', ring: 'border-sky-400/30', glow: 'hover:border-sky-400/40 hover:shadow-sky-500/10', icon: Database },
+          notebook: { label: 'Notebook', text: 'text-violet-300', bg: 'bg-violet-400/10', ring: 'border-violet-400/30', glow: 'hover:border-violet-400/40 hover:shadow-violet-500/10', icon: BookOpen },
+          app: { label: 'Web app', text: 'text-amber-300', bg: 'bg-amber-400/10', ring: 'border-amber-400/30', glow: 'hover:border-amber-400/40 hover:shadow-amber-500/10', icon: Globe },
+          insight: { label: 'Insight', text: 'text-rose-300', bg: 'bg-rose-400/10', ring: 'border-rose-400/30', glow: 'hover:border-rose-400/40 hover:shadow-rose-500/10', icon: Lightbulb },
+          event: { label: 'Event', text: 'text-emerald-300', bg: 'bg-emerald-400/10', ring: 'border-emerald-400/30', glow: 'hover:border-emerald-400/40 hover:shadow-emerald-500/10', icon: Calendar },
+        };
+
+        const LINK_ICON = {
+          colab: BookOpen, github: Github, launch: Globe, 'gee-code': Code, external: ExternalLink, paper: FileText,
+          slides: Presentation, notebooklm: Sparkles, story: BookOpen, chatbot: Bot,
+        };
+
+        const PEOPLE = {
+          core: [
+            { name: 'Carlos Mendez', affiliation: 'Nagoya University, Japan', avatar: 'images/people/carlos-mendez.webp', website: 'https://carlos-mendez.org' },
+            { name: 'Theara Khoun', affiliation: 'UNDP Cambodia', avatar: 'images/people/theara-khoun.webp' },
+            { name: 'Ate Poortinga', affiliation: 'Spatial Informatics Group, USA', avatar: 'images/people/ate-poortinga.webp' },
+          ],
+          associates: [
+            { name: 'LI Xiaomeng', affiliation: 'Nagoya University, Japan' },
+            { name: 'Du He', affiliation: 'Nagoya University, Japan' },
+          ],
+        };
+
+        const CONTACTS = [
+          { name: 'Carlos Mendez', email: 'carlos.mendez.n9@f.mail.nagoya-u.ac.jp' },
+          { name: 'Theara Khoun', email: 'theara.khoun@undp.org' },
+          { name: 'Ate Poortinga', email: 'apoortinga@sig-gis.com' },
+        ];
+
+        const CITATION_APA = 'Mendez, C., Khoun, T., & Poortinga, A. (2026). GeoDevelopment Observatory of Cambodia. https://quarcs-lab.github.io/geo4cambodia/';
+        const CITATION_BIB = `@misc{gdocambodia2026,
+  author       = {Mendez, Carlos and Khoun, Theara and Poortinga, Ate},
+  title        = {{GeoDevelopment Observatory of Cambodia}},
+  year         = {2026},
+  howpublished = {\\url{https://quarcs-lab.github.io/geo4cambodia/}},
+  note         = {Data and code: https://github.com/quarcs-lab/geo4cambodia}
+}`;
+
+        // ====================================================================
+        // Code highlighting (Python + Stata)
+        // ====================================================================
+        const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const LANGS = {
+          python: {
+            comment: (src, i) => src[i] === '#',
+            keywords: ['import', 'from', 'as', 'def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'in', 'not', 'and', 'or', 'is', 'with', 'try', 'except', 'lambda', 'True', 'False', 'None'],
+            builtins: ['print', 'display', 'len', 'int', 'str', 'float', 'list', 'dict', 'range', 'sum', 'min', 'max', 'round', 'sorted'],
+          },
+          stata: {
+            comment: (src, i) => (src[i] === '*' && (i === 0 || src[i - 1] === '\n')) || (src[i] === '/' && src[i + 1] === '/'),
+            keywords: ['use', 'clear', 'describe', 'xtset', 'xtsum', 'encode', 'gen', 'generate', 'summarize', 'regress', 'twoway', 'scatter', 'line', 'keep', 'drop', 'merge', 'reshape', 'collapse', 'tabulate', 'if', 'by', 'bysort'],
+            builtins: [],
+          },
+        };
+        const highlightCode = (src, lang) => {
+          const L = LANGS[lang];
+          if (!L) return esc(src);
+          const out = [];
+          let i = 0;
+          while (i < src.length) {
+            if (L.comment(src, i)) {
+              let end = src.indexOf('\n', i); if (end === -1) end = src.length;
+              out.push('<span style="color:#8fa0c2;font-style:italic">' + esc(src.slice(i, end)) + '</span>'); i = end; continue;
+            }
+            if (src[i] === '"' || src[i] === "'") {
+              const q = src[i]; const start = i; i++;
+              while (i < src.length && src[i] !== q) { if (src[i] === '\\') i++; i++; }
+              i++; out.push('<span style="color:#86efac">' + esc(src.slice(start, i)) + '</span>'); continue;
+            }
+            if (/[0-9]/.test(src[i]) && (i === 0 || /[\s(,=\[{+\-*/:<]/.test(src[i - 1]))) {
+              const start = i; while (i < src.length && /[0-9._eE]/.test(src[i])) i++;
+              out.push('<span style="color:#fcd34d">' + esc(src.slice(start, i)) + '</span>'); continue;
+            }
+            if (/[a-zA-Z_]/.test(src[i])) {
+              const start = i; while (i < src.length && /[a-zA-Z0-9_]/.test(src[i])) i++;
+              const w = src.slice(start, i);
+              if (L.keywords.includes(w)) out.push('<span style="color:#ff8a8a;font-weight:600">' + esc(w) + '</span>');
+              else if (L.builtins.includes(w)) out.push('<span style="color:#7cc4ff">' + esc(w) + '</span>');
+              else out.push('<span style="color:#dbe4f5">' + esc(w) + '</span>');
+              continue;
+            }
+            out.push(esc(src[i])); i++;
+          }
+          return out.join('');
+        };
+
+        // ====================================================================
+        // Shared UI pieces
+        // ====================================================================
+        const SectionHeading = ({ eyebrow, title, children, center = true, as = 'h2' }) => {
+          const H = as;
+          return (
+            <div className={`mb-12 relative z-10 ${center ? 'text-center' : ''}`}>
+              {eyebrow && <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">{eyebrow}</span>}
+              <H className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">{title}</span></H>
+              {children && <p className={`text-lg text-slate-400 ${center ? 'max-w-3xl mx-auto' : 'max-w-3xl'}`}>{children}</p>}
+            </div>
+          );
+        };
+
+        const CopyButton = ({ text, label = 'Copy' }) => {
+          const [copied, copy] = useCopy();
+          return (
+            <button type="button" onClick={() => copy(text)}
+                    className="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-xs uppercase font-bold tracking-wider"
+                    aria-label={copied ? 'Copied to clipboard' : `${label} to clipboard`}>
+              {copied ? <Check size={14} className="text-brand-sky" /> : <Copy size={14} />}
+              <span aria-live="polite">{copied ? 'Copied' : label}</span>
+            </button>
+          );
+        };
+
+        const CodeBlock = ({ code, language = 'python', title }) => {
+          const highlighted = useMemo(() => highlightCode(code, language), [code, language]);
+          return (
+            <div className="rounded-2xl overflow-hidden bg-white/[0.04] backdrop-blur-md shadow-2xl border border-white/10">
+              <div className="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex gap-1.5" aria-hidden="true">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                  </div>
+                  <span className="ml-3 text-xs text-slate-400 font-mono truncate">{title}</span>
+                </div>
+                <CopyButton text={code} />
+              </div>
+              <div className="p-4 overflow-x-auto">
+                <pre className="text-xs sm:text-sm font-mono text-slate-300 leading-relaxed"><code dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
+              </div>
+            </div>
+          );
+        };
+
+        const CodeTabs = ({ code, idPrefix }) => {
+          const tabs = [['python', 'Python'], ['stata', 'Stata']].filter(([k]) => code[k]);
+          const [active, setActive] = useState(tabs[0][0]);
+          return (
+            <div>
+              <div role="tablist" aria-label="Code language" className="flex gap-2 mb-3">
+                {tabs.map(([k, label]) => (
+                  <button key={k} role="tab" id={`${idPrefix}-tab-${k}`} aria-selected={active === k} aria-controls={`${idPrefix}-panel-${k}`}
+                          onClick={() => setActive(k)}
+                          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${active === k ? 'bg-brand-red text-white' : 'bg-navy-800 text-slate-300 border border-white/10 hover:text-white'}`}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {tabs.map(([k]) => (
+                <div key={k} role="tabpanel" id={`${idPrefix}-panel-${k}`} aria-labelledby={`${idPrefix}-tab-${k}`} hidden={active !== k}>
+                  <CodeBlock code={code[k]} language={k} title={k === 'python' ? 'example.py' : 'example.do'} />
+                </div>
+              ))}
+            </div>
+          );
+        };
+
+        const TypeBadge = ({ item, solid = false }) => {
+          const s = TYPE_STYLE[item.type];
+          const Icon = s.icon;
+          return (
+            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full ${solid ? 'bg-navy-950/85 backdrop-blur-sm border border-white/10' : s.bg} ${s.text}`}>
+              <Icon size={12} /> {item.subtype || s.label}
+            </span>
+          );
+        };
+
+        const Tag = ({ children, type }) => {
+          const s = TYPE_STYLE[type] || TYPE_STYLE.indicator;
+          return <span className={`text-xs px-2 py-0.5 rounded-full border ${s.ring} ${s.text} bg-transparent`}>{children}</span>;
+        };
+
+        const LinkButton = ({ link, primary = false }) => {
+          const Icon = LINK_ICON[link.kind] || ExternalLink;
+          return (
+            <a href={link.url} target="_blank" rel="noopener noreferrer"
+               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:-translate-y-0.5 ${primary
+                 ? 'bg-brand-red hover:bg-brand-redHover text-white shadow-lg shadow-red-900/30'
+                 : 'bg-white/5 hover:bg-white/10 border border-white/15 text-slate-100'}`}>
+              <Icon size={16} /> {link.label}
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          );
+        };
+
+        // Click-to-load YouTube embed: no third-party iframe until the user asks for it.
+        const LiteYouTube = ({ id, label }) => {
+          const [active, setActive] = useState(false);
+          return (
+            <figure className="rounded-2xl overflow-hidden border border-white/10 bg-black">
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                {active ? (
+                  <iframe className="absolute inset-0 w-full h-full" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+                          title={label} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                ) : (
+                  <button type="button" onClick={() => setActive(true)} className="absolute inset-0 w-full h-full group" aria-label={`Play video: ${label}`}>
+                    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <span className="w-16 h-16 rounded-full bg-brand-red/90 group-hover:bg-brand-red flex items-center justify-center shadow-xl text-white transition-transform group-hover:scale-110">
+                        <Play size={26} />
+                      </span>
+                    </span>
+                  </button>
+                )}
+              </div>
+              <figcaption className="px-4 py-3 text-sm text-slate-300 bg-navy-900">{label}</figcaption>
+            </figure>
+          );
+        };
+
+        const AudioPlayer = ({ src, label }) => (
+          <figure className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+            <figcaption className="flex items-center gap-2 text-sm font-semibold text-slate-200 mb-3"><Headphones size={18} className="text-brand-sky" /> {label}</figcaption>
+            <audio controls preload="none" src={src} className="w-full">Your browser does not support the audio element. <a href={src}>Download the audio</a>.</audio>
+          </figure>
+        );
+
+        // ====================================================================
+        // Navigation
+        // ====================================================================
+        const NAV_LINKS = [
+          { name: 'About', id: 'about' },
+          { name: 'Indicators', id: 'indicators' },
+          { name: 'Tools', id: 'tools' },
+          { name: 'Insights', id: 'insights' },
+          { name: 'Events', id: 'events' },
+          { name: 'Team', id: 'team' },
+          { name: 'Cite', id: 'cite' },
+        ];
+
+        const Wordmark = ({ size = 'md' }) => (
+          <a href="#top" className="flex items-center gap-3 group" aria-label="GeoDevelopment Observatory of Cambodia, home">
+            <img src="images/logo/emblem-dark-192.png" alt="" width="40" height="40"
+                 className={`${size === 'lg' ? 'w-12 h-12' : 'w-10 h-10'} transition-transform duration-500 group-hover:rotate-12`} />
+            <span className="leading-tight">
+              <span className={`block font-bold tracking-tight text-white ${size === 'lg' ? 'text-lg' : 'text-[15px]'}`}>GeoDevelopment Observatory</span>
+              <span className={`block font-semibold text-[#ff6b6b] ${size === 'lg' ? 'text-base' : 'text-[13px]'}`}>of Cambodia</span>
+            </span>
+          </a>
+        );
+
+        const Navigation = ({ isHome }) => {
+          const [isOpen, setIsOpen] = useState(false);
+          const [scrolled, setScrolled] = useState(false);
+          const activeSection = useActiveSection(NAV_LINKS.map((l) => l.id), isHome);
+
+          useEffect(() => {
+            const onScroll = () => setScrolled(window.scrollY > 20);
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+            return () => window.removeEventListener('scroll', onScroll);
+          }, []);
+          useEffect(() => {
+            const close = () => setIsOpen(false);
+            window.addEventListener('hashchange', close);
+            return () => window.removeEventListener('hashchange', close);
+          }, []);
+          useEffect(() => {
+            if (!isOpen) return;
+            const onKey = (e) => { if (e.key === 'Escape') setIsOpen(false); };
+            window.addEventListener('keydown', onKey);
+            return () => window.removeEventListener('keydown', onKey);
+          }, [isOpen]);
+
+          const solid = scrolled || !isHome || isOpen;
+          return (
+            <header>
+              <nav aria-label="Main" className={`fixed w-full z-50 transition-all duration-300 ${solid ? 'bg-navy-950/85 backdrop-blur-xl shadow-lg shadow-black/40 border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex items-center justify-between h-12">
+                    <Wordmark />
+                    <ul className="hidden lg:flex items-center gap-7">
+                      {NAV_LINKS.map((link) => (
+                        <li key={link.id}>
+                          <a href={`#${link.id}`} aria-current={activeSection === link.id ? 'true' : undefined}
+                             className={`nav-link-underline text-sm font-medium transition-colors ${activeSection === link.id ? 'text-white active' : 'text-slate-300 hover:text-white'}`}>
+                            {link.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="hidden lg:flex items-center">
+                      <a href={REPO_URL} target="_blank" rel="noopener noreferrer"
+                         className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-white/10 border border-white/15 hover:bg-white/15 hover:border-brand-sky/50 transition-all">
+                        <Github size={16} /> GitHub<span className="sr-only"> repository (opens in a new tab)</span>
+                      </a>
+                    </div>
+                    <button type="button" onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2 rounded-md text-white"
+                            aria-label={isOpen ? 'Close menu' : 'Open menu'} aria-expanded={isOpen} aria-controls="mobile-menu">
+                      {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                  </div>
+                </div>
+                {isOpen && (
+                  <div id="mobile-menu" className="lg:hidden bg-navy-900 shadow-xl absolute w-full top-full left-0 border-t border-white/10">
+                    <ul className="px-3 pt-2 pb-4 space-y-1">
+                      {NAV_LINKS.map((link) => (
+                        <li key={link.id}>
+                          <a href={`#${link.id}`} onClick={() => setIsOpen(false)}
+                             className="block px-3 py-2.5 rounded-md text-base font-medium text-slate-200 hover:text-white hover:bg-navy-800">{link.name}</a>
+                        </li>
+                      ))}
+                      <li>
+                        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2.5 rounded-md text-base font-medium text-slate-200 hover:text-white hover:bg-navy-800">
+                          <Github size={18} /> GitHub repository
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </nav>
+            </header>
+          );
+        };
+
+        // ====================================================================
+        // Landing page sections
+        // ====================================================================
+        const Hero = () => {
+          const reduced = React.useContext(ReducedMotionContext);
+          const phrases = useMemo(() => ['researchers', 'policymakers', 'students', 'citizens'], []);
+          const typingText = useTypingEffect(phrases, reduced);
+          return (
+            <div id="top" className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 z-0 bg-navy-950">
+                <img src="images/hero.webp" alt="" className="w-full h-full object-cover" fetchpriority="high" />
+                <div className="absolute inset-0 bg-navy-950/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-navy-950/30"></div>
+              </div>
+              <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none" aria-hidden="true">
+                <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[128px] float-slow"></div>
+                <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-red-600/10 rounded-full blur-[110px] float-slower"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-blue-700/10 rounded-full blur-[120px]"></div>
+              </div>
+              <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 text-center text-white">
+                <div className={reduced ? '' : 'animate-fade-in-up'}>
+                  <p className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-white/10 border border-white/15 text-xs sm:text-sm font-semibold tracking-wide text-slate-200">
+                    <Satellite size={16} className="text-brand-sky" /> Open data · Satellite + survey · AI-enhanced
+                  </p>
+                  <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 leading-[1.05]">
+                    <span className="gradient-text">GeoDevelopment Observatory</span><br />
+                    <span className="text-white">of </span><span className="text-[#ff6b6b]">Cambodia</span>
+                  </h1>
+                  <p className="text-lg md:text-2xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed mb-3">
+                    Open indicators, tools, and insights for monitoring <span className="font-semibold text-white">sustainable regional development</span>, from satellite pixels to policy.
+                  </p>
+                  <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto font-light mb-10 min-h-[2rem]">
+                    Built for <span className="gradient-text font-semibold">{typingText}</span>
+                    {!reduced && <span className="typing-cursor text-brand-sky" aria-hidden="true">|</span>}
+                  </p>
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#indicators" className="px-6 sm:px-8 py-3 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg shadow-red-900/40 flex items-center justify-center gap-2">
+                      <Database size={20} /> Explore indicators
+                    </a>
+                    <a href="#tools" className="px-6 sm:px-8 py-3 rounded-lg bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg border border-white/20 flex items-center justify-center gap-2">
+                      <Terminal size={20} /> Open the tools
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        const PILLARS = [
+          { title: 'GeoDevelopment Indicators', href: '#indicators', image: 'images/pillar-indicators.webp', icon: Database, accent: 'text-sky-300', border: 'hover:border-sky-400/40',
+            text: 'Harmonized subnational panels on human development, GDP, night-time lights, population, and air quality, ready to download as CSV, Stata, and GeoJSON.' },
+          { title: 'GeoDevelopment Tools', href: '#tools', image: 'images/pillar-tools.webp', icon: Terminal, accent: 'text-amber-300', border: 'hover:border-amber-400/40',
+            text: 'AI-enhanced Colab notebooks and Earth Engine apps to explore, map, and model the indicators, with no installation required.' },
+          { title: 'GeoDevelopment Insights', href: '#insights', image: 'images/pillar-insights.webp', icon: Lightbulb, accent: 'text-rose-300', border: 'hover:border-rose-400/40',
+            text: 'Research findings retold as videos, podcasts, slides, story books, and chatbots, so every audience can learn from them.' },
+        ];
+
+        const AUDIENCES = [
+          { title: 'Researchers', text: 'Run empirical analyses on ready-made subnational panels with reproducible code.', icon: BarChart2 },
+          { title: 'Decision-makers', text: 'Use evidence to design, target, and evaluate regional development policies.', icon: MapIcon },
+          { title: 'Citizens', text: 'Understand how development is unfolding in your own province and district.', icon: Users },
+        ];
+
+        const About = () => {
+          const indicators = byType(['indicator']);
+          const stats = [
+            { value: indicators.length, label: 'indicator datasets' },
+            { value: Math.max(...indicators.map((i) => i.units)), label: 'districts mapped' },
+            { value: '1990–2023', label: 'years covered' },
+            { value: byType(['notebook', 'app']).length, label: 'notebooks & apps' },
+            { value: byType(['insight']).length, label: 'research insights' },
+          ];
+          return (
+            <section id="about" aria-labelledby="about-title" className="py-24 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-blue-700/10 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <AnimateIn>
+                  <div className="text-center mb-14 relative z-10">
+                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">About the observatory</span>
+                    <h2 id="about-title" className="text-3xl md:text-5xl font-extrabold mt-2 mb-6 tracking-tight"><span className="gradient-text">From pixels to policy</span></h2>
+                    <p className="max-w-4xl mx-auto text-lg md:text-xl text-slate-300 leading-relaxed">
+                      The GeoDevelopment Observatory of Cambodia (GDO-Cambodia) is a public-access platform for analyzing, monitoring, and evaluating sustainable regional development. It brings together environmental, social, and economic indicators from satellite imagery, household surveys, and administrative records; makes them explorable through AI-enhanced notebooks and web apps; and turns the results into insights anyone can use.
+                    </p>
+                  </div>
+                </AnimateIn>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                  {PILLARS.map((p, i) => {
+                    const Icon = p.icon;
+                    return (
+                      <AnimateIn key={p.title} delay={i * 100}>
+                        <a href={p.href} className={`group block h-full bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${p.border}`}>
+                          <div className="relative aspect-[3/2] overflow-hidden bg-navy-900">
+                            <img src={p.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/20 to-transparent"></div>
+                            <div className="absolute bottom-4 left-5 w-12 h-12 rounded-xl bg-navy-950/80 border border-white/10 flex items-center justify-center">
+                              <Icon size={24} className={p.accent} />
+                            </div>
+                          </div>
+                          <div className="p-6">
+                            <h3 className="text-xl font-bold text-white mb-2">{p.title}</h3>
+                            <p className="text-slate-400 leading-relaxed mb-4">{p.text}</p>
+                            <span className={`inline-flex items-center gap-1 text-sm font-semibold ${p.accent}`}>Explore <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></span>
+                          </div>
+                        </a>
+                      </AnimateIn>
+                    );
+                  })}
+                </div>
+
+                <AnimateIn>
+                  <dl className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
+                    {stats.map((s) => (
+                      <div key={s.label} className="text-center rounded-2xl bg-white/[0.03] border border-white/10 py-6 px-3 last:col-span-2 md:last:col-span-1">
+                        <dt className="sr-only">{s.label}</dt>
+                        <dd>
+                          <span className="block text-3xl md:text-4xl font-extrabold gradient-text">{s.value}</span>
+                          <span className="block text-xs sm:text-sm text-slate-400 mt-1">{s.label}</span>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </AnimateIn>
+
+                <AnimateIn>
+                  <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-6">Who it is for</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {AUDIENCES.map((a) => {
+                      const Icon = a.icon;
+                      return (
+                        <div key={a.title} className="flex gap-4 items-start p-6 rounded-2xl bg-navy-900/60 border border-white/5">
+                          <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-brand-red/15 text-[#ff8a8a] flex items-center justify-center"><Icon size={22} /></div>
+                          <div>
+                            <h4 className="font-bold text-white mb-1">{a.title}</h4>
+                            <p className="text-sm text-slate-400 leading-relaxed">{a.text}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </AnimateIn>
+              </div>
+            </section>
+          );
+        };
+
+        const ItemCard = ({ item, showImage = true }) => {
+          const s = TYPE_STYLE[item.type];
+          return (
+            <article className={`group h-full bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${s.glow} relative`}>
+              {showImage && item.image && (
+                <div className="relative aspect-[16/9] overflow-hidden bg-navy-900">
+                  <img src={item.image} alt={item.imageAlt || ''} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent"></div>
+                  <div className="absolute top-3 left-3"><TypeBadge item={item} solid /></div>
+                  {item.pinned && <span className="absolute top-3 right-3 text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-brand-red/90 text-white">Featured</span>}
+                </div>
+              )}
+              <div className="p-6 flex flex-col flex-grow">
+                {item.scope && <p className="text-xs font-mono text-brand-sky mb-2">{item.scope}</p>}
+                <h3 className="text-lg font-bold text-white leading-snug mb-2">
+                  <a href={itemHref(item)} className="after:absolute after:inset-0 focus:outline-none">{item.title}</a>
+                </h3>
+                <p className="text-sm text-slate-400 mb-4 flex-grow leading-relaxed">{item.summary}</p>
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {item.tags.slice(0, 4).map((t) => <Tag key={t} type={item.type}>{t}</Tag>)}
+                </div>
+                <span className={`inline-flex items-center gap-1 text-sm font-semibold ${s.text}`}>
+                  View details <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </article>
+          );
+        };
+
+        const IndicatorsSection = () => {
+          const items = byType(['indicator']);
+          return (
+            <section id="indicators" aria-labelledby="indicators-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
+              <div className="absolute bottom-0 left-1/4 w-[420px] h-[420px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <AnimateIn>
+                  <div className="text-center mb-12 relative z-10">
+                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Indicators</span>
+                    <h2 id="indicators-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Subnational data, ready to analyze</span></h2>
+                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Environmental, social, and economic indicators from satellite imagery, surveys, and administrative records, documented variable by variable and free to download.</p>
+                  </div>
+                </AnimateIn>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+                  {items.map((item, i) => <AnimateIn key={item.id} delay={i * 80}><ItemCard item={item} /></AnimateIn>)}
+                </div>
+
+                {/* Dataset architecture */}
+                <AnimateIn>
+                  <h3 id="get-the-data" className="text-xl font-bold text-white flex items-center gap-3 mb-6">
+                    <span className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500/20 to-red-500/20 border border-sky-400/30 flex items-center justify-center text-sm font-bold text-brand-sky">1</span>
+                    Dataset architecture
+                  </h3>
+                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] mb-16">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm">
+                        <caption className="sr-only">Indicator modules, geography, coverage, join key and documentation</caption>
+                        <thead className="bg-white/5 text-slate-300 text-xs uppercase tracking-wider">
+                          <tr>
+                            <th scope="col" className="px-4 py-3 md:px-6">Module</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Geography</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Period</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Join key</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Files</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {items.map((it) => (
+                            <tr key={it.id} className="hover:bg-sky-400/[0.04] transition-colors">
+                              <td className="px-4 py-4 md:px-6">
+                                <a href={`${REPO_URL}/tree/main/${it.folder}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">/{it.folder}</a>
+                                <div className="text-slate-300 mt-1">{it.title}</div>
+                              </td>
+                              <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">{it.units} · {it.geography}</td>
+                              <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">{it.period}</td>
+                              <td className="px-4 py-4 md:px-6"><code className="font-mono text-brand-sky bg-sky-400/10 px-2 py-0.5 rounded text-xs font-bold">{it.key}</code></td>
+                              <td className="px-4 py-4 md:px-6 text-slate-400 whitespace-nowrap">{[...new Set(it.files.map((f) => f.format))].join(' · ')}</td>
+                            </tr>
+                          ))}
+                          <tr className="hover:bg-sky-400/[0.04] transition-colors">
+                            <td className="px-4 py-4 md:px-6">
+                              <a href={`${REPO_URL}/tree/main/regionNames`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">/regionNames</a>
+                              <div className="text-slate-300 mt-1">Region names and identifiers</div>
+                            </td>
+                            <td className="px-4 py-4 md:px-6 text-slate-300">17 · 25 · 202</td>
+                            <td className="px-4 py-4 md:px-6 text-slate-300">—</td>
+                            <td className="px-4 py-4 md:px-6 text-slate-400 text-xs">all keys</td>
+                            <td className="px-4 py-4 md:px-6 text-slate-400">CSV</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="bg-amber-950/30 px-4 py-4 md:px-6 border-t border-amber-900/30 flex gap-3">
+                      <Layers size={20} className="text-amber-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-amber-100/80">
+                        <strong className="text-amber-200">Three geographies, three keys.</strong> The 17 Global Data Lab regions, the 25 present-day provinces, and the 202 districts each use their own identifier. Use <a className="underline" href={`${REPO_URL}/tree/main/regionNames`} target="_blank" rel="noopener noreferrer">regionNames</a> to look up names, and harmonize province spellings before merging across geographies.
+                      </p>
+                    </div>
+                  </div>
+                </AnimateIn>
+
+                {/* Code examples */}
+                <AnimateIn>
+                  <h3 className="text-xl font-bold text-white flex items-center gap-3 mb-4">
+                    <span className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500/20 to-red-500/20 border border-sky-400/30 flex items-center justify-center text-sm font-bold text-brand-sky">2</span>
+                    Start coding in seconds
+                  </h3>
+                  <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
+                    <p className="text-slate-400 max-w-2xl">Every file streams straight from this repository. Paste the snippet into a blank Colab notebook or Stata, and you have a district-level map or panel in seconds.</p>
+                    <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+                      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open a blank notebook in Google Colab" width="117" height="20" />
+                    </a>
+                  </div>
+                  <CodeTabs code={REGISTRY_BY_ID['districts202-gdppc'].code} idPrefix="home-code" />
+                </AnimateIn>
+              </div>
+            </section>
+          );
+        };
+
+        const ToolsSection = () => {
+          const [filter, setFilter] = useState('all');
+          const all = byType(['notebook', 'app']);
+          const items = filter === 'all' ? all : all.filter((i) => i.type === filter);
+          const options = [['all', `All (${all.length})`], ['notebook', `Notebooks (${all.filter((i) => i.type === 'notebook').length})`], ['app', `Web apps (${all.filter((i) => i.type === 'app').length})`]];
+          return (
+            <section id="tools" aria-labelledby="tools-title" className="py-24 relative overflow-hidden">
+              <div className="absolute top-1/3 right-0 w-[420px] h-[420px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <AnimateIn>
+                  <div className="text-center mb-10 relative z-10">
+                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Tools</span>
+                    <h2 id="tools-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Explore, map, and model</span></h2>
+                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Computational notebooks and web applications for analyzing the indicators, visualizing patterns, and extending research results, all running in your browser.</p>
+                  </div>
+                </AnimateIn>
+                <div role="group" aria-label="Filter tools" className="flex flex-wrap justify-center gap-2 mb-10">
+                  {options.map(([k, label]) => (
+                    <button key={k} type="button" onClick={() => setFilter(k)} aria-pressed={filter === k}
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${filter === k ? 'bg-brand-red text-white shadow-sm' : 'bg-navy-800 text-slate-300 border border-white/10 hover:border-brand-sky/50 hover:text-white'}`}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map((item, i) => <AnimateIn key={item.id} delay={(i % 3) * 80}><ItemCard item={item} /></AnimateIn>)}
+                </div>
+              </div>
+            </section>
+          );
+        };
+
+        const InsightsSection = () => {
+          const items = byType(['insight']);
+          return (
+            <section id="insights" aria-labelledby="insights-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
+              <div className="absolute top-1/4 left-0 w-[420px] h-[420px] bg-rose-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <AnimateIn>
+                  <div className="text-center mb-12 relative z-10">
+                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Insights</span>
+                    <h2 id="insights-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Research, made accessible</span></h2>
+                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Curated findings derived from the observatory’s indicators and tools, presented as papers, videos, podcasts, slides, story books, and chatbots for researchers, policymakers, and the public.</p>
+                  </div>
+                </AnimateIn>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map((item, i) => <AnimateIn key={item.id} delay={i * 80}><ItemCard item={item} /></AnimateIn>)}
+                </div>
+              </div>
+            </section>
+          );
+        };
+
+        const EventsSection = () => {
+          const events = byType(['event']);
+          const today = new Date().toISOString().slice(0, 10);
+          return (
+            <section id="events" aria-labelledby="events-title" className="py-24 relative overflow-hidden">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <AnimateIn>
+                  <div className="text-center mb-12 relative z-10">
+                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Events</span>
+                    <h2 id="events-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Workshops and talks</span></h2>
+                    <p className="max-w-3xl mx-auto text-lg text-slate-400">We bring together researchers, practitioners, and students working at the intersection of development, geospatial analytics, and AI.</p>
+                  </div>
+                </AnimateIn>
+                <div className="space-y-6 mb-12">
+                  {events.map((ev) => {
+                    const past = ev.date < today;
+                    return (
+                      <AnimateIn key={ev.id}>
+                        <article className="group relative grid grid-cols-1 md:grid-cols-[300px_minmax(0,1fr)] gap-0 bg-white/[0.04] rounded-2xl border border-white/10 overflow-hidden hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all">
+                          <div className="bg-white aspect-square self-start overflow-hidden">
+                            <img src={ev.image} alt={ev.imageAlt} loading="lazy" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-6 md:p-8 flex flex-col">
+                            <div className="flex flex-wrap items-center gap-2 mb-3">
+                              <TypeBadge item={ev} />
+                              <span className={`text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${past ? 'bg-slate-700/60 text-slate-300' : 'bg-emerald-500/20 text-emerald-300'}`}>{past ? 'Past event' : 'Upcoming'}</span>
+                            </div>
+                            <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-snug">
+                              <a href={itemHref(ev)} className="after:absolute after:inset-0">{ev.title}</a>
+                            </h3>
+                            <ul className="space-y-1.5 text-sm text-slate-300 mb-4">
+                              <li className="flex gap-2"><Calendar size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {ev.dateLabel}</li>
+                              <li className="flex gap-2"><Clock size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {ev.time}</li>
+                              <li className="flex gap-2"><MapPin size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {ev.venue}</li>
+                            </ul>
+                            <p className="text-slate-400 text-sm leading-relaxed mb-4">{ev.summary}</p>
+                            <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-emerald-300">Program and details <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span>
+                          </div>
+                        </article>
+                      </AnimateIn>
+                    );
+                  })}
+                </div>
+                <AnimateIn>
+                  <div className="text-center rounded-2xl border border-white/10 bg-gradient-to-br from-navy-800/80 to-navy-900 p-8">
+                    <h3 className="text-xl font-bold text-white mb-2">Never miss an event</h3>
+                    <p className="text-slate-400 mb-6 max-w-xl mx-auto">Subscribe to our events calendar for upcoming workshops, seminars, and training sessions on spatial data science and development.</p>
+                    <a href="https://luma.com/cmg" target="_blank" rel="noopener noreferrer"
+                       className="inline-flex items-center gap-2 px-7 py-3 rounded-lg font-semibold text-white bg-brand-red hover:bg-brand-redHover transition-all hover:-translate-y-0.5 shadow-lg shadow-red-900/30">
+                      <Calendar size={18} /> Subscribe to upcoming events<span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </div>
+                </AnimateIn>
+              </div>
+            </section>
+          );
+        };
+
+        const PersonCard = ({ person, small = false }) => {
+          const initials = person.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
+          const size = small ? 'w-20 h-20 text-xl' : 'w-28 h-28 text-2xl';
+          return (
+            <div className="flex flex-col items-center text-center max-w-xs">
+              {person.avatar ? (
+                <img src={person.avatar} alt={`Portrait of ${person.name}`} loading="lazy" width="112" height="112"
+                     className={`contributor-avatar ${size} rounded-full mb-4 object-cover shadow-sm border-2 border-white/20`} />
+              ) : (
+                <div className={`contributor-avatar ${size} rounded-full mb-4 bg-gradient-to-br from-navy-600 to-navy-800 flex items-center justify-center text-slate-200 font-bold border-2 border-white/20`} aria-hidden="true">{initials}</div>
+              )}
+              <h4 className={`${small ? 'text-base' : 'text-lg'} font-bold text-white`}>
+                {person.website
+                  ? <a href={person.website} target="_blank" rel="noopener noreferrer" className="hover:text-brand-sky inline-flex items-center gap-1">{person.name} <ExternalLink size={12} /><span className="sr-only"> (personal website, opens in a new tab)</span></a>
+                  : person.name}
+              </h4>
+              <p className="text-slate-400 text-sm mt-1">{person.affiliation}</p>
+            </div>
+          );
+        };
+
+        const TeamSection = () => (
+          <section id="team" aria-labelledby="team-title" className="py-24 bg-navy-900 border-t border-white/5">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn>
+                <div className="text-center mb-14">
+                  <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Team</span>
+                  <h2 id="team-title" className="text-3xl md:text-4xl font-extrabold mt-2 tracking-tight"><span className="gradient-text">The people behind GDO-Cambodia</span></h2>
+                </div>
+              </AnimateIn>
+              <AnimateIn>
+                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Core team</h3>
+                <div className="flex flex-wrap justify-center gap-x-16 gap-y-10 mb-16">
+                  {PEOPLE.core.map((p) => <PersonCard key={p.name} person={p} />)}
+                </div>
+              </AnimateIn>
+              <AnimateIn>
+                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Research associates</h3>
+                <div className="flex flex-wrap justify-center gap-x-16 gap-y-10">
+                  {PEOPLE.associates.map((p) => <PersonCard key={p.name} person={p} small />)}
+                </div>
+              </AnimateIn>
+            </div>
+          </section>
+        );
+
+        const CommunitySection = () => (
+          <section id="community" aria-labelledby="community-title" className="py-24 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+              <AnimateIn>
+                <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Community</span>
+                <h2 id="community-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-6 tracking-tight"><span className="gradient-text">Join the conversation</span></h2>
+              </AnimateIn>
+              <p className="text-slate-400 leading-relaxed mb-8">GDO-Cambodia is open by design. Use GitHub Discussions to connect with the team and with other users of the observatory.</p>
+              <ul className="text-left max-w-lg mx-auto space-y-3 text-slate-300 mb-10">
+                {[
+                  [MessageCircle, 'Ask questions about the data, methods, and tools'],
+                  [Lightbulb, 'Suggest new indicators, regions, or features'],
+                  [Code, 'Share notebooks, maps, and analyses built on the observatory'],
+                  [AlertTriangle, 'Report errors or inconsistencies in the data'],
+                ].map(([Icon, text]) => (
+                  <li key={text} className="flex items-start gap-3"><Icon size={18} className="text-brand-sky mt-0.5 flex-shrink-0" /><span>{text}</span></li>
+                ))}
+              </ul>
+              <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer"
+                 className="inline-flex items-center gap-2 px-8 py-3.5 text-base font-semibold rounded-lg text-white bg-brand-red hover:bg-brand-redHover transition-all hover:shadow-lg hover:-translate-y-0.5">
+                <Github size={18} /> Join GitHub Discussions<span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </section>
+        );
+
+        const CiteSection = () => (
+          <section id="cite" aria-labelledby="cite-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn>
+                <h2 id="cite-title" className="text-2xl md:text-3xl font-extrabold mb-3 flex items-center gap-3 tracking-tight">
+                  <FileText className="text-brand-sky" /> <span className="gradient-text">How to cite</span>
+                </h2>
+                <p className="text-slate-400 mb-8">If you use the observatory in your work, please cite it as below. Each dataset also has its own recommended citation on its detail page.</p>
+                <div className="bg-white/[0.04] p-6 rounded-2xl border border-white/10 mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-bold text-slate-200 text-sm uppercase tracking-wide">APA</h3>
+                    <CopyButton text={CITATION_APA} />
+                  </div>
+                  <p className="text-slate-300">Mendez, C., Khoun, T., &amp; Poortinga, A. (2026). <em>GeoDevelopment Observatory of Cambodia</em>. https://quarcs-lab.github.io/geo4cambodia/</p>
+                </div>
+                <CodeBlock title="BibTeX" language="bibtex" code={CITATION_BIB} />
+              </AnimateIn>
+            </div>
+          </section>
+        );
+
+        const ContactSection = () => (
+          <section id="contact" aria-labelledby="contact-title" className="py-20 border-t border-white/5">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn>
+                <h2 id="contact-title" className="text-2xl md:text-3xl font-extrabold mb-8 text-center tracking-tight"><span className="gradient-text">Contact us</span></h2>
+                <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {CONTACTS.map((c) => (
+                    <li key={c.email}>
+                      <a href={`mailto:${c.email}`} className="flex items-center gap-3 p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-brand-sky/40 transition-colors h-full">
+                        <span className="w-10 h-10 rounded-full bg-brand-red/15 text-[#ff8a8a] flex items-center justify-center flex-shrink-0"><Mail size={18} /></span>
+                        <span className="min-w-0">
+                          <span className="block font-semibold text-white">{c.name}</span>
+                          <span className="block text-xs text-slate-400 [overflow-wrap:anywhere]">{c.email}</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </AnimateIn>
+            </div>
+          </section>
+        );
+
+        const Footer = () => (
+          <footer className="bg-navy-950 border-t border-white/5 py-14">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-10">
+                <div className="text-center md:text-left max-w-sm">
+                  <div className="flex justify-center md:justify-start"><Wordmark /></div>
+                  <p className="text-slate-400 text-sm mt-4">Open data, tools, and insights for sustainable regional development in Cambodia.</p>
+                </div>
+                <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
+                  {NAV_LINKS.map((l) => <a key={l.id} href={`#${l.id}`} className="text-slate-400 hover:text-white">{l.name}</a>)}
+                  <a href="#community" className="text-slate-400 hover:text-white">Community</a>
+                  <a href="#contact" className="text-slate-400 hover:text-white">Contact</a>
+                </nav>
+                <a href={REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub repository (opens in a new tab)"
+                   className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:border-brand-sky/50">
+                  <Github size={20} />
+                </a>
+              </div>
+              <div className="border-t border-white/5 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
+                <p><strong className="text-slate-400">Disclaimer.</strong> The indicators, tools, and insights are the responsibility of the individual researchers and do not necessarily represent the views of their affiliated institutions or related organizations. Maps on this website are for geo-statistical use only and have a referential, informational character. They represent indicators spatially and do not constitute an official definition of Cambodia’s territorial boundaries.</p>
+                <p><strong className="text-slate-400">Credits.</strong> Hero and section illustrations were generated with OpenAI image generation (via Codex). App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
+                <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue</a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions</a>.</p>
+              </div>
+            </div>
+          </footer>
+        );
+
+        // ====================================================================
+        // Detail views
+        // ====================================================================
+        const SECTION_LABEL = { indicators: 'Indicators', tools: 'Tools', insights: 'Insights', events: 'Events' };
+
+        const DetailShell = ({ item, children, aside }) => {
+          const headingRef = useRef(null);
+          useEffect(() => { if (headingRef.current) headingRef.current.focus({ preventScroll: true }); }, [item.id]);
+          return (
+            <article className="pt-28 pb-20">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav aria-label="Breadcrumb" className="mb-6">
+                  <ol className="flex flex-wrap items-center gap-1 text-sm text-slate-400">
+                    <li><a href="#top" className="hover:text-white">Home</a></li>
+                    <li aria-hidden="true"><ChevronRight size={14} /></li>
+                    <li><a href={`#${item.section}`} className="hover:text-white">{SECTION_LABEL[item.section]}</a></li>
+                    <li aria-hidden="true"><ChevronRight size={14} /></li>
+                    <li aria-current="page" className="text-slate-200 truncate max-w-[60vw]">{item.title}</li>
+                  </ol>
+                </nav>
+                <header className="mb-10">
+                  <div className="flex flex-wrap items-center gap-2 mb-4"><TypeBadge item={item} />{item.scope && <span className="text-xs font-mono text-brand-sky">{item.scope}</span>}</div>
+                  <h1 ref={headingRef} tabIndex={-1} className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4 focus:outline-none">{item.title}</h1>
+                  <p className="text-lg md:text-xl text-slate-300 max-w-4xl leading-relaxed">{item.summary}</p>
+                </header>
+                <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10">
+                  <div className="min-w-0 space-y-12">{children}</div>
+                  <div className="space-y-6 lg:sticky lg:top-24 self-start">{aside}</div>
+                </div>
+                <div className="mt-16">
+                  <a href={`#${item.section}`} className="inline-flex items-center gap-2 text-sm font-semibold text-brand-sky hover:text-white"><ArrowLeft size={16} /> Back to {SECTION_LABEL[item.section]}</a>
+                </div>
+              </div>
+            </article>
+          );
+        };
+
+        const Block = ({ title, children, id }) => (
+          <section aria-labelledby={id}>
+            <h2 id={id} className="text-xl md:text-2xl font-bold text-white mb-5">{title}</h2>
+            {children}
+          </section>
+        );
+
+        const AsideCard = ({ title, children }) => (
+          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
+            {title && <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">{title}</h2>}
+            {children}
+          </div>
+        );
+
+        const RelatedList = ({ ids }) => {
+          const items = (ids || []).map((id) => REGISTRY_BY_ID[id]).filter(Boolean);
+          if (!items.length) return null;
+          return (
+            <AsideCard title="Related">
+              <ul className="space-y-3">
+                {items.map((r) => {
+                  const s = TYPE_STYLE[r.type]; const Icon = s.icon;
+                  return (
+                    <li key={r.id}>
+                      <a href={itemHref(r)} className="flex gap-3 group">
+                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${s.bg} ${s.text}`}><Icon size={16} /></span>
+                        <span className="text-sm text-slate-300 group-hover:text-white leading-snug">{r.title}<span className="block text-xs text-slate-400">{r.subtype || s.label}</span></span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </AsideCard>
+          );
+        };
+
+        const CitationBox = ({ text }) => (
+          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">Recommended citation</h2>
+              <CopyButton text={text} />
+            </div>
+            <p className="text-sm text-slate-300 leading-relaxed break-words">{text}</p>
+          </div>
+        );
+
+        const FORMAT_STYLE = { CSV: 'text-emerald-300 bg-emerald-400/10', DTA: 'text-violet-300 bg-violet-400/10', GeoJSON: 'text-sky-300 bg-sky-400/10' };
+
+        const IndicatorDetail = ({ item }) => (
+          <DetailShell item={item} aside={<>
+            <AsideCard title="At a glance">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                <dt className="text-slate-400">Geography</dt><dd className="text-slate-200">{item.geography}</dd>
+                <dt className="text-slate-400">Units</dt><dd className="text-slate-200">{item.units}</dd>
+                <dt className="text-slate-400">Period</dt><dd className="text-slate-200">{item.period}</dd>
+                <dt className="text-slate-400">Frequency</dt><dd className="text-slate-200">{item.frequency}</dd>
+                <dt className="text-slate-400">Join key</dt><dd><code className="text-brand-sky text-xs font-bold">{item.key}</code></dd>
+                <dt className="text-slate-400">Categories</dt><dd className="text-slate-200">{item.categories.join(', ')}</dd>
+              </dl>
+            </AsideCard>
+            <AsideCard title="Documentation">
+              <div className="flex flex-col gap-2">
+                <LinkButton link={{ label: 'Folder on GitHub', url: `${REPO_URL}/tree/main/${item.folder}`, kind: 'github' }} />
+                <LinkButton link={{ label: 'README & dictionary', url: `${REPO_URL}/blob/main/${item.folder}/README.md`, kind: 'external' }} />
+                {(item.extraLinks || []).map((l) => <LinkButton key={l.url} link={l} />)}
+              </div>
+            </AsideCard>
+            <CitationBox text={item.citation} />
+            <RelatedList ids={item.related} />
+          </>}>
+            <figure className="rounded-2xl overflow-hidden border border-white/10 bg-navy-900">
+              <img src={item.image} alt={item.imageAlt} className="w-full h-auto" />
+            </figure>
+            <Block title="About this dataset" id="d-about"><p className="text-slate-300 leading-relaxed">{item.description}</p>
+              {item.notice && (
+                <p className="mt-5 flex gap-3 text-sm text-amber-100/90 bg-amber-950/30 border border-amber-900/40 rounded-xl p-4"><AlertTriangle size={18} className="text-amber-400 flex-shrink-0 mt-0.5" /> {item.notice}</p>
+              )}
+            </Block>
+            <Block title="Download the data" id="d-download">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {item.files.map((f) => (
+                  <li key={f.path} className="min-w-0">
+                    <a href={f.path} download className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-sky/40 hover:bg-white/[0.06] transition-all h-full">
+                      <span className={`text-[11px] font-bold px-2 py-1 rounded ${FORMAT_STYLE[f.format]}`}>{f.format}</span>
+                      <span className="min-w-0 flex-grow">
+                        <span className="block text-sm text-slate-200">{f.form}</span>
+                        <span className="block text-xs text-slate-400 font-mono truncate">{f.path.split('/').pop()}</span>
+                      </span>
+                      <Download size={16} className="text-slate-400 flex-shrink-0" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Block>
+            <Block title="Variables" id="d-variables">
+              <div className="rounded-2xl overflow-hidden border border-white/10">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <caption className="sr-only">Variable dictionary</caption>
+                    <thead className="bg-white/5 text-slate-300 text-xs uppercase tracking-wider">
+                      <tr><th scope="col" className="px-4 py-3">Variable</th><th scope="col" className="px-4 py-3">Description</th><th scope="col" className="px-4 py-3">Source</th></tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {item.variables.map(([v, d, s]) => (
+                        <tr key={v}><td className="px-4 py-3 align-top"><code className="text-brand-sky text-xs font-bold whitespace-nowrap">{v}</code></td><td className="px-4 py-3 text-slate-300">{d}</td><td className="px-4 py-3 text-slate-400 whitespace-nowrap">{s}</td></tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </Block>
+            <Block title="Use it in your code" id="d-code"><CodeTabs code={item.code} idPrefix={`code-${item.id}`} /></Block>
+            <Block title="References" id="d-refs">
+              <ul className="space-y-3 text-sm text-slate-300">
+                {item.references.map((r) => (
+                  <li key={r.url} className="pl-4 border-l-2 border-white/10">{r.text} <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all">{r.url}</a></li>
+                ))}
+              </ul>
+            </Block>
+          </DetailShell>
+        );
+
+        const ToolDetail = ({ item }) => {
+          const primary = item.links[0];
+          return (
+            <DetailShell item={item} aside={<>
+              <AsideCard title="Open">
+                <div className="flex flex-col gap-2">{item.links.map((l, i) => <LinkButton key={l.url} link={l} primary={i === 0} />)}</div>
+              </AsideCard>
+              <AsideCard title="Topics"><div className="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag key={t} type={item.type}>{t}</Tag>)}</div></AsideCard>
+              <RelatedList ids={item.related} />
+            </>}>
+              <a href={primary.url} target="_blank" rel="noopener noreferrer" className="block rounded-2xl overflow-hidden border border-white/10 bg-navy-900 group relative">
+                <img src={item.image} alt={item.imageAlt} className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-navy-950/85 border border-white/15 text-sm font-semibold text-white">{primary.label} <ExternalLink size={14} /></span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <Block title={item.type === 'app' ? 'About this app' : 'About this notebook'} id="t-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
+              {item.type === 'notebook' && (
+                <Block title="Run it" id="t-run">
+                  <p className="text-slate-300 leading-relaxed mb-4">Open the notebook in Google Colab and choose <em>Runtime → Run all</em>. It installs any missing libraries and reads the data straight from this repository. To run it locally, use the project environment:</p>
+                  <CodeBlock title="terminal" language="text" code={`git clone ${REPO_URL}.git\ncd geo4cambodia\nuv sync\nuv run jupyter lab notebooks/`} />
+                </Block>
+              )}
+            </DetailShell>
+          );
+        };
+
+        const InsightDetail = ({ item }) => {
+          const videos = (item.media || []).filter((m) => m.kind === 'youtube');
+          const audios = (item.media || []).filter((m) => m.kind === 'audio');
+          return (
+            <DetailShell item={item} aside={<>
+              {item.links.length > 0 && (
+                <AsideCard title="Explore in other formats">
+                  <div className="flex flex-col gap-2">{item.links.map((l, i) => <LinkButton key={l.url} link={l} primary={i === 0 && l.kind === 'paper'} />)}</div>
+                  {item.note && <p className="text-xs text-slate-400 mt-4 leading-relaxed">{item.note}</p>}
+                </AsideCard>
+              )}
+              <AsideCard title="Topics"><div className="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag key={t} type={item.type}>{t}</Tag>)}</div></AsideCard>
+              <RelatedList ids={item.related} />
+            </>}>
+              {item.citation && (
+                <div className="rounded-2xl border border-rose-400/20 bg-rose-500/[0.06] p-5">
+                  <div className="flex justify-between items-center mb-2 gap-4">
+                    <h2 className="text-xs font-bold uppercase tracking-widest text-rose-200">Original publication</h2>
+                    <CopyButton text={`${item.citation} ${item.doi}`} />
+                  </div>
+                  <p className="text-sm text-slate-200 leading-relaxed">{item.citation} <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all" href={item.doi} target="_blank" rel="noopener noreferrer">{item.doi}</a></p>
+                </div>
+              )}
+              <Block title="Overview" id="i-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
+              {videos.length > 0 && (
+                <Block title={videos.length > 1 ? 'Watch' : 'Watch the video'} id="i-video">
+                  <div className={`grid gap-6 ${videos.length > 1 ? 'md:grid-cols-2' : ''}`}>
+                    {videos.map((v) => <LiteYouTube key={v.id} id={v.id} label={v.label} />)}
+                  </div>
+                </Block>
+              )}
+              {audios.length > 0 && (
+                <Block title="Listen" id="i-audio"><div className="space-y-4">{audios.map((a) => <AudioPlayer key={a.src} src={a.src} label={a.label} />)}</div></Block>
+              )}
+              {item.summarySections && (
+                <Block title="Key points" id="i-summary">
+                  <div className="space-y-3">
+                    {item.summarySections.map((s, i) => (
+                      <details key={s.h} className="group rounded-xl bg-white/[0.04] border border-white/10 open:border-rose-400/30" open={i === 0}>
+                        <summary className="flex items-center gap-3 px-5 py-4 font-semibold text-white">
+                          <ChevronRight size={16} className="chev text-rose-300 transition-transform" /> {s.h}
+                        </summary>
+                        <p className="px-5 pb-5 pl-12 text-slate-300 leading-relaxed">{s.p}</p>
+                      </details>
+                    ))}
+                  </div>
+                </Block>
+              )}
+            </DetailShell>
+          );
+        };
+
+        const EventDetail = ({ item }) => {
+          const past = item.date < new Date().toISOString().slice(0, 10);
+          return (
+            <DetailShell item={item} aside={<>
+              <AsideCard title="When and where">
+                <ul className="space-y-3 text-sm text-slate-300">
+                  <li className="flex gap-2"><Calendar size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {item.dateLabel}</li>
+                  <li className="flex gap-2"><Clock size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {item.time}</li>
+                  <li className="flex gap-2"><MapPin size={16} className="text-emerald-300 flex-shrink-0 mt-0.5" /> {item.venue}</li>
+                </ul>
+                <p className={`mt-4 text-xs font-bold uppercase tracking-wide inline-block px-2.5 py-1 rounded-full ${past ? 'bg-slate-700/60 text-slate-300' : 'bg-emerald-500/20 text-emerald-300'}`}>{past ? 'This event has ended' : 'Upcoming'}</p>
+                <div className="flex flex-col gap-2 mt-4">{item.links.map((l) => <LinkButton key={l.url} link={l} />)}</div>
+              </AsideCard>
+              <AsideCard title="Organizers"><ul className="space-y-2 text-sm text-slate-300">{item.organizers.map((o) => <li key={o}>{o}</li>)}</ul></AsideCard>
+              <RelatedList ids={item.related} />
+            </>}>
+              <figure className="rounded-2xl overflow-hidden border border-white/10 bg-navy-900 max-w-xl">
+                <img src={item.image} alt={item.imageAlt} className="w-full h-auto" />
+              </figure>
+              <Block title="Overview" id="e-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
+              <div className="grid md:grid-cols-2 gap-8">
+                <Block title="Themes" id="e-themes"><ul className="flex flex-wrap gap-2">{item.themes.map((t) => <li key={t}><Tag type="event">{t}</Tag></li>)}</ul></Block>
+                <Block title="Objectives" id="e-objectives"><ul className="space-y-2 text-slate-300 text-sm list-disc pl-5">{item.objectives.map((o) => <li key={o}>{o}</li>)}</ul></Block>
+              </div>
+              <Block title="Program" id="e-program">
+                <div className="rounded-2xl overflow-hidden border border-white/10">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm">
+                      <caption className="sr-only">Workshop program</caption>
+                      <thead className="bg-white/5 text-slate-300 text-xs uppercase tracking-wider">
+                        <tr><th scope="col" className="px-4 py-3">Time</th><th scope="col" className="px-4 py-3">Session</th><th scope="col" className="px-4 py-3">Speakers</th></tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {item.program.map(([time, title, who]) => (
+                          <tr key={time}><td className="px-4 py-3 font-mono text-xs text-emerald-300 whitespace-nowrap align-top">{time}</td><td className="px-4 py-3 text-white">{title}</td><td className="px-4 py-3 text-slate-400">{who}</td></tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </Block>
+            </DetailShell>
+          );
+        };
+
+        const NotFound = () => {
+          const headingRef = useRef(null);
+          useEffect(() => { if (headingRef.current) headingRef.current.focus(); }, []);
+          return (
+            <div className="pt-40 pb-32 text-center px-4">
+              <h1 ref={headingRef} tabIndex={-1} className="text-4xl font-extrabold mb-4 focus:outline-none"><span className="gradient-text">Page not found</span></h1>
+              <p className="text-slate-400 mb-8">We couldn’t find that item. It may have moved.</p>
+              <a href="#top" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-semibold"><ArrowLeft size={16} /> Back to home</a>
+            </div>
+          );
+        };
+
+        const DetailView = ({ route }) => {
+          const item = REGISTRY_BY_ID[route.id];
+          if (!item || item.section !== route.section) return <NotFound />;
+          if (item.type === 'indicator') return <IndicatorDetail item={item} />;
+          if (item.type === 'notebook' || item.type === 'app') return <ToolDetail item={item} />;
+          if (item.type === 'insight') return <InsightDetail item={item} />;
+          if (item.type === 'event') return <EventDetail item={item} />;
+          return <NotFound />;
+        };
+
+        // ====================================================================
+        // App
+        // ====================================================================
+        const Home = () => (
+          <>
+            <Hero />
+            <About />
+            <IndicatorsSection />
+            <ToolsSection />
+            <InsightsSection />
+            <EventsSection />
+            <TeamSection />
+            <CommunitySection />
+            <CiteSection />
+            <ContactSection />
+          </>
+        );
+
+        const App = () => {
+          const route = useHashRoute();
+          const reduced = usePrefersReducedMotion();
+          const isHome = route.view === 'home';
+          const prevView = useRef(route.view);
+
+          useEffect(() => {
+            const cameFromDetail = prevView.current === 'detail';
+            prevView.current = route.view;
+            if (isHome) {
+              document.title = DEFAULT_TITLE;
+              if (route.anchor && route.anchor !== 'top' && route.anchor !== 'main') {
+                // Wait for the landing page to render before scrolling to the anchor.
+                // Jump instantly when arriving from a detail view (the page was just re-rendered).
+                requestAnimationFrame(() => {
+                  const el = document.getElementById(route.anchor);
+                  if (el) el.scrollIntoView({ behavior: reduced || cameFromDetail ? 'instant' : 'smooth' });
+                });
+              } else if (route.anchor === 'top') {
+                window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+              }
+            } else {
+              window.scrollTo({ top: 0, behavior: 'instant' });
+              const item = REGISTRY_BY_ID[route.id];
+              document.title = item ? `${item.title} | GDO-Cambodia` : `Not found | GDO-Cambodia`;
+            }
+          }, [route]);
+
+          return (
+            <ReducedMotionContext.Provider value={reduced}>
+              <div className="min-h-screen bg-navy-950 text-slate-200 font-sans selection:bg-brand-red/40 selection:text-white">
+                <Navigation isHome={isHome} />
+                <main id="main" tabIndex={-1} className="focus:outline-none">
+                  {isHome ? <Home /> : <DetailView route={route} />}
+                </main>
+                <Footer />
+              </div>
+            </ReducedMotionContext.Provider>
+          );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
