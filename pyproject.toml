@@ -1,6 +1,6 @@
 [project]
 name = "geo4cambodia"
-version = "0.3.2"
+version = "0.3.3"
 description = "Load, link, aggregate and build subnational development data for Cambodia across spatial scales (GeoDevelopment Observatory of Cambodia)"
 readme = "docs/python-package.md"
 license = {text = "MIT"}
@@ -48,6 +48,7 @@ analysis = [
     "matplotlib>=3.7",
     "seaborn>=0.12",
     "plotly>=5.15",
+    "folium>=0.12",            # interactive maps (GeoDataFrame.explore), as in Colab
     # Spatial analysis
     "contextily>=1.4",
     "rasterio>=1.3",
