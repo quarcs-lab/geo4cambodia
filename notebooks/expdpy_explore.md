@@ -63,8 +63,6 @@ df = ex.set_labels(df, df_def, set_panel=True)
 df_def
 ```
 
-+++
-
 ## 1. Districts: GDP per capita, 1990–2022
 
 ### Structure and summary
@@ -104,7 +102,7 @@ ex.explore_quantile_trend_plot(df, var="y").fig
 Average paths of four contrasting provinces: the capital, the tourism hub around Angkor, the north-western rice bowl, and the remote north-east.
 
 ```{code-cell}
-four = df[df["province"].isin(["Phnom Penh", "Siem Reap", "Battambang", "Ratanak Kiri"])]
+four = df[df["province"].isin(["Phnom Penh", "Siem Reap", "Battambang", "Ratanakiri"])]
 ex.explore_trend_plot_by_group(four, group_var="province", var="ln_y").fig
 ```
 
@@ -123,8 +121,6 @@ trans = ex.explore_transition_matrix(df, "y")
 print(trans.interpret())
 trans.fig
 ```
-
-+++
 
 ## 2. Provinces: lights, population, electricity-based GDP and PM2.5
 
@@ -176,8 +172,6 @@ print(wb.interpret())
 wb.fig
 ```
 
-+++
-
 ## 3. Global Data Lab regions: human development, 2013–2019
 
 ```{code-cell}
@@ -198,8 +192,6 @@ Which region-years stand out?
 ```{code-cell}
 ex.explore_ext_obs_table(hdi, var="HDI").gt
 ```
-
-+++
 
 ## Next steps
 

@@ -7,8 +7,8 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.6
 kernelspec:
-  name: python3
   display_name: Python 3
+  name: python3
 ---
 
 <a href="https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/districts202_gdppc_esda.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
@@ -24,27 +24,13 @@ colab:
 id: KaCeNNdwggMP
 outputId: bda9f7ac-739b-4857-f195-72575f9108e1
 ---
-# Adding necessary libraries to Google Colab environment
+# Install only what this environment lacks (Colab lacks most of these; a local `uv sync` has them all).
+# geo4cambodia loads the data of the observatory; splot brings esda and libpysal.
+import importlib.util
 
-# Installing the 'contextily' library for adding basemaps to plots
-!pip install contextily -q
-
-# Installing the 'splot' library for spatial data visualization
-!pip install splot -q
-
-# Installing additional libraries for spatial analysis and visualization
-!pip install rasterio -q  # Library for reading and writing raster data
-!pip install linearmodels==4.27 -q  # Library for linear models and instrumental variables
-!pip install mapclassify -q  # Library for choropleth mapping
-!pip install inequality -q  # Library for measuring economic inequality
-
-# Installing the 'mgwr' library for performing geographically weighted regression
-!pip install mgwr -q
-
-!pip install statsmodels -q
-
-# The geo4cambodia package loads the data of the observatory (installed locally by `uv sync`)
-!pip install geo4cambodia -q
+missing = [p for p in ("geo4cambodia", "contextily", "splot", "mapclassify") if importlib.util.find_spec(p) is None]
+if missing:
+    !pip install -q {" ".join(missing)}
 ```
 
 ```{code-cell}
@@ -54,19 +40,11 @@ outputId: bda9f7ac-739b-4857-f195-72575f9108e1
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable  # Function to create a new axis on a plot
 
 import seaborn as sns
 sns.set(style="darkgrid", context="paper", font_scale=1.02)  # Setting seaborn styles
 
-import glob
-import os
-import requests
-import zipfile
-from io import BytesIO
-
 import plotly.express as px
-import plotly.graph_objects as go
 
 # Importing libraries for spatial data and visualization
 import geopandas as gpd
@@ -76,42 +54,16 @@ import libpysal
 from libpysal import weights
 from libpysal.weights import Queen
 
-import rasterio  # Library for raster data processing
-from rasterio import plot as rioplot  # Function to plot raster data
-from rasterio.mask import mask  # Function for masking raster data using shapefile for zonal statistics
-
 # Exploratory Spatial Data Analysis (ESDA) tools
 import mapclassify as mc
 from mapclassify import FisherJenks
 import esda
 from esda.moran import Moran, Moran_Local
 
-
 # Spatial plotting tools
 import splot
-from splot.esda import moran_scatterplot, plot_moran, lisa_cluster, plot_local_autocorrelation
+from splot.esda import moran_scatterplot, plot_moran, lisa_cluster
 from splot.libpysal import plot_spatial_weights
-from splot.mapping import vba_choropleth
-
-# Library for inequality analysis
-import inequality
-from inequality.gini import Gini_Spatial
-from inequality.gini import Gini
-from inequality.theil import Theil
-# Statistical modeling
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-
-# Geographically Weighted Regression (GWR) and related utilities
-from mgwr.gwr import GWR, MGWR
-from mgwr.sel_bw import Sel_BW
-from mgwr.utils import shift_colormap, truncate_colormap
-
-# linearmodels library provides helps performing regressions
-#from linearmodels import PooledOLS  # Function to perform pooled OLS regression
-#from linearmodels import PanelOLS  # Function to perform OLS regression on panel data
-#from linearmodels import BetweenOLS  # Function to compute the between estimator of an OLS regression
-#from linearmodels.panel.results import compare  # Function to compare results of an OLS regression
 
 # Suppressing warnings for cleaner output
 import warnings
@@ -475,10 +427,10 @@ def visualize_spatial_association(gdf_INDICATOR, W, year_var, ax1, ax2):
     ax1.set_title(f"(a) Moran scatterplot (Moran's I = {MoranI_INDICATOR})")
     ax2.set_title(f"(b) Spatial clusters and outliers in {year} (p < 0.01)")
 
-# Create a single figure with 1x3 layout for all the years
+# Create a single figure with a 2x2 layout: one row per year
 fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 8))
 
-# Visualize spatial associations for different years, with each subplot in the 1x3 layout
+# Visualize spatial associations for different years, one row of the 2x2 layout each
 visualize_spatial_association(gdf_wide, Wqueen, 'trend400_ln_y2000', axes[0, 0], axes[0, 1])
 visualize_spatial_association(gdf_wide, Wqueen, 'trend400_ln_y2022', axes[1, 0], axes[1, 1])
 

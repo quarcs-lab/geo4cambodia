@@ -54,8 +54,6 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", message="Numba not installed")   # harmless: mapclassify falls back to pure Python
 ```
 
-+++
-
 ## 1. Do night-time lights track economic activity?
 
 Night-time lights are widely used as a proxy for economic activity where GDP statistics are scarce. We relate them to income twice:
@@ -116,7 +114,7 @@ print(income.interpret())
 income.etable
 ```
 
-**Reading the results.** Across regions (pooled and between), lights say almost nothing about income levels (R² ≈ 0). Within a region over time, income and lights rise together (FE ≈ 0.13). With seven years and no year effects, this again mixes regional dynamics with national growth. For ranking Cambodian regions by income, DMSP-like lights are a weak proxy.
+**Reading the results.** Across regions (pooled and between), lights say almost nothing about income levels (R² ≈ 0). Within a region over time, income and lights rise together (FE ≈ 0.13). With seven years and no year effects, this again mixes regional dynamics with national growth. For ranking Cambodian regions by income, DMSP-like lights are a weak proxy. A caution on the within estimate: the harmonized lights series switches from DMSP to simulated-VIIRS data around 2013–2014 (total lights more than triple from 2013 to 2014), so part of the within-region change in `lnNTL` is a sensor break rather than growth. Year effects, or starting in 2014, would remove it.
 
 +++
 

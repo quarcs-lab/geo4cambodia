@@ -31,9 +31,12 @@ import requests
 ```{code-cell}
 :id: WnfMt9O2YmWk
 
-# The geo4cambodia package loads any dataset of the observatory (installed locally by `uv sync`; needed in Colab).
+# The geo4cambodia package loads any dataset of the observatory (installed locally by `uv sync`; installed here in Colab).
 # Without the package: pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/district/gdppc.csv")
-!pip install geo4cambodia -q
+import importlib.util
+
+if importlib.util.find_spec("geo4cambodia") is None:
+    !pip install -q geo4cambodia
 ```
 
 ```{code-cell}
@@ -123,10 +126,10 @@ fig.show()
 
 ```{code-cell}
 ---
-id: vEIKjJnaafRG
 colab:
   base_uri: https://localhost:8080/
   height: 542
+id: vEIKjJnaafRG
 outputId: be4c0c5c-21dd-416c-92a3-cf643ac69ad5
 ---
 px.strip(df,
@@ -215,10 +218,4 @@ px.strip(df,
          hover_name= 'district',
          hover_data = ['province'],
          animation_frame= 'year')
-```
-
-```{code-cell}
-:id: xfsSspXZifzm
-
-
 ```

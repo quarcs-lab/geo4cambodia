@@ -11,15 +11,11 @@ kernelspec:
   name: python3
 ---
 
-+++ {"id": "view-in-github", "colab_type": "text"}
++++ {"colab_type": "text", "id": "view-in-github"}
 
 <a href="https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/hdi_ntl_esda.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 +++ {"id": "tPbPpRITIv3z"}
-
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1MtUkRi8Q27KPC67qJmD-c-lER6-47Jjx?usp=sharing)
-
 
 # **A geocomputational notebook to monitor the dynamics of regional development**
 
@@ -64,7 +60,6 @@ outputId: f181b0ba-0e36-4a7a-aabb-1f41ef5435ba
 from IPython.display import YouTubeVideo
 
 YouTubeVideo(id='1ScfqaCp2Ho', width=600, height=400, autoplay=False, controls=True)
-
 ```
 
 ```{code-cell}
@@ -105,26 +100,17 @@ The repository of images is available at https://doi.org/10.6084/m9.figshare.982
 
 ```{code-cell}
 ---
-id: T4mxke3PJL03
 colab:
   base_uri: https://localhost:8080/
+id: T4mxke3PJL03
 outputId: 6d08a5f0-8d9f-4514-8331-4b17948a6100
 ---
-# Adding necessary libraries to Google Colab environment
+# Install only what this environment lacks (Colab lacks the spatial libraries; a local `uv sync` has them all)
+import importlib.util
 
-# Installing the 'contextily' library for adding basemaps to plots
-!pip install contextily -q
-
-# Installing the 'splot' library for spatial data visualization
-!pip install splot -q
-
-# Installing additional libraries for spatial analysis and visualization
-!pip install rasterio -q  # Library for reading and writing raster data
-!pip install mapclassify -q  # Library for choropleth mapping
-!pip install inequality -q  # Library for measuring economic inequality
-
-# Installing the 'mgwr' library for performing geographically weighted regression
-!pip install mgwr -q
+missing = [p for p in ("contextily", "splot", "rasterio", "mapclassify", "inequality", "mgwr") if importlib.util.find_spec(p) is None]
+if missing:
+    !pip install -q {" ".join(missing)}
 ```
 
 ```{code-cell}
@@ -270,10 +256,10 @@ map
 
 ```{code-cell}
 ---
-id: TK4MBapCxWrq
 colab:
   base_uri: https://localhost:8080/
   height: 258
+id: TK4MBapCxWrq
 outputId: 7c2507c7-8154-4a7a-f872-801e2d89b862
 ---
 map.plot('shdi');
@@ -323,10 +309,10 @@ dataDefinitions  = pd.DataFrame(data, columns=column_names)
 
 ```{code-cell}
 ---
-id: Sc23Ld245J71
 colab:
   base_uri: https://localhost:8080/
   height: 896
+id: Sc23Ld245J71
 outputId: 526ef569-0d3c-46f2-cfba-df0caa253e44
 ---
 dataDefinitions
@@ -440,9 +426,6 @@ years = np.arange(startYear, endYear+1).astype(str)
 +++ {"id": "t1BQBA4s3qYb"}
 
 ## 3) Data processing, selection, and fitering
-
-
-
 
 ```{code-cell}
 :id: WzY_ychS3hG5
@@ -614,10 +597,10 @@ gdf_INDICATOR7.to_file("gdf_INDICATOR7.geojson", driver="GeoJSON")
 
 ```{code-cell}
 ---
-id: XnDc2E3nS7en
 colab:
   base_uri: https://localhost:8080/
   height: 805
+id: XnDc2E3nS7en
 outputId: 77c0c53b-9532-4419-aaeb-e4789c4453f1
 ---
 # Exploring data using the explore() function on the GeoDataFrame
@@ -642,10 +625,10 @@ gdf_INDICATOR1.explore(
 
 ```{code-cell}
 ---
-id: davYPzluIv37
 colab:
   base_uri: https://localhost:8080/
   height: 330
+id: davYPzluIv37
 outputId: a8cca561-b5b5-4407-e7a7-7562da873774
 ---
 gdf_INDICATOR1.describe().round(2)
@@ -1019,7 +1002,7 @@ px.line(
 :id: fD7-uCxr0TFo
 
 # Define the URL where the GeoJSON data is located
-dataURL = '/content/gdf_INDICATOR1.geojson'
+dataURL = 'gdf_INDICATOR1.geojson'
 
 # Read the GeoJSON file from the specified URL using GeoPandas
 # The resulting GeoDataFrame is assigned to the variable 'data'
@@ -1031,14 +1014,14 @@ geojson_dict = data.__geo_interface__
 
 ```{code-cell}
 ---
-id: sOdEXDGdUgFn
 colab:
   base_uri: https://localhost:8080/
   height: 617
+id: sOdEXDGdUgFn
 outputId: cc03f445-257a-403b-f781-3bc8a2ff5ef8
 ---
   # Plot with proper geojson and explicit color scale "viridis"
-  fig = px.choropleth_mapbox(
+  fig = px.choropleth_map(   # plotly >= 5.24 (choropleth_mapbox was removed in plotly 6)
       data_frame=data,
       geojson=geojson_dict,
       locations="id",
@@ -1046,7 +1029,7 @@ outputId: cc03f445-257a-403b-f781-3bc8a2ff5ef8
       hover_name = 'region',
       hover_data=['2019', '1990'],
       color_continuous_scale="RdBu_r",
-      mapbox_style="carto-positron",
+      map_style="carto-positron",
       zoom=5.5,
       center={"lat": data.geometry.centroid.y.mean(), "lon": data.geometry.centroid.x.mean()},
       opacity=0.6
@@ -1661,34 +1644,26 @@ colab:
 id: 1V0xCc89hmc2
 outputId: d78b19eb-0da4-459d-dafd-8cf5bf2a1bea
 ---
-# Define the URL of the zip file
-url = "https://figshare.com/ndownloader/articles/9828827/versions/7"
-
-# Send an HTTP GET request to the URL
-response = requests.get(url)
-
-# Check if the request was successful (status code 200)
-if response.status_code == 200:
-    # Read the content of the response as bytes
-    zip_content = BytesIO(response.content)
-
-    # Extract the zip file
-    with zipfile.ZipFile(zip_content, 'r') as zip_ref:
-        # You can list the files in the zip file if needed
-        zip_ref.printdir()
-
-        # Extract the files to a directory (e.g., 'my_extracted_files/')
-        zip_ref.extractall('my_extracted_files/')
-
-    print("Zip file has been successfully extracted.")
-else:
-    print("Failed to retrieve the zip file. Check the URL and your internet connection.")
+# Download only the rasters of the years analysed, one file at a time, through the figshare API.
+# (The whole archive is 1.2 GB, and figshare prepares it asynchronously: the zip URL first answers
+# "202 Accepted" with no content, so downloading it in one request fails.)
+api = "https://api.figshare.com/v2/articles/9828827/versions/7"
+os.makedirs("my_extracted_files", exist_ok=True)
+for f in requests.get(api, timeout=60).json()["files"]:
+    if any(f["name"].startswith(f"Harmonized_DN_NTL_{year}_") for year in range(startYear, endYear + 1)):
+        path = os.path.join("my_extracted_files", f["name"])
+        if not os.path.exists(path):
+            response = requests.get(f["download_url"], timeout=600)
+            response.raise_for_status()
+            with open(path, "wb") as out:
+                out.write(response.content)
+        print("Ready:", f["name"])
 ```
 
 ```{code-cell}
 :id: e1ntQcGNmjZo
 
-RASTER_DIRECTORY = "/content/my_extracted_files"
+RASTER_DIRECTORY = "my_extracted_files"
 ```
 
 ```{code-cell}
@@ -1703,13 +1678,13 @@ def load_raster(year):
 ```{code-cell}
 :id: FKkbABcwkMh3
 
-MAPurl = "/content/gdf.geojson"
+MAPurl = "gdf.geojson"
 ```
 
 ```{code-cell}
 :id: 14L_1332kMcg
 
-# The boundaries of states of India are stored in gdf_india36.geojson. The file is loaded using the read_file function from geopandas
+# The boundaries of Cambodia's GDL regions are stored in gdf.geojson. The file is loaded using the read_file function from geopandas
 polygonsFile = gpd.read_file(MAPurl)
 
 # The bounding box of the vector file previously loaded is extracted using the total_bounds property
@@ -1721,7 +1696,7 @@ polygonsFile_bbox = polygonsFile.total_bounds
 
 # The raster file corresponding to the start year is loaded using the open function in rasterio
 rasterFileFirst = load_raster(startYear)
-# rasterFileFirst = rasterio.open("/content/my_extracted_files/Harmonized_DN_NTL_"+str(startYear)+"_simVIIRS.tif")
+# rasterFileFirst = rasterio.open("my_extracted_files/Harmonized_DN_NTL_"+str(startYear)+"_simVIIRS.tif")
 
 # The bounding box of the vector data is used to crop the raster file
 rasterFile_windowFirst  = rasterFileFirst.window(*polygonsFile_bbox)
@@ -1839,7 +1814,8 @@ df_NTL_HDI["GNI"] = df_NTL_HDI["gnic"]*df_NTL_HDI["pop"]
 ```{code-cell}
 :id: LF7en2Jxhrd9
 
-df_NTL_HDI["lnGNIpc"] = np.log(df_NTL_HDI["gnic"]*100000000/df_NTL_HDI["pop"])
+# gnic is already per capita: its log is log GNI per capita
+df_NTL_HDI["lnGNIpc"] = np.log(df_NTL_HDI["gnic"])
 ```
 
 ```{code-cell}
@@ -1970,7 +1946,7 @@ outputId: dd46e7ec-add7-4e2a-f05d-d4ff316bdb08
 # A figure is initialized with 2 plots.
 fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(12,8))
 
-# The nighttime lights around India for the start year is added
+# The night-time lights around Cambodia in the start year are added
 im1 = ax1.imshow(rasterFile_clippedFirst, extent=polygonsFile_bbox[[0,2,1,3]], vmin=0, vmax=63, cmap="magma")
 # State boundaries are overlayed
 polygonsFile.boundary.plot(ax=ax1, color="skyblue", linewidth = 0.4)
@@ -1987,7 +1963,7 @@ ax1.set_ylabel("Latitude")
 ax1.set_title("(a) Nighttime lights in " + str(startYear))
 ax1.set_axis_off()
 
-# The nighttime lights around India for the last year is plotted
+# The night-time lights around Cambodia in the last year are plotted
 im2 = ax2.imshow(rasterFile_clippedLast, extent=polygonsFile_bbox[[0,2,1,3]], vmin=0, vmax=63, cmap="magma")
 # State boundaries are overlayed
 polygonsFile.boundary.plot(ax=ax2, color="skyblue", linewidth = 0.4)
@@ -2230,8 +2206,13 @@ colab:
 id: W5AR3we3iv9b
 outputId: 8b30b6a5-dd42-4931-8274-d1ae4c9f524d
 ---
-ax = gdf_lnNTLpc[years].apply(gini_by_col, axis=0).to_frame("Gini_lnNTLpc").plot()
-ax.set_ylim(0, 0.20)
+# Inequality is measured on levels: night-time lights per person (a Gini of logs is not an inequality index)
+df_NTL_HDI["NTLpc"] = df_NTL_HDI["NTL"] / df_NTL_HDI["pop"]
+dfWIDE_NTLpc = df_NTL_HDI.pivot_table(index=["GDLcode", "region"], columns="year", values="NTLpc").reset_index(drop=False)
+dfWIDE_NTLpc.columns = dfWIDE_NTLpc.columns.astype(str)
+gdf_NTLpc = pd.merge(polygonsFile, dfWIDE_NTLpc, on=["GDLcode", "region"], how="inner")
+ax = gdf_NTLpc[years].apply(gini_by_col, axis=0).to_frame("Gini_NTLpc").plot()
+ax.set_ylim(0, 0.70)
 plt.show()
 ```
 
@@ -2243,8 +2224,12 @@ colab:
 id: zfphiTKhj4xN
 outputId: f21ffc18-fb4a-4cf2-9c56-749a4c0ba76c
 ---
-ax = gdf_lnGNIpc[years].apply(gini_by_col, axis=0).to_frame("Gini_lnGNIpc").plot()
-ax.set_ylim(0, 0.20)
+# GNI per capita in levels
+dfWIDE_GNIpc = df_NTL_HDI.pivot_table(index=["GDLcode", "region"], columns="year", values="gnic").reset_index(drop=False)
+dfWIDE_GNIpc.columns = dfWIDE_GNIpc.columns.astype(str)
+gdf_GNIpc = pd.merge(polygonsFile, dfWIDE_GNIpc, on=["GDLcode", "region"], how="inner")
+ax = gdf_GNIpc[years].apply(gini_by_col, axis=0).to_frame("Gini_GNIpc").plot()
+ax.set_ylim(0, 0.70)
 plt.show()
 ```
 

@@ -44,8 +44,6 @@ import geometrics as gm
 warnings.filterwarnings("ignore", message="Numba not installed")    # harmless: mapclassify falls back to pure Python
 ```
 
-+++
-
 ## 1. From geo4cambodia to geometrics in one line
 
 geometrics takes three inputs: `gdf` (geometries keyed by an entity id), `df` (a long panel) and `df_dict` (a data dictionary with labels and the role of each column). `geo.for_geometrics()` builds all three from any dataset of the observatory, using its metadata for the labels.
@@ -67,8 +65,6 @@ w = gm.make_weights(gdf, method="queen")
 gm.explore_connectivity_map(gdf, w=w).fig
 ```
 
-+++
-
 ## 2. Explore: where is income high, and does it cluster?
 
 ```{code-cell}
@@ -78,7 +74,7 @@ gm.explore_choropleth_map(df, "y", gdf=gdf, period=2022).fig
 How has the distribution of districts changed? Relative to the national average, in four years:
 
 ```{code-cell}
-gm.explore_distribution_over_time(df, "ln_y", relative=True, periods=[1990, 2000, 2010, 2022]).fig
+gm.explore_distribution_over_time(df, "y", relative=True, periods=[1990, 2000, 2010, 2022]).fig
 ```
 
 **Spatial autocorrelation.** Moran's I measures whether rich districts sit next to rich districts:
@@ -101,11 +97,9 @@ print(lisa.interpret())
 lisa.fig
 ```
 
-+++
-
 ## 3. Analyse: convergence
 
-geometrics' convergence functions take a variable **in levels** (`"y"`, GDP per capita) and work with its logarithm internally. Pass `"y"`, not `"ln_y"`, or the data would be logged twice.
+geometrics' β- and σ-convergence functions take a variable **in levels** (`"y"`, GDP per capita) and work with its logarithm internally. Pass `"y"`, not `"ln_y"`, or the data would be logged twice. Convergence clubs are the exception: they use the variable as supplied, so they take the log (`"ln_y"`).
 
 **β-convergence.** Did poorer districts in 1990 grow faster? First a cross-section OLS, then a spatial Durbin model, which lets growth depend on the neighbours' growth and initial income.
 
@@ -128,15 +122,13 @@ print(sigma.interpret())
 sigma.fig
 ```
 
-**Convergence clubs** (Phillips and Sul). If the whole country does not converge to one path, groups of districts may converge to their own paths:
+**Convergence clubs** (Phillips and Sul). If the whole country does not converge to one path, groups of districts may converge to their own paths. This test takes log GDP per capita:
 
 ```{code-cell}
-clubs = gm.analyze_convergence_clubs(df, "y", gdf=gdf)
+clubs = gm.analyze_convergence_clubs(df, "ln_y", gdf=gdf)
 print(clubs.interpret())
 clubs.fig
 ```
-
-+++
 
 ## 4. Analyse: inequality
 
@@ -158,8 +150,6 @@ print(theil.interpret())
 theil.fig
 ```
 
-+++
-
 ## 5. Learn the concepts
 
 geometrics explains every method in plain language:
@@ -168,11 +158,9 @@ geometrics explains every method in plain language:
 gm.explain("beta_convergence")
 ```
 
-+++
-
 ## 6. Your turn
 
-- Repeat the analysis with a Hodrick–Prescott trend (`"trend400_ln_y"`) to remove short-run fluctuations.
-- Analyse another dataset: `geo.for_geometrics("hdi")` (17 GDL regions), or `geo.for_geometrics("env")` (25 provinces) for night-time lights.
+- Repeat the analysis with a Hodrick–Prescott trend to remove short-run fluctuations. `"trend400_ln_y"` is already in logs: pass it as it is to the clubs test, and as levels (`df["trend400_y"] = np.exp(df["trend400_ln_y"])`) to β- and σ-convergence.
+- Analyse another dataset: `geo.for_geometrics("hdi")` (17 GDL regions), or `geo.for_geometrics("env")` (25 provinces) for night-time lights. Some provinces record zero lights in early years, so use years with positive values (zeros end in 2014, so e.g. `years=(2015, 2023)`) before taking logs.
 - Analyse **your own indicator**: build a panel with `geo.link()`, `geo.zonal()` or `geo.combine()` (see the [quickstart](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/geo4cambodia_quickstart.ipynb)), then pass it on with `geo.for_geometrics(my_panel, labels={"my_var": "My indicator"})`.
 - Compare spatial weights: `gm.make_weights(gdf, method="knn", k=6)`.
