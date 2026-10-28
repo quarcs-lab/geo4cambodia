@@ -12,6 +12,7 @@ authors:
   - family-names: Poortinga
     given-names: Ate
     affiliation: "Spatial Informatics Group"
+version: 0.3.3
 date-released: 2026-10-26
 url: "https://quarcs-lab.github.io/geo4cambodia/"
 repository-code: "https://github.com/quarcs-lab/geo4cambodia"

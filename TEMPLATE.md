@@ -7,14 +7,14 @@ geo4cambodia is the reference implementation of a family of **geo4<country>** re
 - **metadata:** Frictionless datapackages with `geo:` properties
 - **the same package API:** `load`, `link`, `zonal`, `aggregate`, `overlay`, `combine`, `save`, `for_expdpy`, `for_geometrics`
 
-How the database works is explained in [`docs/data-infrastructure.md`](docs/data-infrastructure.md). This page explains how to start a new project.
+How the database works is explained in [`docs/data-infrastructure.md`](docs/data-infrastructure.md). This page explains how to start a new project. The examples in `docs/data-infrastructure.md` and `docs/publishing.md` use geo4cambodia's own datasets (`gdppc`, `env`, `hdi`) and IDs; adapt them once your project has data.
 
 ## What is generic and what is project-specific
 
 | Generic (shared by every project, copied as is) | Project-specific (rewritten for each project) |
 | --- | --- |
 | `src/<package>/`: `project.py`, `store.py`, `scales.py`, `metadata.py`, `io.py`, `create.py`, `bridge.py`, `aggregate.py`, `validate.py`, `cli.py` | `project.yaml`: name, package, repository, country codes, projection |
-| `src/<package>/build/`: `common.py` (writing data, docs and geo/), `gadm.py` (geography from GADM), `_template.py` | `src/<package>/build/geo.py` and one builder per dataset; `DATASETS` in `build/__init__.py` |
+| `src/<package>/build/`: `common.py` (writing data, docs and geo/), `gadm.py` (geography from GADM), `_template.py`, `_geo_template.py` | `src/<package>/build/geo.py` and one builder per dataset; `DATASETS` in `build/__init__.py` |
 | `tests/test_core.py` | `tests/test_project.py` |
 | `docs/data-infrastructure.md`, `docs/publishing.md`, `CONTRIBUTING_DATA.md`, `TEMPLATE.md`, `scripts/` | `geo/scales.yaml`, `raw/`, `metadata/`, `docs/python-package.md`, `README.md`, `CLAUDE.md` |
 | | Generated: `geo/units.*`, `geo/boundaries/`, `geo/crosswalks/`, `data/`, `docs/datasets/`, the catalog CSV |

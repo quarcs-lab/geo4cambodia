@@ -43,7 +43,7 @@ Every dataset is a **panel**: one row per spatial unit (`geo_id`) and `year`, wi
 | `mean`, `min`, `max` | unweighted summaries (use with care) | — |
 | `none` | values that cannot be aggregated without extra data | logs, HP trends, per-capita values without population |
 
-`geo.aggregate()` and `geo.combine()` use these rules to move data up the hierarchy. They refuse variables marked `none` unless the user passes an explicit rule.
+`geo.aggregate()` and `geo.combine()` use these rules to move data up the hierarchy. `aggregate()` raises an error for `none` variables requested explicitly and otherwise leaves them out with a warning; `combine()` drops them with a warning. An explicit rule (`rules=`) keeps them.
 
 ## Add a new spatial scale
 

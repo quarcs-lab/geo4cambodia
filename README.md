@@ -26,7 +26,7 @@ It serves:
 ## 🚀 Quickstart
 
 ```python
-!pip install -q geo4cambodia mapclassify             # every snippet runs as-is in Google Colab
+!pip install -q geo4cambodia mapclassify             # every snippet runs in Google Colab
 import geo4cambodia as geo
 
 geo.datasets()                                       # what is available, at which scale and years
@@ -43,7 +43,7 @@ All data share one spatial backbone. Every unit at every scale has a **geo ID** 
 | Dataset | Title | Scale | Period | Files |
 | --- | --- | --- | --- | --- |
 | [`gdppc`](docs/datasets/gdppc.md) | Estimated GDP per capita | 202 districts | 1990–2022 | [`data/district/`](data/district/) |
-| [`env`](docs/datasets/env.md) | Population, VIIRS-like lights, electricity-based GDP, NPP, PM2.5 | 25 provinces | 1986–2023 | [`data/province/`](data/province/) |
+| [`env`](docs/datasets/env.md) | Population, VIIRS-like lights, electricity-based GDP, NPP, PM2.5 | 25 provinces | 1990–2023 | [`data/province/`](data/province/) |
 | [`hdi`](docs/datasets/hdi.md) | Human development, income, DMSP-like lights, population | 17 GDL regions | 2013–2019 | [`data/gdl/`](data/gdl/) |
 | [`geo`](geo/) | Units, names, boundaries and crosswalks for every scale | 245 units | — | [`geo/`](geo/) |
 
@@ -189,7 +189,7 @@ python3 -m http.server 8000      # preview the website at http://localhost:8000
 
 ### Releasing the package
 
-Bump the version in `pyproject.toml` and `src/geo4cambodia/__init__.py`, commit, and push a matching tag (`git tag v0.3.1 && git push origin v0.3.1`). The [release workflow](.github/workflows/release.yml) publishes it to PyPI. Details are in [`docs/publishing.md`](docs/publishing.md).
+Bump the version in `pyproject.toml` and `src/geo4cambodia/__init__.py`, commit, and push a matching tag (`git tag vX.Y.Z && git push origin vX.Y.Z`). The [release workflow](.github/workflows/release.yml) publishes it to PyPI. Details are in [`docs/publishing.md`](docs/publishing.md).
 
 ### A template for other countries
 

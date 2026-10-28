@@ -2,7 +2,7 @@
 
 **Subnational development data for Cambodia, ready to analyse, at every spatial scale.**
 
-`geo4cambodia` is the Python package of the [GeoDevelopment Observatory of Cambodia](https://quarcs-lab.github.io/geo4cambodia/). It loads the observatory's indicators (district GDP per capita, province population, night-time lights, PM2.5, Global Data Lab HDI...) as tidy panels, with boundaries for every scale. It also lets you **build your own indicators**: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab: every example below runs as-is in a new Colab notebook.
+`geo4cambodia` is the Python package of the [GeoDevelopment Observatory of Cambodia](https://quarcs-lab.github.io/geo4cambodia/). It loads the observatory's indicators (district GDP per capita, province population, night-time lights, PM2.5, Global Data Lab HDI...) as tidy panels, with boundaries for every scale. It also lets you **build your own indicators**: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab: every example below runs in a new Colab notebook (replace the placeholder files, such as your own table or raster, with yours).
 
 ```python
 !pip install -q geo4cambodia mapclassify           # mapclassify: for scheme="quantiles"
@@ -96,7 +96,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main
 In a Google Colab cell:
 
 ```python
-!pip install -q geo4cambodia                    # core: pandas, geopandas, pyarrow, requests, pyyaml (Colab has them)
+!pip install -q geo4cambodia                    # core: pandas, numpy, geopandas, pyarrow, requests, pyyaml (Colab has them)
 !pip install -q "geo4cambodia[raster]"          # + rasterio, for zonal()
 !pip install -q git+https://github.com/quarcs-lab/geo4cambodia   # development version
 ```

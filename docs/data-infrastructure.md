@@ -125,7 +125,7 @@ Each table is a **long panel**: one row per unit and year, sorted by `geo_id` an
 | Dataset | Scale | Years | Variables |
 | --- | --- | --- | --- |
 | `gdppc` | district (202) | 1990–2022 | GDP per capita, its log and HP trends |
-| `env` | province (25) | 1986–2023 | population, VIIRS-like lights, electricity-based GDP, NPP, PM2.5 |
+| `env` | province (25) | 1990–2023 | population, VIIRS-like lights, electricity-based GDP, NPP, PM2.5 |
 | `hdi` | gdl (17) | 2013–2019 | HDI, GNI, population, DMSP-like lights |
 
 ### Metadata
@@ -156,13 +156,13 @@ Each table is a **long panel**: one row per unit and year, sorted by `geo_id` an
 | `mean`, `min`, `max` | unweighted summaries (use with care) | — |
 | `none` | values that cannot be aggregated without more data | logs, HP trends, per-capita values without population |
 
-`aggregate()` refuses `none` variables unless you give a rule. `overlay()` needs you to say which variables are *extensive* (totals, split by area) and which are *intensive* (rates, area-weighted means).
+`aggregate()` raises an error for `none` variables you ask for explicitly and otherwise leaves them out with a warning; `combine()` drops them with a warning. Pass `rules=` to keep them. `overlay()` needs you to say which variables are *extensive* (totals, split by area) and which are *intensive* (rates, area-weighted means).
 
 ---
 
 ## 5. Loading data: two ways
 
-All code below assumes **Google Colab**: each block starts with the line that installs what Colab lacks, so it runs as-is in a new notebook.
+All code below assumes **Google Colab**: each block starts with the line that installs what Colab lacks, so it runs in a new notebook once you replace placeholder inputs (your own tables, rasters or zones).
 
 ### A. Without the package
 
@@ -234,7 +234,7 @@ mine = pd.DataFrame({
     "year": [2020, 2020, 2020],
     "schools": [812, 640, 1033],
 })
-mine = geo.link(mine, scale="province", on="Province")   # adds geo_id: KH-01, KH-16, KH-17
+mine = geo.link(mine, scale="province", on="Province")   # adds geo_id: KH-01, KH-16, KH-21
 geo.check(mine, scale="province")                         # [] means it is a valid panel
 ```
 

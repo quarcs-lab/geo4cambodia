@@ -22,4 +22,4 @@ uv run jupyter lab                        # open notebooks
 uv run jupytext --sync notebooks/*.ipynb  # keep .ipynb and .md in sync after editing
 ```
 
-In Colab, every notebook installs what it needs (`geo4cambodia`, `expdpy`, `geometrics`, ...) only if it is missing. The data are read from this repository through the package, or as plain URLs.
+In Colab, every notebook installs what it needs (`geo4cambodia`, `expdpy`, `geometrics`, ...) only if it is missing. The data are read from this repository through the package, or as plain URLs, except in `hdi_ntl_esda`, which reads its original sources.

@@ -101,7 +101,7 @@ Every unit has one **geo ID** (`geo_id`). Administrative IDs follow the GADM 4.1
 | --- | --- | --- | --- | --- |
 | `country` | 1 | `KH` | — | — |
 | `gdl` (Global Data Lab regions, unions of provinces) | 17 | `KH-GDL-02` | `GDLcode` | `hdi` |
-| `province` | 25 | `KH-16` | `gid` (GADM), `shapeISO`, `shapeID` (geoBoundaries) | `env` |
+| `province` | 25 | `KH-16` | `gid` (GADM), `shapeISO`, `shapeID` (geoBoundaries), `GDLcode` | `env` |
 | `district` | 202 | `KH-16-01` | `gid` (GADM `GID_2`) | `gdppc` |
 | `commune`, `grid10k` | planned | `KH-16-01-01`, `KH-G10K-r012c034` | — | — |
 
@@ -113,7 +113,7 @@ Every unit has one **geo ID** (`geo_id`). Administrative IDs follow the GADM 4.1
 ## Loading data and building indicators
 
 ```python
-!pip install -q geo4cambodia                        # Google Colab
+!pip install -q "geo4cambodia[raster]"             # Google Colab ([raster] for geo.zonal)
 import geo4cambodia as geo
 geo.datasets(); geo.dictionary("gdppc")             # catalog and variables
 df  = geo.load("gdppc")                             # panel: geo_id, year, variables
@@ -126,7 +126,7 @@ geo.overlay(df_2020, grid_gdf, extensive=["pop"], id_col="cell")    # non-nested
 mine = geo.link(table, scale="province", on="Province")             # names/codes -> geo_id
 geo.zonal("raster.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 geo.save(panel, "name", scale="province", directory="my_data", variables={...})
-gdf, df, df_dict = geo.for_geometrics("gdppc")                      # for geometrics: pass LEVELS ("y"), it logs internally
+gdf, df, df_dict = geo.for_geometrics("gdppc")                      # geometrics: LEVELS ("y") for beta/sigma convergence (logged internally); LOGS ("ln_y") for convergence clubs
 df, df_def = geo.for_expdpy("gdppc", groups=["province"])           # for expdpy: analyses variables as given ("ln_y")
 ```
 

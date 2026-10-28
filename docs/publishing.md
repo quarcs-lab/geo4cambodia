@@ -14,7 +14,7 @@ The package is built with [hatchling](https://hatch.pypa.io/) and published with
 
 ## First release (one-time setup)
 
-1. **Check the name is free:** <https://pypi.org/project/geo4cambodia/> should return "Not Found" (it did on 2026-10-28).
+1. **Check the name is free:** <https://pypi.org/project/geo4cambodia/> should return "Not Found" (done for geo4cambodia, first released on 2026-10-28; a new project checks its own name).
 2. **Choose how to authenticate.** Use one of the two options below.
    - **Option A: an API token from your account (simplest).** On PyPI go to *Account settings → API tokens → Add API token*. Use scope "Entire account" for the very first upload, then replace it with a token scoped to `geo4cambodia`.
    - **Option B: Trusted Publishing from GitHub Actions (no token to store; recommended once it works).** Your geometrics package already uses it.
@@ -30,19 +30,19 @@ The package is built with [hatchling](https://hatch.pypa.io/) and published with
 # 1. Make sure everything passes
 uv run geo4cambodia build && uv run geo4cambodia validate && uv run pytest
 
-# 2. Bump the version in pyproject.toml and src/geo4cambodia/__init__.py (e.g. 0.3.0 -> 0.3.1)
+# 2. Bump the version in pyproject.toml and src/geo4cambodia/__init__.py (e.g. 0.3.2 -> 0.3.3)
 #    Patch: fixes. Minor: new datasets or functions. Major: renamed IDs, columns or functions.
 
 # 3. Build and inspect
-rm -rf dist && uv build                       # dist/geo4cambodia-0.3.1.tar.gz and -py3-none-any.whl
+rm -rf dist && uv build                       # dist/geo4cambodia-X.Y.Z.tar.gz and -py3-none-any.whl
 unzip -l dist/*.whl                           # must list geo4cambodia/project.yaml and no data files
 
 # 4. Test the wheel in a clean environment, outside the repository
 cd /tmp && uv venv t && uv pip install -p t ~/path/to/geo4cambodia/dist/*.whl
 t/bin/python -c "import geo4cambodia as geo; print(geo.load('gdppc').shape)"
 
-# 5. Commit, tag and push (the tag also freezes the data: geo.load(..., ref="v0.3.1"))
-git commit -am "Release 0.3.1" && git tag v0.3.1 && git push origin main --tags
+# 5. Commit, tag and push (the tag also freezes the data: geo.load(..., ref="vX.Y.Z"))
+git commit -am "Release X.Y.Z" && git tag vX.Y.Z && git push origin main --tags
 
 # 6a. Option A: publish from your computer
 uv publish --token pypi-XXXXXXXX              # or set UV_PUBLISH_TOKEN
@@ -59,7 +59,7 @@ geo.load("gdppc", years=2022, geometry=True).plot(column="y")
 
 ## Trusted Publishing workflow (option B)
 
-The workflow is [`.github/workflows/release.yml`](../.github/workflows/release.yml). It runs only when you push a tag such as `v0.3.1`, and:
+The workflow is [`.github/workflows/release.yml`](../.github/workflows/release.yml). It runs only when you push a tag such as `vX.Y.Z`, and:
 
 1. checks that the tag matches `version` in `pyproject.toml` (a mismatch stops the release)
 2. builds the sdist and the wheel with `uv build`
