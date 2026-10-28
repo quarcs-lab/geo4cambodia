@@ -150,11 +150,11 @@
       .nav-link-underline:hover::after, .nav-link-underline.active::after { width: 100%; }
       .contributor-avatar { transition: transform .3s ease, box-shadow .3s ease; }
       .contributor-avatar:hover { transform: scale(1.05); box-shadow: 0 10px 25px -5px rgba(0,0,0,.5); }
-      @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-      .typing-cursor { animation: blink 1s step-end infinite; }
-      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-      .float-slow { animation: float 8s ease-in-out infinite; }
-      .float-slower { animation: float 12s ease-in-out infinite; }
+      @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      .marquee-track { width: max-content; animation: marquee 60s linear infinite; }
+      @keyframes cue { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+      .cue-bounce { animation: cue 2.2s ease-in-out infinite; }
+      .hero-globe canvas { outline: none; }
       :focus-visible { outline: 2px solid #7cc4ff; outline-offset: 2px; border-radius: 4px; }
       .prose-gdo p { margin-bottom: 1rem; line-height: 1.75; }
       details > summary { list-style: none; cursor: pointer; }
@@ -164,7 +164,7 @@
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-        .float-slow, .float-slower, .typing-cursor { animation: none !important; }
+        .marquee-track, .cue-bounce { animation: none !important; }
       }
     </style>
 </head>
@@ -200,6 +200,7 @@
         const RAW_URL = 'https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/';
         const COLAB_URL = 'https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/';
         const DEFAULT_TITLE = 'GeoDevelopment Observatory of Cambodia | GDO-Cambodia';
+        const GLOBE_JS_URL = 'https://unpkg.com/globe.gl@2.46.2/dist/globe.gl.min.js';
 
         // ====================================================================
         // Icons (inline SVG, Lucide style)
@@ -237,6 +238,11 @@
         const Mail = (p) => (<IconWrapper {...p}><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></IconWrapper>);
         const Users = (p) => (<IconWrapper {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></IconWrapper>);
         const MessageCircle = (p) => (<IconWrapper {...p}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></IconWrapper>);
+        const Pause = (p) => (<IconWrapper {...p}><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></IconWrapper>);
+        const Plus = (p) => (<IconWrapper {...p}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></IconWrapper>);
+        const Minus = (p) => (<IconWrapper {...p}><line x1="5" y1="12" x2="19" y2="12" /></IconWrapper>);
+        const ChevronLeft = (p) => (<IconWrapper {...p}><polyline points="15 18 9 12 15 6" /></IconWrapper>);
+        const ArrowDown = (p) => (<IconWrapper {...p}><line x1="12" y1="5" x2="12" y2="19" /><polyline points="19 12 12 19 5 12" /></IconWrapper>);
         const Satellite = (p) => (<IconWrapper {...p}><path d="M13 7 9 3 5 7l4 4" /><path d="m17 11 4 4-4 4-4-4" /><path d="m8 12 4 4 6-6-4-4Z" /><path d="m16 8 3-3" /><path d="M9 21a6 6 0 0 0-6-6" /></IconWrapper>);
         const Headphones = (p) => (<IconWrapper {...p}><path d="M3 18v-6a9 9 0 0 1 18 0v6" /><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" /></IconWrapper>);
         const Presentation = (p) => (<IconWrapper {...p}><path d="M2 3h20" /><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /><path d="m7 21 5-5 5 5" /></IconWrapper>);
@@ -299,29 +305,6 @@
             return () => observers.forEach((o) => o.disconnect());
           }, [enabled]);
           return activeId;
-        };
-
-        const useTypingEffect = (phrases, disabled, typingSpeed = 80, deletingSpeed = 40, pauseDuration = 2000) => {
-          const [text, setText] = useState('');
-          const [phraseIndex, setPhraseIndex] = useState(0);
-          const [isDeleting, setIsDeleting] = useState(false);
-          useEffect(() => {
-            if (disabled) return;
-            const currentPhrase = phrases[phraseIndex];
-            let timeout;
-            if (!isDeleting && text === currentPhrase) {
-              timeout = setTimeout(() => setIsDeleting(true), pauseDuration);
-            } else if (isDeleting && text === '') {
-              setIsDeleting(false);
-              setPhraseIndex((prev) => (prev + 1) % phrases.length);
-            } else {
-              timeout = setTimeout(() => {
-                setText(currentPhrase.substring(0, text.length + (isDeleting ? -1 : 1)));
-              }, isDeleting ? deletingSpeed : typingSpeed);
-            }
-            return () => clearTimeout(timeout);
-          }, [text, isDeleting, phraseIndex, phrases, disabled]);
-          return disabled ? phrases.join(', ') : text;
         };
 
         const useCopy = () => {
@@ -789,9 +772,9 @@ twoway scatter HDI lnNTL`,
         };
 
         const CONTACTS = [
-          { name: 'Carlos Mendez', email: 'carlos.mendez.n9@f.mail.nagoya-u.ac.jp' },
-          { name: 'Theara Khoun', email: 'theara.khoun@undp.org' },
-          { name: 'Ate Poortinga', email: 'apoortinga@sig-gis.com' },
+          { name: 'Carlos Mendez', email: 'carlos.mendez.n9 [at] f.mail.nagoya-u.ac.jp' },
+          { name: 'Theara Khoun', email: 'theara.khoun [at] undp.org' },
+          { name: 'Ate Poortinga', email: 'apoortinga [at] sig-gis.com' },
         ];
 
         const CITATION_APA = 'Mendez, C., Khoun, T., & Poortinga, A. (2026). GeoDevelopment Observatory of Cambodia. https://quarcs-lab.github.io/geo4cambodia/';
@@ -1083,46 +1066,249 @@ twoway scatter HDI lnNTL`,
         // ====================================================================
         // Landing page sections
         // ====================================================================
+        // Night-Earth globe (globe.gl), loaded on demand so it never blocks first paint
+        const HERO_CITIES = [
+          { id: 'phnom-penh', name: 'Phnom Penh', lat: 11.5564, lng: 104.9282 },
+          { id: 'siem-reap', name: 'Siem Reap', lat: 13.3633, lng: 103.8564 },
+          { id: 'battambang', name: 'Battambang', lat: 13.0957, lng: 103.2022 },
+          { id: 'sihanoukville', name: 'Sihanoukville', lat: 10.6093, lng: 103.5296 },
+        ];
+        const HERO_THEMES = ['Measure regional development', 'Explore with open tools', 'Turn evidence into insight'];
+        const GLOBE_ALT = { intro: 2.6, overview: 0.9, city: 0.5, min: 0.3, max: 2.6 };
+
+        const loadScript = (() => {
+          const cache = {};
+          return (src) => cache[src] || (cache[src] = new Promise((resolve, reject) => {
+            const el = document.createElement('script');
+            el.src = src; el.async = true; el.crossOrigin = 'anonymous';
+            el.onload = resolve;
+            el.onerror = () => { delete cache[src]; reject(new Error(`Failed to load ${src}`)); };
+            document.head.appendChild(el);
+          }));
+        })();
+
+        const hasWebGL = () => {
+          try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
+          catch (e) { return false; }
+        };
+        const isSmallScreen = () => window.matchMedia('(max-width: 767px)').matches;
+        const formatCoord = (lat, lng) => `${Math.abs(lat).toFixed(2)}° ${lat >= 0 ? 'N' : 'S'}  ${Math.abs(lng).toFixed(2)}° ${lng >= 0 ? 'E' : 'W'}`;
+        const nearestCity = (lat, lng) => {
+          let best = null, bestDist = 0.6;
+          HERO_CITIES.forEach((c) => { const d = Math.hypot(c.lat - lat, c.lng - lng); if (d < bestDist) { best = c; bestDist = d; } });
+          return best;
+        };
+
+        const useNightGlobe = (containerRef, enabled, handlers) => {
+          const worldRef = useRef(null);
+          const handlersRef = useRef(handlers);
+          handlersRef.current = handlers;
+          useEffect(() => {
+            if (!enabled) return undefined;
+            const el = containerRef.current;
+            let world = null, ro = null, moveTimer = 0, cancelled = false;
+            const reportMove = () => {
+              moveTimer = 0;
+              const { lat, lng } = world.pointOfView();
+              handlersRef.current.onMove(lat, lng);
+            };
+            Promise.all([loadScript(GLOBE_JS_URL), fetch('maps/cambodia-outline.geojson').then((r) => r.json())])
+              .then(([, outline]) => {
+                if (cancelled || !el || typeof window.Globe !== 'function') throw new Error('Globe unavailable');
+                world = new window.Globe(el, { animateIn: false })
+                  .width(el.clientWidth).height(el.clientHeight)
+                  .backgroundColor('rgba(0,0,0,0)')
+                  .globeImageUrl('images/hero-globe-night.webp')
+                  .showAtmosphere(true).atmosphereColor('#7cc4ff').atmosphereAltitude(0.18)
+                  .polygonsData(outline.features)
+                  .polygonCapColor(() => 'rgba(255, 107, 107, 0.12)')
+                  .polygonSideColor(() => 'rgba(255, 107, 107, 0.55)')
+                  .polygonStrokeColor(() => '#ff6b6b')
+                  .polygonAltitude(0.008)
+                  .pointsData(HERO_CITIES).pointLat('lat').pointLng('lng')
+                  .pointColor(() => '#e8f4ff').pointAltitude(0.006).pointRadius(0.08)
+                  .ringsData(HERO_CITIES).ringLat('lat').ringLng('lng')
+                  .ringColor(() => (t) => `rgba(124, 196, 255, ${1 - t})`)
+                  .ringMaxRadius(0.9).ringPropagationSpeed(0.6).ringRepeatPeriod(1800)
+                  .pointOfView({ lat: 12.5, lng: 75, altitude: GLOBE_ALT.intro })
+                  .onGlobeReady(() => { if (!cancelled) handlersRef.current.onReady(); });
+                const controls = world.controls();
+                controls.enableZoom = false; // the mouse wheel keeps scrolling the page
+                controls.enablePan = false;
+                controls.autoRotateSpeed = 0.12;
+                if (isSmallScreen()) controls.enabled = false; // touch keeps scrolling the page
+                controls.addEventListener('start', () => handlersRef.current.onInteract());
+                controls.addEventListener('change', () => { if (!moveTimer) moveTimer = setTimeout(reportMove, 150); });
+                ro = new ResizeObserver(() => world.width(el.clientWidth).height(el.clientHeight));
+                ro.observe(el);
+                worldRef.current = world;
+              })
+              .catch(() => { if (!cancelled) handlersRef.current.onError(); });
+            return () => {
+              cancelled = true;
+              clearTimeout(moveTimer);
+              if (ro) ro.disconnect();
+              if (world) { world.pauseAnimation(); if (world._destructor) world._destructor(); }
+              worldRef.current = null;
+              if (el) el.innerHTML = '';
+            };
+          }, [enabled]);
+          return worldRef;
+        };
+
+        const HeroIconButton = ({ label, onClick, children }) => (
+          <button type="button" onClick={onClick} aria-label={label} title={label}
+                  className="w-9 h-9 rounded-full bg-white/10 border border-white/15 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+            {children}
+          </button>
+        );
+
         const Hero = () => {
           const reduced = React.useContext(ReducedMotionContext);
-          const phrases = useMemo(() => ['researchers', 'policymakers', 'students', 'citizens'], []);
-          const typingText = useTypingEffect(phrases, reduced);
+          const globeEnabled = useMemo(() => !reduced && hasWebGL(), [reduced]);
+          const containerRef = useRef(null);
+          const userTookOver = useRef(false);
+          const target = useRef(null); // camera destination, so zooming mid-flight keeps the course
+          const [ready, setReady] = useState(false);
+          const [playing, setPlaying] = useState(false);
+          const [activeId, setActiveId] = useState(HERO_CITIES[0].id);
+          const [view, setView] = useState({ lat: HERO_CITIES[0].lat, lng: HERO_CITIES[0].lng });
+
+          const worldRef = useNightGlobe(containerRef, globeEnabled, {
+            onReady: () => setReady(true),
+            onError: () => setReady(false),
+            onMove: (lat, lng) => setView({ lat, lng }),
+            onInteract: () => { userTookOver.current = true; target.current = null; setPlaying(false); setActiveId(null); },
+          });
+
+          // Intro: fly in from space to Phnom Penh, then start a slow orbit on larger screens
+          useEffect(() => {
+            if (!ready || !worldRef.current) return undefined;
+            const pp = HERO_CITIES[0];
+            target.current = { lat: pp.lat, lng: pp.lng, altitude: GLOBE_ALT.overview };
+            worldRef.current.pointOfView(target.current, 3500);
+            if (isSmallScreen()) return undefined;
+            const timer = setTimeout(() => { if (!userTookOver.current) { setPlaying(true); setActiveId(null); } }, 5000);
+            return () => clearTimeout(timer);
+          }, [ready]);
+
+          useEffect(() => {
+            if (playing) target.current = null;
+            if (worldRef.current) worldRef.current.controls().autoRotate = playing;
+          }, [playing, ready]);
+
+          const flyTo = (city) => {
+            if (!worldRef.current) return;
+            userTookOver.current = true;
+            setPlaying(false);
+            setActiveId(city.id);
+            setView({ lat: city.lat, lng: city.lng });
+            target.current = { lat: city.lat, lng: city.lng, altitude: GLOBE_ALT.city };
+            worldRef.current.pointOfView(target.current, 1800);
+          };
+          const cycle = (step) => {
+            const index = HERO_CITIES.findIndex((c) => c.id === activeId);
+            const next = index < 0 ? 0 : (index + step + HERO_CITIES.length) % HERO_CITIES.length;
+            flyTo(HERO_CITIES[next]);
+          };
+          const zoom = (factor) => {
+            if (!worldRef.current) return;
+            const { lat, lng, altitude } = target.current || worldRef.current.pointOfView();
+            target.current = { lat, lng, altitude: Math.min(GLOBE_ALT.max, Math.max(GLOBE_ALT.min, altitude * factor)) };
+            worldRef.current.pointOfView(target.current, 600);
+          };
+          const togglePlay = () => { userTookOver.current = true; setPlaying((p) => !p); };
+          const onGlobeKeyDown = (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); cycle(1); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); cycle(-1); }
+            else if (e.key === '+' || e.key === '=') { e.preventDefault(); zoom(0.75); }
+            else if (e.key === '-') { e.preventDefault(); zoom(1.33); }
+          };
+
+          const place = nearestCity(view.lat, view.lng);
           return (
-            <div id="top" className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 z-0 bg-navy-950">
-                <img src="images/hero.webp" alt="" className="w-full h-full object-cover" fetchpriority="high" />
-                <div className="absolute inset-0 bg-navy-950/60"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-navy-950/30"></div>
+            <div id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden bg-navy-950">
+              <div className="absolute inset-0 z-0" aria-hidden="true">
+                <img src="images/hero.webp" alt="" fetchpriority="high"
+                     className={`w-full h-full object-cover transition-opacity duration-[1200ms] ${ready ? 'opacity-0' : 'opacity-100'}`} />
               </div>
-              <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none" aria-hidden="true">
-                <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[128px] float-slow"></div>
-                <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-red-600/10 rounded-full blur-[110px] float-slower"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-blue-700/10 rounded-full blur-[120px]"></div>
-              </div>
-              <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 text-center text-white">
-                <div className={reduced ? '' : 'animate-fade-in-up'}>
-                  <p className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-white/10 border border-white/15 text-xs sm:text-sm font-semibold tracking-wide text-slate-200">
-                    <Satellite size={16} className="text-brand-sky" /> Open data · Satellite + survey · AI-enhanced
-                  </p>
-                  <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 leading-[1.05]">
-                    <span className="gradient-text">GeoDevelopment Observatory</span><br />
-                    <span className="text-white">of </span><span className="text-[#ff6b6b]">Cambodia</span>
-                  </h1>
-                  <p className="text-lg md:text-2xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed mb-3">
-                    Open indicators, tools, and insights for monitoring <span className="font-semibold text-white">sustainable regional development</span>, from satellite pixels to policy.
-                  </p>
-                  <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto font-light mb-10 min-h-[2rem]">
-                    Built for <span className="gradient-text font-semibold">{typingText}</span>
-                    {!reduced && <span className="typing-cursor text-brand-sky" aria-hidden="true">|</span>}
-                  </p>
-                  <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#indicators" className="px-6 sm:px-8 py-3 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg shadow-red-900/40 flex items-center justify-center gap-2">
-                      <Database size={20} /> Explore indicators
-                    </a>
-                    <a href="#tools" className="px-6 sm:px-8 py-3 rounded-lg bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg border border-white/20 flex items-center justify-center gap-2">
-                      <Terminal size={20} /> Open the tools
-                    </a>
+              {globeEnabled && (
+                <div ref={containerRef} tabIndex={ready ? 0 : -1} role="group" onKeyDown={onGlobeKeyDown}
+                     aria-hidden={!ready} aria-label="Interactive night-time globe centred on Cambodia. Use the left and right arrow keys to fly between cities, and plus or minus to zoom."
+                     className={`hero-globe absolute inset-0 z-[1] lg:left-[24%] lg:-right-[6%] transition-opacity duration-[1500ms] ${ready ? 'opacity-100' : 'opacity-0'}`}></div>
+              )}
+              <div className="absolute inset-0 z-[2] pointer-events-none bg-navy-950/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-navy-950/95 lg:via-navy-950/60 lg:to-transparent" aria-hidden="true"></div>
+              <div className="absolute inset-x-0 top-0 h-32 z-[2] pointer-events-none bg-gradient-to-b from-navy-950/80 to-transparent" aria-hidden="true"></div>
+              <div className="absolute inset-x-0 bottom-0 h-48 z-[2] pointer-events-none bg-gradient-to-t from-navy-950 to-transparent" aria-hidden="true"></div>
+
+              <div className="relative z-10 flex-1 flex items-center pointer-events-none">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10">
+                  <div className={`max-w-3xl pointer-events-auto text-white ${reduced ? '' : 'animate-fade-in-up'}`}>
+                    <p className="flex items-center gap-3 mb-6 font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] text-brand-sky">
+                      <span className="h-px w-8 bg-brand-sky/60" aria-hidden="true"></span>GeoDevelopment Observatory of Cambodia · GDO-Cambodia
+                    </p>
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-[1.02] mb-6">
+                      Observing <span className="text-[#ff6b6b]">Cambodia's</span><br className="hidden sm:block" /> development<br className="hidden sm:block" /> <em className="gradient-text pr-2">from space.</em>
+                    </h1>
+                    <p className="text-lg md:text-xl text-slate-200 font-light leading-relaxed max-w-xl mb-10 [text-shadow:0_1px_12px_rgba(6,13,31,0.9)]">
+                      Open indicators, AI-enhanced tools, and research insights for monitoring sustainable regional development.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <a href="#indicators" className="px-6 sm:px-8 py-3 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg shadow-red-900/40 flex items-center justify-center gap-2">
+                        <Database size={20} /> Explore indicators
+                      </a>
+                      <a href="#tools" className="px-6 sm:px-8 py-3 rounded-lg bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 font-bold text-base sm:text-lg transition-all hover:-translate-y-1 shadow-lg border border-white/20 flex items-center justify-center gap-2">
+                        <Terminal size={20} /> Open the tools
+                      </a>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-6 pointer-events-none">
+                <div className="pointer-events-auto md:w-1/3">
+                  {ready && (
+                    <div className="flex flex-col gap-3">
+                      <div role="group" aria-label="Fly to a city" className="flex flex-wrap gap-2">
+                        {HERO_CITIES.map((c) => (
+                          <button key={c.id} type="button" onClick={() => flyTo(c)} aria-pressed={activeId === c.id}
+                                  className={`px-3 py-1.5 rounded-full border font-mono text-[11px] uppercase tracking-[0.15em] transition-colors ${activeId === c.id ? 'bg-brand-sky text-navy-950 border-brand-sky' : 'bg-white/5 text-slate-200 border-white/15 hover:bg-white/15'}`}>
+                            {c.name}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <HeroIconButton label="Previous city" onClick={() => cycle(-1)}><ChevronLeft size={16} /></HeroIconButton>
+                        <HeroIconButton label={playing ? 'Pause rotation' : 'Rotate the globe'} onClick={togglePlay}>{playing ? <Pause size={14} /> : <Play size={14} />}</HeroIconButton>
+                        <HeroIconButton label="Next city" onClick={() => cycle(1)}><ChevronRight size={16} /></HeroIconButton>
+                        <span className="w-px h-5 bg-white/15 mx-1" aria-hidden="true"></span>
+                        <HeroIconButton label="Zoom out" onClick={() => zoom(1.33)}><Minus size={16} /></HeroIconButton>
+                        <HeroIconButton label="Zoom in" onClick={() => zoom(0.75)}><Plus size={16} /></HeroIconButton>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <a href="#about" className="hidden md:flex pointer-events-auto flex-col items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-slate-300 hover:text-white transition-colors">
+                  Explore the observatory <ArrowDown size={16} className="cue-bounce" />
+                </a>
+                <div className="pointer-events-auto md:w-1/3 md:text-right font-mono uppercase">
+                  <p className="text-sm sm:text-base tracking-[0.15em] text-white whitespace-pre">{formatCoord(view.lat, view.lng)}</p>
+                  <p className="mt-1 text-[11px] sm:text-xs tracking-[0.25em] text-brand-sky" aria-live="polite">{place ? `${place.name}, KH` : 'In orbit'}</p>
+                  <p className="mt-2 text-[11px] tracking-[0.2em] text-slate-400">{ready ? 'Night lights · NASA Black Marble 2016' : 'Cambodia at night'}</p>
+                </div>
+              </div>
+
+              <div className="relative z-10 overflow-hidden border-t border-white/10 bg-navy-950/70 backdrop-blur-sm py-3" aria-hidden="true">
+                <div className="marquee-track flex">
+                  {[0, 1].map((copy) => (
+                    <div key={copy} className="flex shrink-0">
+                      {[0, 1].flatMap((rep) => HERO_THEMES.map((theme, i) => (
+                        <span key={`${rep}-${i}`} className="flex items-center gap-4 px-6 font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-slate-300 whitespace-nowrap">
+                          <span className="text-brand-sky">{String(i + 1).padStart(2, '0')}</span>{theme}<span className="text-brand-red pl-6">✦</span>
+                        </span>
+                      )))}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1494,7 +1680,7 @@ twoway scatter HDI lnNTL`,
                 </div>
               </AnimateIn>
               <AnimateIn>
-                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Research associates</h3>
+                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Research assistants</h3>
                 <div className="flex flex-wrap justify-center gap-x-16 gap-y-10">
                   {PEOPLE.associates.map((p) => <PersonCard key={p.name} person={p} small />)}
                 </div>
@@ -1559,13 +1745,13 @@ twoway scatter HDI lnNTL`,
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {CONTACTS.map((c) => (
                     <li key={c.email}>
-                      <a href={`mailto:${c.email}`} className="flex items-center gap-3 p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-brand-sky/40 transition-colors h-full">
+                      <div className="flex items-center gap-3 p-5 rounded-2xl bg-white/[0.04] border border-white/10 h-full">
                         <span className="w-10 h-10 rounded-full bg-brand-red/15 text-[#ff8a8a] flex items-center justify-center flex-shrink-0"><Mail size={18} /></span>
                         <span className="min-w-0">
                           <span className="block font-semibold text-white">{c.name}</span>
                           <span className="block text-xs text-slate-400 [overflow-wrap:anywhere]">{c.email}</span>
                         </span>
-                      </a>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -1594,7 +1780,7 @@ twoway scatter HDI lnNTL`,
               </div>
               <div className="border-t border-white/5 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
                 <p><strong className="text-slate-400">Disclaimer.</strong> The indicators, tools, and insights are the responsibility of the individual researchers and do not necessarily represent the views of their affiliated institutions or related organizations. Maps on this website are for geo-statistical use only and have a referential, informational character. They represent indicators spatially and do not constitute an official definition of Cambodia’s territorial boundaries.</p>
-                <p><strong className="text-slate-400">Credits.</strong> Hero and section illustrations were generated with OpenAI image generation (via Codex). App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
+                <p><strong className="text-slate-400">Credits.</strong> Hero and section illustrations were generated with OpenAI image generation (via Codex). The night-lights globe uses NASA Earth Observatory's Black Marble 2016 (public domain), rendered with globe.gl. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
                 <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue</a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions</a>.</p>
               </div>
             </div>

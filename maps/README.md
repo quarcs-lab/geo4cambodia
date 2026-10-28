@@ -10,6 +10,7 @@ All files are GeoJSON in geographic coordinates (CRS84 / WGS 84).
 | `districts202_wide_y.geojson` | 202 | `GID_2, id, province, district, y1990…y2022` | GDP per capita with polygons |
 | `districts202_wide_ln_y.geojson` | 202 | `… ln_y1990…ln_y2022` | Log GDP per capita with polygons |
 | `districts202_wide_trend400_ln_y.geojson` | 202 | `… trend400_ln_y1990…` | HP trend (λ = 400) with polygons |
+| `cambodia-outline.geojson` | 1 | `name` | National outline (districts dissolved, simplified, islands < 0.005 deg² dropped); used by the website's hero globe |
 
 ```python
 import geopandas as gpd
