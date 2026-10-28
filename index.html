@@ -55,7 +55,7 @@
         },
         {
           "@type": "Dataset",
-          "name": "Human development, income, night-time lights and population in Cambodia (17 provinces, 2013–2019)",
+          "name": "Human development, income, night-time lights and population in Cambodia (17 Global Data Lab regions, 2013–2019)",
           "description": "Annual panel of the subnational Human Development Index, gross national income, population and DMSP-like night-time lights for 17 Global Data Lab regions of Cambodia, 2013–2019.",
           "url": "https://quarcs-lab.github.io/geo4cambodia/#/indicators/provinces17-hdi",
           "license": "https://opensource.org/licenses/MIT",
@@ -79,7 +79,8 @@
           "keywords": ["night-time lights", "PM2.5", "population", "GDP", "Cambodia", "remote sensing"],
           "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" },
           "distribution": [
-            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/data/province/env.csv" }
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/data/province/env.csv" },
+            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/geo/boundaries/province.geojson" }
           ]
         },
         {
@@ -162,6 +163,7 @@
       .contributor-avatar:hover { transform: scale(1.05); box-shadow: 0 10px 25px -5px rgba(0,0,0,.5); }
       @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
       .marquee-track { width: max-content; animation: marquee 60s linear infinite; }
+      .marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .marquee.paused .marquee-track { animation-play-state: paused; }
       @keyframes cue { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
       .cue-bounce { animation: cue 2.2s ease-in-out infinite; }
       .hero-globe canvas { outline: none; }
@@ -179,7 +181,7 @@
     </style>
 </head>
 <body class="bg-navy-950 text-slate-200">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-brand-red focus:text-white">Skip to content</a>
+    <a href="#main" onclick="event.preventDefault(); var m = document.getElementById('main'); if (m) { m.focus(); m.scrollIntoView(); }" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-brand-red focus:text-white">Skip to content</a>
 
     <div id="root">
       <!-- Static, crawlable fallback. React replaces this on load. -->
@@ -189,7 +191,7 @@
         <p>A public-access platform for analyzing, monitoring, and evaluating sustainable regional development in Cambodia. It brings together environmental, social, and economic indicators from satellite imagery, surveys, and administrative records; makes them explorable through notebooks and web apps; and turns the results into accessible insights.</p>
         <h2>GeoDevelopment Indicators</h2>
         <ul>
-          <li><a href="docs/datasets/hdi.md">Human development, income, night-time lights and population (17 provinces, 2013–2019)</a></li>
+          <li><a href="docs/datasets/hdi.md">Human development, income, night-time lights and population (17 Global Data Lab regions, 2013–2019)</a></li>
           <li><a href="docs/datasets/env.md">Population, night-time lights, electricity-based GDP, NPP and PM2.5 (25 provinces, 1990–2023)</a></li>
           <li><a href="docs/datasets/gdppc.md">Estimated GDP per capita (202 districts, 1990–2022)</a></li>
         </ul>
@@ -447,7 +449,7 @@ gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5,
 import pandas as pd
 import geopandas as gpd
 
-# No package needed: every file is a plain URL
+# No geo4cambodia needed: every file is a plain URL
 BASE = "${RAW_URL}"
 df = pd.read_csv(BASE + "data/district/gdppc.csv")             # geo_id, year, y, ln_y, ...
 districts = gpd.read_file(BASE + "geo/boundaries/district.geojson")
@@ -474,7 +476,7 @@ gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5, legend=True)`,
             date: '2025-09-09', pinned: false, dataset: 'env', folder: 'data/province', docs: 'docs/datasets/env.md',
             variables: [
               ['geo_id', 'Province geo ID (e.g. KH-16); names and parent units in geo/units.csv', 'GDO'],
-              ['year', 'Year (1986–2023)', '—'],
+              ['year', 'Year (1990–2023)', '—'],
               ['shapeISO', 'ISO 3166-2 code of the source data (numbering differs from geo IDs)', 'geoBoundaries'],
               ['total_GlobPOP_Count', 'Gridded population count, 1990–2022', 'Liu et al. (2024)'],
               ['total_GlobPOP_Density', 'Gridded population density, 1990–2022', 'Liu et al. (2024)'],
@@ -485,7 +487,7 @@ gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5, legend=True)`,
             ],
             notice: 'Known issue: total_NPP is 0 for every province and year in the source release, so it is published as missing until the dataset is regenerated.',
             files: [
-              { format: 'CSV', form: 'Panel · 950 rows', path: 'data/province/env.csv' },
+              { format: 'CSV', form: 'Panel · 850 rows', path: 'data/province/env.csv' },
               { format: 'Parquet', form: 'Panel · typed, compact', path: 'data/province/env.parquet' },
               { format: 'GeoJSON', form: 'Province boundaries', path: 'geo/boundaries/province.geojson' },
               { format: 'JSON', form: 'Metadata · datapackage', path: 'metadata/env.datapackage.json' },
@@ -529,7 +531,7 @@ df.pivot(index="year", columns="name", values="vnl_pc").plot(legend=False)`,
           {
             id: 'provinces17-hdi', type: 'indicator', section: 'indicators',
             title: 'Human development, income, night-time lights and population',
-            scope: '17 provinces · 2013–2019',
+            scope: '17 GDL regions · 2013–2019',
             summary: 'The subnational Human Development Index next to income, population and night-time lights, for comparing well-being with what satellites see.',
             description: 'An annual panel for the 17 subnational regions of Cambodia used by the Global Data Lab. It combines the subnational Human Development Index, gross national income and population (Smits & Permanyer, 2019) with harmonized DMSP-like night-time lights (Li et al., 2020). Some regions group several present-day provinces; for example, Battambang and Pailin form one region.',
             geography: 'Global Data Lab region', units: 17, period: '2013–2019', frequency: 'Annual', key: 'geo_id', idExample: 'KH-GDL-02',
@@ -546,7 +548,7 @@ df.pivot(index="year", columns="name", values="vnl_pc").plot(legend=False)`,
               ['GNIpc', 'GNI per capita (2011 PPP USD)', 'Smits & Permanyer (2019)'],
               ['POP', 'Population (thousands)', 'Smits & Permanyer (2019)'],
               ['NTL', 'Night-time lights: sum of DMSP-like digital numbers', 'Li et al. (2020)'],
-              ['lnNTL, lnGNI, lnGNIpc, lnNTLpc', 'Log transformations (per-capita logs are rescaled as in the source panel)', 'Derived'],
+              ['lnNTL, lnGNI, lnGNIpc, lnNTLpc', 'Logs: lnGNIpc = log(GNIpc); lnNTLpc is rescaled as in the source panel (log of NTL × 10^8 / POP)', 'Derived'],
             ],
             files: [
               { format: 'CSV', form: 'Panel · 119 rows', path: 'data/gdl/hdi.csv' },
@@ -575,7 +577,7 @@ regions.merge(df[df["year"] == 2019], on="geo_id").plot(column="HDI", legend=Tru
               { text: 'Smits, J., & Permanyer, I. (2019). The Subnational Human Development Database. Scientific Data, 6, 190038.', url: 'https://doi.org/10.1038/sdata.2019.38' },
               { text: 'Li, X., Zhou, Y., Zhao, M., & Zhao, X. (2020). A harmonized global nighttime light dataset 1992–2018. Scientific Data, 7, 168.', url: 'https://doi.org/10.1038/s41597-020-0510-y' },
             ],
-            citation: 'GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md',
+            citation: 'GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 Global Data Lab regions, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md',
             related: ['hdi-ntl-esda'],
           },
 
@@ -585,11 +587,12 @@ regions.merge(df[df["year"] == 2019], on="geo_id").plot(column="HDI", legend=Tru
             title: 'geo4cambodia: load, link and build subnational data',
             scope: '!pip install -q geo4cambodia',
             summary: 'The observatory’s Python package. Load every indicator as a tidy panel with boundaries, link your own data to the same units, and build new indicators across districts, provinces and regions.',
-            description: 'geo4cambodia is the data engine of the observatory. One line loads any dataset as a panel (one row per unit and year) with names and boundaries. Every spatial unit has one geo ID that nests by prefix (district KH-16-01 lies in province KH-16, in Cambodia KH), so the package can move data up the hierarchy with each variable’s own aggregation rule, interpolate it onto grids or custom zones, and combine datasets published at different scales. To build your own indicators, it links tables that identify units by name in any spelling, summarises rasters such as Earth Engine exports over units, and saves the result with the same documented format as the published data. It is small, works out of the box in Google Colab, and hands its data in one line to two companion packages: expdpy for panel exploration and econometrics, and geometrics for spatial analysis.',
+            description: 'geo4cambodia is the data engine of the observatory. One line loads any dataset as a panel (one row per unit and year) with names and boundaries. Every spatial unit has one geo ID that nests by prefix (district KH-16-01 lies in province KH-16, in Cambodia KH), so the package can move data up the hierarchy with each variable’s own aggregation rule, interpolate it onto grids or custom zones, and combine datasets published at different scales. To build your own indicators, it links tables that identify units by name in any spelling, summarizes rasters such as Earth Engine exports over units, and saves the result with the same documented format as the published data. It is small, works out of the box in Google Colab, and hands its data in one line to two companion packages: expdpy for panel exploration and econometrics, and geometrics for spatial analysis.',
             tags: ['Python', 'data loading', 'multi-scale', 'Colab', 'open data'],
             image: 'images/tools/geo4cambodia-package.webp',
             imageAlt: 'Three stacked map layers of Cambodia, the 17 Global Data Lab regions, 25 provinces and 202 districts, linked by geo IDs, beside a code snippet that loads the data',
             date: '2026-10-28', pinned: true,
+            installNote: 'Colab already has its other dependencies, so installing takes seconds.',
             install: `!pip install -q geo4cambodia
 !pip install -q "geo4cambodia[raster]"     # + rasterio, for zonal statistics from rasters (geo.zonal)`,
             quickstart: {
@@ -633,10 +636,10 @@ gdf, df, df_dict = geo.for_geometrics(panel)`,
             features: [
               { title: 'Load', fns: ['datasets', 'dictionary', 'load', 'units', 'boundaries', 'crosswalk'], text: 'Panels with filters, wide reshaping and boundaries; names, parents and source codes of every unit.' },
               { title: 'Link', fns: ['link', 'check'], text: 'Attach geo IDs to any table by names or codes, ignoring accents, case and spacing, with spelling suggestions.' },
-              { title: 'Extract', fns: ['zonal'], text: 'Summarise rasters (sum, mean, max, count, ...) over districts or provinces, for one year or a series.' },
+              { title: 'Extract', fns: ['zonal'], text: 'Summarize rasters (sum, mean, max, count, ...) over districts or provinces, for one year or a series.' },
               { title: 'Move across scales', fns: ['aggregate', 'overlay', 'overlay_weights'], text: 'Up the hierarchy with metadata rules, or onto grids and custom zones by area weights.' },
               { title: 'Combine & save', fns: ['combine', 'save'], text: 'Several datasets as one panel at one scale; your result as CSV, Parquet and a documented datapackage.' },
-              { title: 'Analyse', fns: ['for_expdpy', 'for_geometrics'], text: 'Labelled inputs for expdpy (panel econometrics) and geometrics (spatial analysis), built from the metadata.' },
+              { title: 'Analyze', fns: ['for_expdpy', 'for_geometrics'], text: 'Labeled inputs for expdpy (panel econometrics) and geometrics (spatial analysis), built from the metadata.' },
             ],
             links: [
               { label: 'Quickstart in Colab', url: COLAB_URL + 'geo4cambodia_quickstart.ipynb', kind: 'colab' },
@@ -692,7 +695,7 @@ print(res.interpret())`,
             title: 'expdpy: explore and model panel data',
             scope: '!pip install -q geo4cambodia expdpy',
             summary: 'A companion package for panel data: within/between variation, trajectories and transitions, then pooled, fixed and random effects, Hausman tests and clustered standard errors, each with a plain-language reading.',
-            description: 'expdpy (a Python port of ExPanDaR) turns the everyday steps of panel-data research into single functions. Explore functions describe a panel’s structure, decompose variation into between and within components (xtsum), and chart trajectories, distributions, transitions, missing values and correlations. Analyze functions estimate pooled, between, fixed-effects, random-effects and correlated-random-effects models, run Hausman and joint tests, fit fixest-style regressions with fixed effects and clustered or Driscoll–Kraay standard errors, and cover IV, event studies and β-, σ- and club convergence. Learn functions simulate each concept from a known truth. Every result has an interactive figure or table and an interpret() method. The observatory’s datasets are exactly the long panels expdpy expects: geo.for_expdpy() hands them over, labelled, in one line.',
+            description: 'expdpy (a Python port of ExPanDaR) turns the everyday steps of panel-data research into single functions. Explore functions describe a panel’s structure, decompose variation into between and within components (xtsum), and chart trajectories, distributions, transitions, missing values and correlations. Analyze functions estimate pooled, between, fixed-effects, random-effects and correlated-random-effects models, run Hausman and joint tests, fit fixest-style regressions with fixed effects and clustered or Driscoll–Kraay standard errors, and cover IV, event studies and β-, σ- and club convergence. Learn functions simulate each concept from a known truth. Every result has an interactive figure or table and an interpret() method. The observatory’s datasets are exactly the long panels expdpy expects: geo.for_expdpy() hands them over, labeled, in one line.',
             tags: ['Python', 'panel data', 'econometrics', 'fixed effects', 'ExPanDaR'],
             image: 'images/tools/expdpy-package.webp',
             imageAlt: 'Collage of expdpy results on Cambodian data: district GDP-per-capita trajectories, a within/between variance split, and fixed-effects coefficients',
@@ -755,7 +758,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             id: 'expdpy-analyze', type: 'notebook', section: 'tools',
             title: 'Panel econometrics for Cambodia with expdpy',
             summary: 'Do lights track income? What goes with human development? Are districts converging, and does space matter? Is pollution higher where development is? Fixed effects, random effects and Hausman tests.',
-            description: 'Four questions answered with geo4cambodia and expdpy. (1) Night-time lights and income: within provinces lights follow electricity-based GDP, but the association vanishes once year effects absorb the shared national trend; across Global Data Lab regions lights barely rank income. (2) Human development: HDI rises with lights per person and population within regions, and the Hausman test favours fixed effects. (3) District convergence: expdpy and geometrics agree on the non-spatial β (half-life about 60 years), but the spatial Durbin model attributes much of it to regional spillovers. (4) PM2.5 shows no significant link to development, and no environmental Kuznets curve.',
+            description: 'Four questions answered with geo4cambodia and expdpy. (1) Night-time lights and income: within provinces lights follow electricity-based GDP, but the association vanishes once year effects absorb the shared national trend; across Global Data Lab regions lights barely rank income. (2) Human development: HDI rises with lights per person and population within regions, and the Hausman test favors fixed effects. (3) District convergence: expdpy and geometrics agree on the non-spatial β (half-life about 60 years), but the spatial Durbin model attributes much of it to regional spillovers. (4) PM2.5 shows no significant link to development, and no environmental Kuznets curve.',
             tags: ['expdpy', 'fixed effects', 'Hausman test', 'convergence'],
             image: 'images/tools/expdpy-analyze.webp',
             imageAlt: 'Coefficient comparison of pooled, between, fixed- and random-effects models and convergence estimates with and without space',
@@ -773,7 +776,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             description: 'This Colab notebook starts by reading the observatory’s files as plain URLs with pandas and geopandas, then does the same with the geo4cambodia package in one line. It aggregates province data to Global Data Lab regions and the whole country, combines night-time lights and population with the Human Development Index, links a table whose province names are spelled in several ways, computes distance to Phnom Penh from a raster for every district, interpolates population onto a 20 km grid, and saves the new indicator in the observatory’s format.',
             tags: ['geo4cambodia', 'data loading', 'zonal statistics', 'Python'],
             image: 'images/tools/geo4cambodia-quickstart.webp',
-            imageAlt: 'Two maps from the quickstart notebook: Human Development Index and night-time lights per person across the 17 Global Data Lab regions in 2019',
+            imageAlt: 'Two maps from the quickstart notebook: Human Development Index and night-time lights per 1,000 people across the 17 Global Data Lab regions in 2019',
             date: '2026-10-28', pinned: false,
             links: [
               { label: 'Open in Colab', url: COLAB_URL + 'geo4cambodia_quickstart.ipynb', kind: 'colab' },
@@ -925,8 +928,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               { label: 'Slides', url: 'https://www.canva.com/design/DAF2R9fiBiA/LVE9XbyyzylkrdLUThjqvw/view', kind: 'slides' },
               { label: 'AI notebook (NotebookLM)', url: 'https://notebooklm.google.com/notebook/ee489fdb-5be5-4db6-8358-84c37e7cb5e5', kind: 'notebooklm' },
               { label: 'Story book · English', url: 'https://g.co/gemini/share/825c2192fae2', kind: 'story' },
-              { label: 'Story book · ខ្មែរ (Khmer)', url: 'https://g.co/gemini/share/8b35b8b992b7', kind: 'story' },
-              { label: 'Story book · 日本語 (Japanese)', url: 'https://g.co/gemini/share/1dc505c01861', kind: 'story' },
+              { label: 'Story book · ', native: 'ខ្មែរ', lang: 'km', after: ' (Khmer)', url: 'https://g.co/gemini/share/8b35b8b992b7', kind: 'story' },
+              { label: 'Story book · ', native: '日本語', lang: 'ja', after: ' (Japanese)', url: 'https://g.co/gemini/share/1dc505c01861', kind: 'story' },
               { label: 'Ask the AI chatbot', url: 'https://app.edcafe.ai/chatbots/68ad8ae401555d7da378a190', kind: 'chatbot' },
             ],
             note: 'The story books are AI-illustrated companions to the paper. Their maps are artistic and do not reproduce the maps of Cambodia or the results in the published paper.',
@@ -951,8 +954,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             media: [
               { kind: 'youtube', id: '9CcppQpArWI', label: 'Video overview (English)' },
               { kind: 'youtube', id: 'VATMuozPPK8', label: 'Video overview (Japanese)' },
-              { kind: 'youtube', id: 'YWrUmDADrUw', label: 'Investigación y aprendizaje en la era de IA (Spanish)' },
-              { kind: 'youtube', id: 'rvfJv6yBx2Y', label: 'Investigación y aprendizaje en la era de la inteligencia artificial (Spanish)' },
+              { kind: 'youtube', id: 'YWrUmDADrUw', label: 'Investigación y aprendizaje en la era de IA (Spanish)', lang: 'es' },
+              { kind: 'youtube', id: 'rvfJv6yBx2Y', label: 'Investigación y aprendizaje en la era de la inteligencia artificial (Spanish)', lang: 'es' },
               { kind: 'audio', src: 'media/development-in-the-age-of-ai.mp3', label: 'AI podcast: Development in the age of AI' },
             ],
             links: [
@@ -981,7 +984,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             title: 'Development studies in the age of AI: New data, new methods, and new insights',
             summary: 'An international, interdisciplinary research workshop in Phnom Penh on integrating satellite imagery with socioeconomic data.',
             description: 'The Asian Satellite Campuses Institute (ASCI), the Graduate School of International Development (GSID) and the Institute for Space–Earth Environmental Research (ISEE) of Nagoya University, with the Royal University of Phnom Penh and UNDP Cambodia, convened a hybrid research workshop. It offered an interdisciplinary platform to advance research on sustainable development in Cambodia and Asia by integrating satellite imagery with socioeconomic data, and closed with a panel on the GeoDevelopment Observatory of Cambodia.',
-            date: '2025-09-18', dateLabel: 'Thursday, September 18, 2025', time: '14:00–18:05 (Cambodia time, UTC+7)',
+            date: '2025-09-18', pinned: false, dateLabel: 'Thursday, September 18, 2025', time: '14:00–18:05 (Cambodia time, UTC+7)',
             venue: 'National Incubation Center of Cambodia (NICC), First Floor Seminar Room, Russian Federation Blvd (110), Phnom Penh. Hybrid: on-site and on Zoom.',
             image: 'images/events/workshop-2025-flyer.webp',
             imageAlt: 'Workshop flyer: Development Studies in the age of AI, September 18, 2025, with logos of Nagoya University ASCI, GSID, ISEE, Royal University of Phnom Penh and UNDP',
@@ -1201,12 +1204,22 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
         const CodeTabs = ({ code, idPrefix }) => {
           const tabs = CODE_TABS.filter(([k]) => code[k]);
           const [active, setActive] = useState(tabs[0][0]);
+          // ARIA tabs pattern: arrow keys (and Home/End) move between tabs; only the active tab is in the tab order
+          const onKeyDown = (e) => {
+            const i = tabs.findIndex(([k]) => k === active);
+            const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+            if (next === undefined) return;
+            e.preventDefault();
+            const k = tabs[(next + tabs.length) % tabs.length][0];
+            setActive(k);
+            document.getElementById(`${idPrefix}-tab-${k}`)?.focus();
+          };
           return (
             <div>
-              <div role="tablist" aria-label="Code language" className="flex gap-2 mb-3">
+              <div role="tablist" aria-label="Code language" className="flex gap-2 mb-3" onKeyDown={onKeyDown}>
                 {tabs.map(([k, label]) => (
                   <button key={k} role="tab" id={`${idPrefix}-tab-${k}`} aria-selected={active === k} aria-controls={`${idPrefix}-panel-${k}`}
-                          onClick={() => setActive(k)}
+                          tabIndex={active === k ? 0 : -1} onClick={() => setActive(k)}
                           className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${active === k ? 'bg-brand-red text-white' : 'bg-transparent text-slate-300 border border-white/15 hover:text-white hover:border-white/30'}`}>
                     {label}
                   </button>
@@ -1243,14 +1256,14 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:-translate-y-0.5 ${primary
                  ? 'bg-brand-red hover:bg-brand-redHover text-white shadow-lg shadow-red-900/30'
                  : 'bg-white/5 hover:bg-white/10 border border-white/15 text-slate-100'}`}>
-              <Icon size={16} /> {link.label}
+              <Icon size={16} /> <span>{link.label}{link.native && <span lang={link.lang}>{link.native}</span>}{link.after}</span>
               <span className="sr-only">(opens in a new tab)</span>
             </a>
           );
         };
 
         // Click-to-load YouTube embed: no third-party iframe until the user asks for it.
-        const LiteYouTube = ({ id, label }) => {
+        const LiteYouTube = ({ id, label, lang }) => {
           const [active, setActive] = useState(false);
           return (
             <figure className="rounded-xl overflow-hidden border border-white/10 bg-black">
@@ -1269,7 +1282,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                   </button>
                 )}
               </div>
-              <figcaption className="px-4 py-3 text-sm text-slate-300 bg-navy-900">{label}</figcaption>
+              <figcaption lang={lang} className="px-4 py-3 text-sm text-slate-300 bg-navy-900">{label}</figcaption>
             </figure>
           );
         };
@@ -1357,8 +1370,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                     </button>
                   </div>
                 </div>
-                {isOpen && (
-                  <div id="mobile-menu" className="lg:hidden bg-navy-900 shadow-xl absolute w-full top-full left-0 border-t border-white/10">
+                {(
+                  <div id="mobile-menu" hidden={!isOpen} className="lg:hidden bg-navy-900 shadow-xl absolute w-full top-full left-0 border-t border-white/10">
                     <ul className="px-3 pt-2 pb-4 space-y-1">
                       {NAV_LINKS.map((link) => (
                         <li key={link.id}>
@@ -1368,7 +1381,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                       ))}
                       <li>
                         <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2.5 rounded-md text-base font-medium text-slate-200 hover:text-white hover:bg-navy-800">
-                          <Github size={18} /> GitHub repository
+                          <Github size={18} /> GitHub repository<span className="sr-only"> (opens in a new tab)</span>
                         </a>
                       </li>
                     </ul>
@@ -1530,6 +1543,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
           const [ready, setReady] = useState(false);
           const [playing, setPlaying] = useState(false);
           const [activeId, setActiveId] = useState(HERO_CITIES[0].id);
+          const [motionPaused, setMotionPaused] = useState(false);   // the user paused: stop the orbit, rings and marquee
+          const [announcement, setAnnouncement] = useState('');      // read out only when the user picks a city
           const [view, setView] = useState({ lat: HERO_CITIES[0].lat, lng: HERO_CITIES[0].lng });
 
           const worldRef = useSatelliteGlobe(containerRef, globeEnabled, {
@@ -1555,6 +1570,10 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             if (worldRef.current) worldRef.current.controls().autoRotate = playing;
           }, [playing, ready]);
 
+          useEffect(() => {
+            if (worldRef.current) worldRef.current.ringsData(motionPaused ? [] : HERO_CITIES);
+          }, [motionPaused, ready]);
+
           const preloadCity = (city) => { if (worldRef.current) addGlobePatch(worldRef.current, city.patch); };
           const flyTo = (city) => {
             const world = worldRef.current;
@@ -1562,6 +1581,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             userTookOver.current = true;
             setPlaying(false);
             setActiveId(city.id);
+            setAnnouncement(`Flying to ${city.name}`);
             setView({ lat: city.lat, lng: city.lng });
             addGlobePatch(world, city.patch);
             setGlobeDetail(world, true);
@@ -1590,6 +1610,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               world.pointOfView({ lat, lng, altitude: GLOBE_ALT.overview }, 1500);
             }
             if (!playing) { target.current = null; setActiveId(null); }
+            setMotionPaused(playing);
             setPlaying((p) => !p);
           };
           const onGlobeKeyDown = (e) => {
@@ -1608,7 +1629,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               </div>
               {globeEnabled && (
                 <div ref={containerRef} tabIndex={ready ? 0 : -1} role="group" onKeyDown={onGlobeKeyDown}
-                     aria-hidden={!ready} aria-label="Interactive satellite globe centred on Cambodia. Use the left and right arrow keys to fly between cities, and plus or minus to zoom."
+                     aria-hidden={!ready} aria-label="Interactive satellite globe centered on Cambodia. Use the left and right arrow keys to fly between cities, and plus or minus to zoom."
                      className={`hero-globe absolute inset-0 z-[1] lg:left-[24%] lg:-right-[6%] transition-opacity duration-[1500ms] ${ready ? 'opacity-100' : 'opacity-0'}`}></div>
               )}
               <div className="absolute inset-0 z-[2] pointer-events-none bg-navy-950/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-navy-950/95 lg:via-navy-950/50 lg:via-35% lg:to-transparent lg:to-60%" aria-hidden="true"></div>
@@ -1667,12 +1688,13 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                 </a>
                 <div className="pointer-events-auto md:w-1/3 md:text-right font-mono uppercase">
                   <p className="text-sm sm:text-base tracking-[0.15em] text-white whitespace-pre">{formatCoord(view.lat, view.lng)}</p>
-                  <p className="mt-1 text-[11px] sm:text-xs tracking-[0.25em] text-brand-sky" aria-live="polite">{place ? `${place.name}, KH` : 'In orbit'}</p>
+                  <p className="mt-1 text-[11px] sm:text-xs tracking-[0.25em] text-brand-sky">{place ? `${place.name}, KH` : 'In orbit'}</p>
+                  <p className="sr-only" aria-live="polite">{announcement}</p>
                   <p className="mt-2 text-[11px] tracking-[0.2em] text-slate-400">Sentinel-2 cloudless 2016 · NASA Blue Marble</p>
                 </div>
               </div>
 
-              <div className="relative z-10 overflow-hidden border-t border-white/10 bg-navy-950/70 backdrop-blur-sm py-3" aria-hidden="true">
+              <div className={`marquee relative z-10 overflow-hidden border-t border-white/10 bg-navy-950/70 backdrop-blur-sm py-3 ${motionPaused ? 'paused' : ''}`} aria-hidden="true">
                 <div className="marquee-track flex">
                   {[0, 1].map((copy) => (
                     <div key={copy} className="flex shrink-0">
@@ -1791,13 +1813,13 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                   <img src={item.image} alt={item.imageAlt || ''} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent"></div>
                   <div className="absolute top-3 left-3"><TypeBadge item={item} solid /></div>
-                  {item.pinned && <span className="absolute top-3 right-3 text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-brand-red/90 text-white">Featured</span>}
+                  {item.pinned && <span className="absolute top-3 right-3 text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-brand-red text-white">Featured</span>}
                 </div>
               )}
               <div className="p-6 flex flex-col flex-grow">
                 {item.scope && <p className="text-xs font-mono text-brand-sky mb-2">{item.scope}</p>}
                 <h3 className="text-lg font-bold text-white leading-snug mb-2">
-                  <a href={itemHref(item)} className="after:absolute after:inset-0 focus:outline-none">{item.title}</a>
+                  <a href={itemHref(item)} className="after:absolute after:inset-0">{item.title}</a>
                 </h3>
                 <p className="text-sm text-slate-400 mb-4 flex-grow leading-relaxed">{item.summary}</p>
                 <div className="flex flex-wrap gap-1.5 mb-4">
@@ -1848,7 +1870,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                           {items.map((it) => (
                             <tr key={it.id} className="hover:bg-sky-400/[0.04] transition-colors">
                               <td className="px-4 py-4 md:px-6">
-                                <a href={`${REPO_URL}/blob/main/${it.docs}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">{it.folder}/{it.dataset}</a>
+                                <a href={`${REPO_URL}/blob/main/${it.docs}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">{it.folder}/{it.dataset}<span className="sr-only"> (opens in a new tab)</span></a>
                                 <div className="text-slate-300 mt-1">{it.title}</div>
                               </td>
                               <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">{it.units} · {it.geography}</td>
@@ -1859,7 +1881,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                           ))}
                           <tr className="hover:bg-sky-400/[0.04] transition-colors">
                             <td className="px-4 py-4 md:px-6">
-                              <a href={`${REPO_URL}/tree/main/geo`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">geo</a>
+                              <a href={`${REPO_URL}/tree/main/geo`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">geo<span className="sr-only"> (opens in a new tab)</span></a>
                               <div className="text-slate-300 mt-1">Units, boundaries and crosswalks</div>
                             </td>
                             <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">All scales · 245 units</td>
@@ -1873,7 +1895,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                     <div className="bg-amber-950/30 px-4 py-4 md:px-6 border-t border-amber-900/30 flex gap-3">
                       <Layers size={20} className="text-amber-400 flex-shrink-0 mt-0.5" />
                       <p className="text-sm text-amber-100/80">
-                        <strong className="text-amber-200">One ID system for every scale.</strong> Every unit has a geo ID that nests by prefix: district <code>KH-16-01</code> lies in province <code>KH-16</code>, which lies in Cambodia (<code>KH</code>), and Global Data Lab regions such as <code>KH-GDL-08</code> are unions of whole provinces. <a className="underline" href={`${REPO_URL}/blob/main/geo/units.csv`} target="_blank" rel="noopener noreferrer">geo/units.csv</a> links each ID to its name and to the original GADM, geoBoundaries and Global Data Lab codes, and the <a className="underline" href="#/tools/geo4cambodia-package">geo4cambodia Python package</a> loads, links and aggregates data across scales. <a className="underline" href={`${REPO_URL}/blob/main/docs/data-infrastructure.md`} target="_blank" rel="noopener noreferrer">How the database works</a>.
+                        <strong className="text-amber-200">One ID system for every scale.</strong> Every unit has a geo ID that nests by prefix: district <code>KH-16-01</code> lies in province <code>KH-16</code>, which lies in Cambodia (<code>KH</code>), and Global Data Lab regions such as <code>KH-GDL-08</code> are unions of whole provinces. <a className="underline" href={`${REPO_URL}/blob/main/geo/units.csv`} target="_blank" rel="noopener noreferrer">geo/units.csv<span className="sr-only"> (opens in a new tab)</span></a> links each ID to its name and to the original GADM, geoBoundaries and Global Data Lab codes, and the <a className="underline" href="#/tools/geo4cambodia-package">geo4cambodia Python package</a> loads, links and aggregates data across scales. <a className="underline" href={`${REPO_URL}/blob/main/docs/data-infrastructure.md`} target="_blank" rel="noopener noreferrer">How the database works<span className="sr-only"> (opens in a new tab)</span></a>.
                       </p>
                     </div>
                   </div>
@@ -1888,7 +1910,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                   <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
                     <p className="text-slate-400 max-w-2xl">Two ways in. With the <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2" href="#/tools/geo4cambodia-package">geo4cambodia</a> package, one line gives you a panel with names and boundaries. Without it, every file is a plain URL that pandas reads directly. Every snippet runs as-is in a blank Google Colab notebook: its first line installs what Colab lacks.</p>
                     <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open a blank notebook in Google Colab" width="117" height="20" />
+                      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open a blank notebook in Google Colab (opens in a new tab)" width="117" height="20" />
                     </a>
                   </div>
                   <CodeTabs code={REGISTRY_BY_ID['districts202-gdppc'].code} idPrefix="home-code" />
@@ -2163,8 +2185,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
               <div className="border-t border-white/10 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
                 <p><strong className="text-slate-400">Disclaimer.</strong> The indicators, tools, and insights are the responsibility of the individual researchers and do not necessarily represent the views of their affiliated institutions or related organizations. Maps on this website are for geo-statistical use only and have a referential, informational character. They represent indicators spatially and do not constitute an official definition of Cambodia’s territorial boundaries.</p>
-                <p><strong className="text-slate-400">Credits.</strong> Section illustrations were generated with OpenAI image generation (via Codex). The hero globe uses <a href="https://s2maps.eu" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), licensed under CC BY 4.0, over NASA's Blue Marble Next Generation (public domain), and is rendered with globe.gl; the section and footer backgrounds are Sentinel-2 cloudless crops of Cambodia from the same source. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
-                <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue</a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions</a>.</p>
+                <p><strong className="text-slate-400">Credits.</strong> Section illustrations were generated with OpenAI image generation (via Codex). The hero globe uses <a href="https://s2maps.eu" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Sentinel-2 cloudless<span className="sr-only"> (opens in a new tab)</span></a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), licensed under CC BY 4.0, over NASA's Blue Marble Next Generation (public domain), and is rendered with globe.gl; the section and footer backgrounds are Sentinel-2 cloudless crops of Cambodia from the same source. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License<span className="sr-only"> (opens in a new tab)</span></a>; the original data sources are credited on each dataset page.</p>
+                <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue<span className="sr-only"> (opens in a new tab)</span></a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions<span className="sr-only"> (opens in a new tab)</span></a>.</p>
               </div>
             </div>
           </footer>
@@ -2334,7 +2356,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             <Block title="References" id="d-refs">
               <ul className="space-y-3 text-sm text-slate-300">
                 {item.references.map((r) => (
-                  <li key={r.url} className="pl-4 border-l-2 border-white/10">{r.text} <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all">{r.url}</a></li>
+                  <li key={r.url} className="pl-4 border-l-2 border-white/10">{r.text} <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all">{r.url}<span className="sr-only"> (opens in a new tab)</span></a></li>
                 ))}
               </ul>
             </Block>
@@ -2359,8 +2381,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             </figure>
             <Block title="About this package" id="p-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
             <Block title="Install" id="p-install">
-              <CodeBlock title="terminal" language="text" code={item.install} />
-              <p className="text-sm text-slate-400 mt-3">Run this in a Google Colab code cell (Python 3.11+). Colab already has the other dependencies, so installing takes seconds.</p>
+              <CodeBlock title="Colab" language="text" code={item.install} />
+              <p className="text-sm text-slate-400 mt-3">Run this in a Google Colab code cell (Python 3.11+).{item.installNote ? ` ${item.installNote}` : ''}</p>
             </Block>
             <Block title="Quickstart" id="p-quick">
               {item.quickstart.pandas && <p className="text-slate-300 leading-relaxed mb-4">Load data with the package, or read the same files without it.</p>}
@@ -2419,7 +2441,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                   <ol className="list-decimal pl-5 space-y-2 text-slate-300 leading-relaxed">
                     <li>Open the notebook with the <em>Open in Colab</em> button.</li>
                     <li>Choose <em>Runtime → Run all</em>.</li>
-                    <li>The first cell installs any missing packages (<code className="text-brand-sky">geo4cambodia</code> and its companions); the data stream straight from this repository. No local setup is needed.</li>
+                    <li>The notebook installs any packages Colab lacks before it uses them, and reads its data over the internet (most notebooks stream it from this repository with <code className="text-brand-sky">geo4cambodia</code>). No local setup is needed.</li>
                   </ol>
                 </Block>
               )}
@@ -2447,14 +2469,14 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                     <h2 className="text-xs font-bold uppercase tracking-widest text-rose-200">Original publication</h2>
                     <CopyButton text={`${item.citation} ${item.doi}`} />
                   </div>
-                  <p className="text-sm text-slate-200 leading-relaxed">{item.citation} <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all" href={item.doi} target="_blank" rel="noopener noreferrer">{item.doi}</a></p>
+                  <p className="text-sm text-slate-200 leading-relaxed">{item.citation} <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all" href={item.doi} target="_blank" rel="noopener noreferrer">{item.doi}<span className="sr-only"> (opens in a new tab)</span></a></p>
                 </div>
               )}
               <Block title="Overview" id="i-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
               {videos.length > 0 && (
                 <Block title={videos.length > 1 ? 'Watch' : 'Watch the video'} id="i-video">
                   <div className={`grid gap-6 ${videos.length > 1 ? 'md:grid-cols-2' : ''}`}>
-                    {videos.map((v) => <LiteYouTube key={v.id} id={v.id} label={v.label} />)}
+                    {videos.map((v) => <LiteYouTube key={v.id} id={v.id} label={v.label} lang={v.lang} />)}
                   </div>
                 </Block>
               )}
