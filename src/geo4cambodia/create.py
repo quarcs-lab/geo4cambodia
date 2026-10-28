@@ -109,7 +109,7 @@ def check(df: pd.DataFrame, scale: str | None = None, time: str | None = "year",
     """Problems that would stop ``df`` from being a valid panel at ``scale`` (empty list = OK).
 
     Checks: a ``geo_id`` column, ids known at the scale, one row per unit (and
-    year), integer years and numeric variables.
+    year) and integer years.
     """
     problems = []
     if "geo_id" not in df.columns:
@@ -118,7 +118,16 @@ def check(df: pd.DataFrame, scale: str | None = None, time: str | None = "year",
     if df["geo_id"].isna().any():
         problems.append(f"{df['geo_id'].isna().sum()} rows without geo_id")
     if scale is None:
-        found = {scale_of(i) for i in ids.drop_duplicates()}
+        found, unrecognised = set(), []
+        for i in ids.drop_duplicates():
+            try:
+                found.add(scale_of(i))
+            except ValueError:
+                unrecognised.append(i)
+        if unrecognised:
+            problems.append(f"geo_id matching no scale's id pattern: {unrecognised[:5]}")
+        if not found:
+            return problems
         if len(found) != 1:
             return problems + [f"ids from several scales: {sorted(found)}"]
         scale = found.pop()

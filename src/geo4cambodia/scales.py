@@ -61,10 +61,12 @@ def get(scale: str) -> Scale:
 
 
 def ancestors(scale: str) -> list[str]:
-    """Coarser scales a unit of ``scale`` nests in, nearest first.
+    """Coarser scales a unit of ``scale`` nests in, in breadth-first order.
 
     Administrative scales follow ``parent``; a scale whose units are unions of
-    ``scale`` units (a grouping such as ``gdl``) is also an ancestor.
+    ``scale`` units (a grouping such as ``gdl``) is also an ancestor. The parent
+    chain of each level comes before the groupings of that level, e.g.
+    ``district -> [province, country, gdl]``.
     """
     reg = _registry()
     found: list[str] = []

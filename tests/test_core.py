@@ -117,6 +117,24 @@ def test_overlay_to_a_grid_preserves_totals_and_bounds():
     assert out["rate"].between(-1e-9, 1 + 1e-9).all()
 
 
+def test_overlay_accepts_a_geodataframe_as_source():
+    scale = ACTIVE[1] if len(ACTIVE) > 1 else ACTIVE[0]
+    u = geo.units(scale)
+    df = u[["geo_id"]].assign(pop=1.0)
+    by_id = geo.overlay(df, "country", extensive=["pop"])
+    by_gdf = geo.overlay(df, "country", extensive=["pop"], source=geo.boundaries(scale))
+    assert by_gdf["pop"].sum() == pytest.approx(by_id["pop"].sum())
+
+
+@needs_data
+def test_load_accepts_numpy_years_and_rejects_unknown_variables():
+    dataset = DATASETS[0]
+    year = geo.load(dataset)["year"].max()            # a numpy integer
+    assert set(geo.load(dataset, years=year)["year"]) == {year}
+    with pytest.raises(ValueError, match="no variable"):
+        geo.load(dataset, variables=["not_a_variable"])
+
+
 # --- building your own data ----------------------------------------------------------------
 
 def test_link_matches_names_ignoring_accents_case_and_spaces():
@@ -136,6 +154,7 @@ def test_check_reports_problems():
     bad = pd.DataFrame({"geo_id": [gid, gid, "XX-99"], "year": [2020, 2020, 2020], "v": [1, 2, 3]})
     problems = " | ".join(geo.check(bad, scale=scale))
     assert "duplicate" in problems and "not found" in problems
+    assert "no scale" in " | ".join(geo.check(pd.DataFrame({"geo_id": ["XX-99"], "year": [2020]})))
 
 
 def test_save_writes_a_valid_dataset(tmp_path):

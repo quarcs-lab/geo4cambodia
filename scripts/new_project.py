@@ -176,7 +176,7 @@ def main(argv=None) -> int:
     print(f"Created {new['name']} in {dest}\n")
     print("Next steps (also in TEMPLATE.md):")
     print(f"  cd {dest}")
-    print("  git init && git add -A && git commit -m 'Start from the geo4cambodia template'")
+    print(f"  git init && git add -A && git commit -m 'Start from the {old['package']} template'")
     print(f"  # put the GADM level-{len(levels)} file at raw/boundaries/gadm41_{new['iso3']}_{len(levels)}.json")
     print(f"  uv sync && uv run {new['package']} build && uv run {new['package']} validate && uv run pytest")
     return 0

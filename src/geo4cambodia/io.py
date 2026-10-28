@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from numbers import Integral
 
 import geopandas as gpd
 import pandas as pd
@@ -12,6 +13,7 @@ from . import metadata, store
 
 def datasets() -> pd.DataFrame:
     """One row per dataset and scale: what is available, where, and for which years."""
+    columns = ["dataset", "scale", "title", "first_year", "last_year", "variables", "csv", "parquet"]
     rows = []
     for ds in metadata.dataset_ids():
         pkg = metadata.package(ds)
@@ -21,7 +23,7 @@ def datasets() -> pd.DataFrame:
                          "first_year": first, "last_year": last,
                          "variables": len(metadata.variables(ds, res["geo:scale"])),
                          "csv": res["geo:path"], "parquet": res["geo:parquet"]})
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
 def dictionary(dataset: str, scale: str | None = None) -> pd.DataFrame:
@@ -49,13 +51,17 @@ def load(dataset: str, scale: str | None = None, years=None, variables=None,
     res = metadata.resource(dataset, scale)
     df = pd.read_parquet(store.open_binary(res["geo:parquet"], ref))
     if years is not None:
-        if isinstance(years, int):
-            years = [years]
+        if isinstance(years, Integral):
+            years = [int(years)]
         elif isinstance(years, tuple) and len(years) == 2:
             years = range(years[0], years[1] + 1)
         df = df[df["year"].isin(list(years))]
     if variables is not None:
-        keep = ["geo_id", "year", *([variables] if isinstance(variables, str) else variables)]
+        wanted = [variables] if isinstance(variables, str) else list(variables)
+        unknown = [v for v in wanted if v not in df.columns]
+        if unknown:
+            raise ValueError(f"{dataset!r} has no variable(s) {unknown}; see geo.dictionary({dataset!r})")
+        keep = ["geo_id", "year", *wanted]
         df = df[[c for c in df.columns if c in keep]]
     if wide is not None:
         df = df.pivot(index="geo_id", columns="year", values=wide)

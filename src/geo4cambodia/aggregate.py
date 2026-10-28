@@ -165,7 +165,7 @@ def overlay(df: pd.DataFrame, target, extensive=(), intensive=(), source=None,
     extensive, intensive = list(extensive), list(intensive)
     if not extensive and not intensive:
         raise ValueError("Name the variables to move: extensive=[...] and/or intensive=[...]")
-    w = overlay_weights(source or _scale_of(df), target, id_col)
+    w = overlay_weights(source if source is not None else _scale_of(df), target, id_col)
     keys = ["year"] if "year" in df.columns else []
     data = df.drop(columns="geometry", errors="ignore").merge(
         w, left_on="geo_id", right_on="geo_id_from", how="inner")
