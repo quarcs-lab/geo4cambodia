@@ -1067,16 +1067,19 @@ twoway scatter HDI lnNTL`,
         // Landing page sections
         // ====================================================================
         // Satellite globe (globe.gl), loaded on demand so it never blocks first paint
+        // Sentinel-2 cloudless 2016 (EOX, CC BY 4.0) patches draped over the globe:
+        // Cambodia from level-8 tiles (~300 m/px), each city from a 9 x 7 block of level-11 tiles (~38 m/px)
+        const CAMBODIA_PATCH = { url: 'images/hero-cambodia-s2.webp', lat: 12.65625, lng: 105.1171875, width: 6.328125, height: 5.625, altitude: 0.0004, curvature: 0.25 };
+        const cityPatch = (id, lat, lng) => ({ url: `images/hero-city-${id}.webp`, lat, lng, width: 0.791016, height: 0.615234, altitude: 0.0008, curvature: 0.05 });
         const HERO_CITIES = [
-          { id: 'phnom-penh', name: 'Phnom Penh', lat: 11.5564, lng: 104.9282 },
-          { id: 'siem-reap', name: 'Siem Reap', lat: 13.3633, lng: 103.8564 },
-          { id: 'battambang', name: 'Battambang', lat: 13.0957, lng: 103.2022 },
-          { id: 'sihanoukville', name: 'Sihanoukville', lat: 10.6093, lng: 103.5296 },
+          { id: 'phnom-penh', name: 'Phnom Penh', lat: 11.5564, lng: 104.9282, patch: cityPatch('phnom-penh', 11.557617, 104.897461) },
+          { id: 'siem-reap', name: 'Siem Reap', lat: 13.3633, lng: 103.8564, patch: cityPatch('siem-reap', 13.40332, 103.842773) },
+          { id: 'battambang', name: 'Battambang', lat: 13.0957, lng: 103.2022, patch: cityPatch('battambang', 13.051758, 103.227539) },
+          { id: 'sihanoukville', name: 'Sihanoukville', lat: 10.6093, lng: 103.5296, patch: cityPatch('sihanoukville', 10.59082, 103.491211) },
         ];
         const HERO_THEMES = ['Measure regional development', 'Explore with open tools', 'Turn evidence into insight'];
-        const GLOBE_ALT = { intro: 2.6, overview: 0.9, city: 0.22, min: 0.12, max: 2.6 };
-        // Sentinel-2 cloudless 2016 (EOX, CC BY 4.0) level-8 tiles, columns 401-409 and rows 106-113
-        const CAMBODIA_PATCH = { url: 'images/hero-cambodia-s2.webp', lat: 12.65625, lng: 105.1171875, width: 6.328125, height: 5.625 };
+        // Altitudes in globe radii; city views sit low enough to match the ~38 m/px city imagery
+        const GLOBE_ALT = { intro: 2.6, overview: 0.9, city: 0.007, min: 0.005, max: 2.6, detail: 0.08 };
 
         const loadScript = (() => {
           const cache = {};
@@ -1101,23 +1104,35 @@ twoway scatter HDI lnNTL`,
           return best;
         };
 
-        // Drape the sharp Cambodia patch over the base globe, reusing globe.gl's bundled three.js classes
-        const addCambodiaPatch = (world) => {
+        // Image patches and street-level detail, tracked per globe instance
+        const globeLayers = new WeakMap();
+
+        // Drape a sharp image patch over the base globe, reusing globe.gl's bundled three.js classes
+        const addGlobePatch = (world, patch) => {
+          const layers = globeLayers.get(world);
           const base = world.globeMaterial();
-          if (!base || !base.map) return;
+          if (!layers || !base || !base.map || layers.requested.has(patch.url)) return;
+          layers.requested.add(patch.url);
           const img = new Image();
           img.onload = () => {
+            if (globeLayers.get(world) !== layers) return;
             const texture = new base.map.constructor(img);
             texture.colorSpace = base.map.colorSpace;
             texture.anisotropy = world.renderer().capabilities.getMaxAnisotropy();
             texture.needsUpdate = true;
-            const material = new base.constructor({ map: texture, transparent: true });
-            world.tilesData([CAMBODIA_PATCH])
-              .tileLat('lat').tileLng('lng').tileWidth('width').tileHeight('height')
-              .tileAltitude(0.0015).tileCurvatureResolution(0.25)
-              .tileMaterial(() => material);
+            layers.patches.push({ ...patch, material: new base.constructor({ map: texture, transparent: true }) });
+            world.tilesData([...layers.patches]);
           };
-          img.src = CAMBODIA_PATCH.url;
+          img.onerror = () => layers.requested.delete(patch.url);
+          img.src = patch.url;
+        };
+
+        // Close to the ground, the outline and city markers would cover the imagery
+        const setGlobeDetail = (world, detail) => {
+          const layers = globeLayers.get(world);
+          if (!layers || layers.detail === detail) return;
+          layers.detail = detail;
+          world.polygonsData(detail ? [] : layers.outline).pointsData(detail ? [] : HERO_CITIES);
         };
 
         const useSatelliteGlobe = (containerRef, enabled, handlers) => {
@@ -1136,7 +1151,7 @@ twoway scatter HDI lnNTL`,
             Promise.all([loadScript(GLOBE_JS_URL), fetch('maps/cambodia-outline.geojson').then((r) => r.json())])
               .then(([, outline]) => {
                 if (cancelled || !el || typeof window.Globe !== 'function') throw new Error('Globe unavailable');
-                world = new window.Globe(el, { animateIn: false })
+                world = new window.Globe(el, { animateIn: false, rendererConfig: { logarithmicDepthBuffer: true } })
                   .width(el.clientWidth).height(el.clientHeight)
                   .backgroundColor('rgba(0,0,0,0)')
                   .globeImageUrl('images/hero-globe-day.webp')
@@ -1144,14 +1159,17 @@ twoway scatter HDI lnNTL`,
                   .polygonsData(outline.features)
                   .polygonSideColor(() => 'rgba(255, 107, 107, 0.35)')
                   .polygonStrokeColor(() => '#ff6b6b')
-                  .polygonAltitude(0.0025)
+                  .polygonAltitude(0.0012)
                   .pointsData(HERO_CITIES).pointLat('lat').pointLng('lng')
-                  .pointColor(() => '#ffffff').pointAltitude(0.003).pointRadius(0.045)
+                  .pointColor(() => '#ffffff').pointAltitude(0.0015).pointRadius(0.045)
+                  .tileLat('lat').tileLng('lng').tileWidth('width').tileHeight('height')
+                  .tileAltitude('altitude').tileCurvatureResolution('curvature').tileMaterial('material')
                   .ringsData(HERO_CITIES).ringLat('lat').ringLng('lng')
                   .ringColor(() => (t) => `rgba(124, 196, 255, ${1 - t})`)
                   .ringMaxRadius(0.9).ringPropagationSpeed(0.6).ringRepeatPeriod(1800)
                   .pointOfView({ lat: 12.5, lng: 75, altitude: GLOBE_ALT.intro })
-                  .onGlobeReady(() => { if (cancelled) return; addCambodiaPatch(world); handlersRef.current.onReady(); });
+                  .onGlobeReady(() => { if (cancelled) return; addGlobePatch(world, CAMBODIA_PATCH); handlersRef.current.onReady(); });
+                globeLayers.set(world, { patches: [], requested: new Set(), outline: outline.features, detail: false });
                 // An invisible cap that doesn't hide the Cambodia patch underneath
                 const capMaterial = new (world.globeMaterial().constructor)({ transparent: true, opacity: 0, depthWrite: false });
                 world.polygonCapMaterial(() => capMaterial);
@@ -1172,7 +1190,7 @@ twoway scatter HDI lnNTL`,
               cancelled = true;
               clearTimeout(moveTimer);
               if (ro) ro.disconnect();
-              if (world) { world.pauseAnimation(); if (world._destructor) world._destructor(); }
+              if (world) { globeLayers.delete(world); world.pauseAnimation(); if (world._destructor) world._destructor(); }
               worldRef.current = null;
               if (el) el.innerHTML = '';
             };
@@ -1221,14 +1239,18 @@ twoway scatter HDI lnNTL`,
             if (worldRef.current) worldRef.current.controls().autoRotate = playing;
           }, [playing, ready]);
 
+          const preloadCity = (city) => { if (worldRef.current) addGlobePatch(worldRef.current, city.patch); };
           const flyTo = (city) => {
-            if (!worldRef.current) return;
+            const world = worldRef.current;
+            if (!world) return;
             userTookOver.current = true;
             setPlaying(false);
             setActiveId(city.id);
             setView({ lat: city.lat, lng: city.lng });
+            addGlobePatch(world, city.patch);
+            setGlobeDetail(world, true);
             target.current = { lat: city.lat, lng: city.lng, altitude: GLOBE_ALT.city };
-            worldRef.current.pointOfView(target.current, 1800);
+            world.pointOfView(target.current, 2600);
           };
           const cycle = (step) => {
             const index = HERO_CITIES.findIndex((c) => c.id === activeId);
@@ -1239,14 +1261,26 @@ twoway scatter HDI lnNTL`,
             if (!worldRef.current) return;
             const { lat, lng, altitude } = target.current || worldRef.current.pointOfView();
             target.current = { lat, lng, altitude: Math.min(GLOBE_ALT.max, Math.max(GLOBE_ALT.min, altitude * factor)) };
-            worldRef.current.pointOfView(target.current, 600);
+            setGlobeDetail(worldRef.current, target.current.altitude < GLOBE_ALT.detail);
+            worldRef.current.pointOfView(target.current, 800);
           };
-          const togglePlay = () => { userTookOver.current = true; setPlaying((p) => !p); };
+          const togglePlay = () => {
+            const world = worldRef.current;
+            userTookOver.current = true;
+            // Orbiting from street level would race across the ground, so pull back out first
+            if (!playing && world && world.pointOfView().altitude < GLOBE_ALT.overview / 2) {
+              const { lat, lng } = world.pointOfView();
+              setGlobeDetail(world, false);
+              world.pointOfView({ lat, lng, altitude: GLOBE_ALT.overview }, 1500);
+            }
+            if (!playing) { target.current = null; setActiveId(null); }
+            setPlaying((p) => !p);
+          };
           const onGlobeKeyDown = (e) => {
             if (e.key === 'ArrowRight') { e.preventDefault(); cycle(1); }
             else if (e.key === 'ArrowLeft') { e.preventDefault(); cycle(-1); }
-            else if (e.key === '+' || e.key === '=') { e.preventDefault(); zoom(0.75); }
-            else if (e.key === '-') { e.preventDefault(); zoom(1.33); }
+            else if (e.key === '+' || e.key === '=') { e.preventDefault(); zoom(0.5); }
+            else if (e.key === '-') { e.preventDefault(); zoom(2); }
           };
 
           const place = nearestCity(view.lat, view.lng);
@@ -1295,7 +1329,7 @@ twoway scatter HDI lnNTL`,
                     <div className="flex flex-col gap-3">
                       <div role="group" aria-label="Fly to a city" className="flex flex-wrap gap-2">
                         {HERO_CITIES.map((c) => (
-                          <button key={c.id} type="button" onClick={() => flyTo(c)} aria-pressed={activeId === c.id}
+                          <button key={c.id} type="button" onClick={() => flyTo(c)} onMouseEnter={() => preloadCity(c)} onFocus={() => preloadCity(c)} aria-pressed={activeId === c.id}
                                   className={`px-3 py-1.5 rounded-full border font-mono text-[11px] uppercase tracking-[0.15em] transition-colors ${activeId === c.id ? 'bg-brand-sky text-navy-950 border-brand-sky' : 'bg-white/5 text-slate-200 border-white/15 hover:bg-white/15'}`}>
                             {c.name}
                           </button>
@@ -1306,8 +1340,8 @@ twoway scatter HDI lnNTL`,
                         <HeroIconButton label={playing ? 'Pause rotation' : 'Rotate the globe'} onClick={togglePlay}>{playing ? <Pause size={14} /> : <Play size={14} />}</HeroIconButton>
                         <HeroIconButton label="Next city" onClick={() => cycle(1)}><ChevronRight size={16} /></HeroIconButton>
                         <span className="w-px h-5 bg-white/15 mx-1" aria-hidden="true"></span>
-                        <HeroIconButton label="Zoom out" onClick={() => zoom(1.33)}><Minus size={16} /></HeroIconButton>
-                        <HeroIconButton label="Zoom in" onClick={() => zoom(0.75)}><Plus size={16} /></HeroIconButton>
+                        <HeroIconButton label="Zoom out" onClick={() => zoom(2)}><Minus size={16} /></HeroIconButton>
+                        <HeroIconButton label="Zoom in" onClick={() => zoom(0.5)}><Plus size={16} /></HeroIconButton>
                       </div>
                     </div>
                   )}
