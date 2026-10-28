@@ -343,6 +343,34 @@
         // ====================================================================
         const ReducedMotionContext = React.createContext(false);
 
+        // Drift a background image slower than the page; static under reduced motion
+        const useParallax = (factor = 0.08, scale = 1.25) => {
+          const reduced = React.useContext(ReducedMotionContext);
+          const ref = useRef(null);
+          useEffect(() => {
+            const el = ref.current;
+            if (reduced || !el) return undefined;
+            let frame = 0;
+            const update = () => {
+              frame = 0;
+              const box = el.parentElement.getBoundingClientRect();
+              if (box.bottom < 0 || box.top > window.innerHeight) return;
+              const offset = (box.top + box.height / 2 - window.innerHeight / 2) * -factor;
+              el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0) scale(${scale})`;
+            };
+            const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+            update();
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            return () => {
+              cancelAnimationFrame(frame);
+              window.removeEventListener('scroll', onScroll);
+              window.removeEventListener('resize', onScroll);
+            };
+          }, [reduced, factor, scale]);
+          return ref;
+        };
+
         const AnimateIn = ({ children, delay = 0, className = '' }) => {
           const reduced = React.useContext(ReducedMotionContext);
           const [ref, isInView] = useInView({ threshold: 0.1 });
@@ -747,11 +775,11 @@ twoway scatter HDI lnNTL`,
         const itemHref = (item) => `#/${item.section}/${item.id}`;
 
         const TYPE_STYLE = {
-          indicator: { label: 'Indicator', text: 'text-sky-300', bg: 'bg-sky-400/10', ring: 'border-sky-400/30', glow: 'hover:border-sky-400/40 hover:shadow-sky-500/10', icon: Database },
-          notebook: { label: 'Notebook', text: 'text-violet-300', bg: 'bg-violet-400/10', ring: 'border-violet-400/30', glow: 'hover:border-violet-400/40 hover:shadow-violet-500/10', icon: BookOpen },
-          app: { label: 'Web app', text: 'text-amber-300', bg: 'bg-amber-400/10', ring: 'border-amber-400/30', glow: 'hover:border-amber-400/40 hover:shadow-amber-500/10', icon: Globe },
-          insight: { label: 'Insight', text: 'text-rose-300', bg: 'bg-rose-400/10', ring: 'border-rose-400/30', glow: 'hover:border-rose-400/40 hover:shadow-rose-500/10', icon: Lightbulb },
-          event: { label: 'Event', text: 'text-emerald-300', bg: 'bg-emerald-400/10', ring: 'border-emerald-400/30', glow: 'hover:border-emerald-400/40 hover:shadow-emerald-500/10', icon: Calendar },
+          indicator: { label: 'Indicator', text: 'text-sky-300', bg: 'bg-sky-400/10', ring: 'border-sky-400/30', glow: 'hover:border-sky-400/40', icon: Database },
+          notebook: { label: 'Notebook', text: 'text-violet-300', bg: 'bg-violet-400/10', ring: 'border-violet-400/30', glow: 'hover:border-violet-400/40', icon: BookOpen },
+          app: { label: 'Web app', text: 'text-amber-300', bg: 'bg-amber-400/10', ring: 'border-amber-400/30', glow: 'hover:border-amber-400/40', icon: Globe },
+          insight: { label: 'Insight', text: 'text-rose-300', bg: 'bg-rose-400/10', ring: 'border-rose-400/30', glow: 'hover:border-rose-400/40', icon: Lightbulb },
+          event: { label: 'Event', text: 'text-emerald-300', bg: 'bg-emerald-400/10', ring: 'border-emerald-400/30', glow: 'hover:border-emerald-400/40', icon: Calendar },
         };
 
         const LINK_ICON = {
@@ -837,13 +865,65 @@ twoway scatter HDI lnNTL`,
         // ====================================================================
         // Shared UI pieces
         // ====================================================================
-        const SectionHeading = ({ eyebrow, title, children, center = true, as = 'h2' }) => {
+        // Monospace label with a leading hairline, as in the hero
+        const Eyebrow = ({ index, children, tone = 'text-brand-sky', as = 'p', className = '' }) => {
+          const T = as;
+          return (
+            <T className={`flex items-center gap-3 font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] ${tone} ${className}`}>
+              <span className="h-px w-8 bg-current opacity-60" aria-hidden="true"></span>
+              {index && <span>{index} ·</span>}
+              <span>{children}</span>
+            </T>
+          );
+        };
+
+        // Editorial section heading: label, white title with an italic gradient phrase, intro
+        const SectionHeading = ({ index, eyebrow, title, emphasis, id, children, as = 'h2' }) => {
           const H = as;
           return (
-            <div className={`mb-12 relative z-10 ${center ? 'text-center' : ''}`}>
-              {eyebrow && <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">{eyebrow}</span>}
-              <H className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">{title}</span></H>
-              {children && <p className={`text-lg text-slate-400 ${center ? 'max-w-3xl mx-auto' : 'max-w-3xl'}`}>{children}</p>}
+            <div className="max-w-3xl relative z-10">
+              {eyebrow && <Eyebrow index={index} className="mb-5">{eyebrow}</Eyebrow>}
+              <H id={id} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-[1.05] text-white">
+                {title}{emphasis && <> <em className="gradient-text pr-2">{emphasis}</em></>}
+              </H>
+              {children && <p className="mt-5 text-lg text-slate-300 leading-relaxed">{children}</p>}
+            </div>
+          );
+        };
+
+        // Sentinel-2 cloudless 2016 crops (EOX, CC BY 4.0) behind the main section headers and the footer
+        const SECTION_BANDS = {
+          about: { image: 'images/bands/tonle-sap.webp', place: 'Tonlé Sap', lat: 12.88, lng: 104.08 },
+          indicators: { image: 'images/bands/kampong-cham.webp', place: 'Mekong · Kampong Cham', lat: 12.0, lng: 105.46 },
+          tools: { image: 'images/bands/phnom-penh.webp', place: 'Phnom Penh', lat: 11.57, lng: 104.92 },
+          insights: { image: 'images/bands/angkor.webp', place: 'Angkor · Siem Reap', lat: 13.41, lng: 103.87 },
+          events: { image: 'images/bands/kampot-kep.webp', place: 'Kampot–Kep coast', lat: 10.55, lng: 104.25 },
+          footer: { image: 'images/bands/kratie.webp', place: 'Mekong at Kratié', lat: 12.49, lng: 106.02 },
+        };
+
+        const BandCaption = ({ band, className = '' }) => (
+          <p className={`font-mono text-[11px] uppercase tracking-[0.2em] text-slate-300 ${className}`}>
+            <span className="block text-xs sm:text-sm tracking-[0.15em] text-white whitespace-pre">{formatCoord(band.lat, band.lng)}</span>
+            <span className="block mt-1 text-brand-sky">{band.place}</span>
+            <span className="block mt-1 text-slate-400">Sentinel-2 cloudless 2016</span>
+          </p>
+        );
+
+        const SatelliteHeader = ({ band, children }) => {
+          const imgRef = useParallax();
+          return (
+            <div className="relative overflow-hidden min-h-[440px] md:min-h-[540px] flex items-end">
+              <div className="absolute inset-0" aria-hidden="true">
+                <img ref={imgRef} src={band.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover scale-125 saturate-[1.2] brightness-110 will-change-transform" />
+                <div className="absolute inset-0 bg-navy-950/50 md:bg-navy-950/10"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/55 via-35% to-transparent to-65%"></div>
+                <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-950/90 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent"></div>
+              </div>
+              <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                <AnimateIn className="min-w-0">{children}</AnimateIn>
+                <BandCaption band={band} className="md:text-right flex-shrink-0" />
+              </div>
             </div>
           );
         };
@@ -863,7 +943,7 @@ twoway scatter HDI lnNTL`,
         const CodeBlock = ({ code, language = 'python', title }) => {
           const highlighted = useMemo(() => highlightCode(code, language), [code, language]);
           return (
-            <div className="rounded-2xl overflow-hidden bg-white/[0.04] backdrop-blur-md shadow-2xl border border-white/10">
+            <div className="rounded-xl overflow-hidden bg-white/[0.03] backdrop-blur-md shadow-2xl border border-white/10">
               <div className="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10">
                 <div className="flex items-center gap-2 min-w-0">
                   <div className="flex gap-1.5" aria-hidden="true">
@@ -891,7 +971,7 @@ twoway scatter HDI lnNTL`,
                 {tabs.map(([k, label]) => (
                   <button key={k} role="tab" id={`${idPrefix}-tab-${k}`} aria-selected={active === k} aria-controls={`${idPrefix}-panel-${k}`}
                           onClick={() => setActive(k)}
-                          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${active === k ? 'bg-brand-red text-white' : 'bg-navy-800 text-slate-300 border border-white/10 hover:text-white'}`}>
+                          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${active === k ? 'bg-brand-red text-white' : 'bg-transparent text-slate-300 border border-white/15 hover:text-white hover:border-white/30'}`}>
                     {label}
                   </button>
                 ))}
@@ -937,7 +1017,7 @@ twoway scatter HDI lnNTL`,
         const LiteYouTube = ({ id, label }) => {
           const [active, setActive] = useState(false);
           return (
-            <figure className="rounded-2xl overflow-hidden border border-white/10 bg-black">
+            <figure className="rounded-xl overflow-hidden border border-white/10 bg-black">
               <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                 {active ? (
                   <iframe className="absolute inset-0 w-full h-full" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
@@ -959,7 +1039,7 @@ twoway scatter HDI lnNTL`,
         };
 
         const AudioPlayer = ({ src, label }) => (
-          <figure className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+          <figure className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
             <figcaption className="flex items-center gap-2 text-sm font-semibold text-slate-200 mb-3"><Headphones size={18} className="text-brand-sky" /> {label}</figcaption>
             <audio controls preload="none" src={src} className="w-full">Your browser does not support the audio element. <a href={src}>Download the audio</a>.</audio>
           </figure>
@@ -1012,7 +1092,7 @@ twoway scatter HDI lnNTL`,
             return () => window.removeEventListener('keydown', onKey);
           }, [isOpen]);
 
-          const solid = scrolled || !isHome || isOpen;
+          const solid = scrolled || isOpen;
           return (
             <header>
               <nav aria-label="Main" className={`fixed w-full z-50 transition-all duration-300 ${solid ? 'bg-navy-950/85 backdrop-blur-xl shadow-lg shadow-black/40 border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
@@ -1023,7 +1103,7 @@ twoway scatter HDI lnNTL`,
                       {NAV_LINKS.map((link) => (
                         <li key={link.id}>
                           <a href={`#${link.id}`} aria-current={activeSection === link.id ? 'true' : undefined}
-                             className={`nav-link-underline text-sm font-medium transition-colors ${activeSection === link.id ? 'text-white active' : 'text-slate-300 hover:text-white'}`}>
+                             className={`nav-link-underline text-sm font-medium transition-colors ${activeSection === link.id ? 'text-brand-sky active' : 'text-slate-300 hover:text-white'}`}>
                             {link.name}
                           </a>
                         </li>
@@ -1398,27 +1478,21 @@ twoway scatter HDI lnNTL`,
             { value: byType(['insight']).length, label: 'research insights' },
           ];
           return (
-            <section id="about" aria-labelledby="about-title" className="py-24 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-blue-700/10 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <AnimateIn>
-                  <div className="text-center mb-14 relative z-10">
-                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">About the observatory</span>
-                    <h2 id="about-title" className="text-3xl md:text-5xl font-extrabold mt-2 mb-6 tracking-tight"><span className="gradient-text">From pixels to policy</span></h2>
-                    <p className="max-w-4xl mx-auto text-lg md:text-xl text-slate-300 leading-relaxed">
-                      The GeoDevelopment Observatory of Cambodia (GDO-Cambodia) is a public-access platform for analyzing, monitoring, and evaluating sustainable regional development. It brings together environmental, social, and economic indicators from satellite imagery, household surveys, and administrative records; makes them explorable through AI-enhanced notebooks and web apps; and turns the results into insights anyone can use.
-                    </p>
-                  </div>
-                </AnimateIn>
-
+            <section id="about" aria-labelledby="about-title" className="relative border-t border-white/10">
+              <SatelliteHeader band={SECTION_BANDS.about}>
+                <SectionHeading index="01" eyebrow="About the observatory" title="From pixels" emphasis="to policy" id="about-title">
+                  The GeoDevelopment Observatory of Cambodia (GDO-Cambodia) is a public-access platform for analyzing, monitoring, and evaluating sustainable regional development. It brings together environmental, social, and economic indicators from satellite imagery, household surveys, and administrative records; makes them explorable through AI-enhanced notebooks and web apps; and turns the results into insights anyone can use.
+                </SectionHeading>
+              </SatelliteHeader>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                   {PILLARS.map((p, i) => {
                     const Icon = p.icon;
                     return (
                       <AnimateIn key={p.title} delay={i * 100}>
-                        <a href={p.href} className={`group block h-full bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${p.border}`}>
+                        <a href={p.href} className={`group block h-full bg-white/[0.03] rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${p.border}`}>
                           <div className="relative aspect-[3/2] overflow-hidden bg-navy-900">
-                            <img src={p.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <img src={p.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
                             <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/20 to-transparent"></div>
                             <div className="absolute bottom-4 left-5 w-12 h-12 rounded-xl bg-navy-950/80 border border-white/10 flex items-center justify-center">
                               <Icon size={24} className={p.accent} />
@@ -1438,11 +1512,12 @@ twoway scatter HDI lnNTL`,
                 <AnimateIn>
                   <dl className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
                     {stats.map((s) => (
-                      <div key={s.label} className="text-center rounded-2xl bg-white/[0.03] border border-white/10 py-6 px-3 last:col-span-2 md:last:col-span-1">
+                      <div key={s.label} className="rounded-xl bg-white/[0.03] border border-white/10 py-6 px-5 last:col-span-2 md:last:col-span-1">
                         <dt className="sr-only">{s.label}</dt>
                         <dd>
-                          <span className="block text-3xl md:text-4xl font-extrabold gradient-text">{s.value}</span>
-                          <span className="block text-xs sm:text-sm text-slate-400 mt-1">{s.label}</span>
+                          <span className="block text-3xl lg:text-4xl font-extrabold tracking-tight text-white whitespace-nowrap">{s.value}</span>
+                          <span className="block h-px w-6 bg-brand-sky my-3" aria-hidden="true"></span>
+                          <span className="block text-xs sm:text-sm text-slate-400">{s.label}</span>
                         </dd>
                       </div>
                     ))}
@@ -1450,12 +1525,12 @@ twoway scatter HDI lnNTL`,
                 </AnimateIn>
 
                 <AnimateIn>
-                  <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-6">Who it is for</h3>
+                  <Eyebrow as="h3" tone="text-slate-300" className="mb-6">Who it is for</Eyebrow>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {AUDIENCES.map((a) => {
                       const Icon = a.icon;
                       return (
-                        <div key={a.title} className="flex gap-4 items-start p-6 rounded-2xl bg-navy-900/60 border border-white/5">
+                        <div key={a.title} className="flex gap-4 items-start p-6 rounded-xl bg-white/[0.03] border border-white/10">
                           <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-brand-red/15 text-[#ff8a8a] flex items-center justify-center"><Icon size={22} /></div>
                           <div>
                             <h4 className="font-bold text-white mb-1">{a.title}</h4>
@@ -1474,10 +1549,10 @@ twoway scatter HDI lnNTL`,
         const ItemCard = ({ item, showImage = true }) => {
           const s = TYPE_STYLE[item.type];
           return (
-            <article className={`group h-full bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${s.glow} relative`}>
+            <article className={`group h-full bg-white/[0.03] rounded-xl border border-white/10 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-0.5 ${s.glow} relative`}>
               {showImage && item.image && (
                 <div className="relative aspect-[16/9] overflow-hidden bg-navy-900">
-                  <img src={item.image} alt={item.imageAlt || ''} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={item.image} alt={item.imageAlt || ''} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent"></div>
                   <div className="absolute top-3 left-3"><TypeBadge item={item} solid /></div>
                   {item.pinned && <span className="absolute top-3 right-3 text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-brand-red/90 text-white">Featured</span>}
@@ -1503,27 +1578,24 @@ twoway scatter HDI lnNTL`,
         const IndicatorsSection = () => {
           const items = byType(['indicator']);
           return (
-            <section id="indicators" aria-labelledby="indicators-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
-              <div className="absolute bottom-0 left-1/4 w-[420px] h-[420px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <AnimateIn>
-                  <div className="text-center mb-12 relative z-10">
-                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Indicators</span>
-                    <h2 id="indicators-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Subnational data, ready to analyze</span></h2>
-                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Environmental, social, and economic indicators from satellite imagery, surveys, and administrative records, documented variable by variable and free to download.</p>
-                  </div>
-                </AnimateIn>
+            <section id="indicators" aria-labelledby="indicators-title" className="relative border-t border-white/10">
+              <SatelliteHeader band={SECTION_BANDS.indicators}>
+                <SectionHeading index="02" eyebrow="GeoDevelopment Indicators" title="Subnational data," emphasis="ready to analyze" id="indicators-title">
+                  Environmental, social, and economic indicators from satellite imagery, surveys, and administrative records, documented variable by variable and free to download.
+                </SectionHeading>
+              </SatelliteHeader>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
                   {items.map((item, i) => <AnimateIn key={item.id} delay={i * 80}><ItemCard item={item} /></AnimateIn>)}
                 </div>
 
                 {/* Dataset architecture */}
                 <AnimateIn>
-                  <h3 id="get-the-data" className="text-xl font-bold text-white flex items-center gap-3 mb-6">
-                    <span className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500/20 to-red-500/20 border border-sky-400/30 flex items-center justify-center text-sm font-bold text-brand-sky">1</span>
+                  <h3 id="get-the-data" className="text-2xl font-bold tracking-tight text-white flex items-baseline gap-3 mb-6">
+                    <span className="font-mono text-sm text-brand-sky">01</span>
                     Dataset architecture
                   </h3>
-                  <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] mb-16">
+                  <div className="rounded-xl overflow-hidden border border-white/10 bg-white/[0.03] mb-16">
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm">
                         <caption className="sr-only">Indicator modules, geography, coverage, join key and documentation</caption>
@@ -1573,8 +1645,8 @@ twoway scatter HDI lnNTL`,
 
                 {/* Code examples */}
                 <AnimateIn>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-3 mb-4">
-                    <span className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500/20 to-red-500/20 border border-sky-400/30 flex items-center justify-center text-sm font-bold text-brand-sky">2</span>
+                  <h3 className="text-2xl font-bold tracking-tight text-white flex items-baseline gap-3 mb-4">
+                    <span className="font-mono text-sm text-brand-sky">02</span>
                     Start coding in seconds
                   </h3>
                   <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
@@ -1596,20 +1668,17 @@ twoway scatter HDI lnNTL`,
           const items = filter === 'all' ? all : all.filter((i) => i.type === filter);
           const options = [['all', `All (${all.length})`], ['notebook', `Notebooks (${all.filter((i) => i.type === 'notebook').length})`], ['app', `Web apps (${all.filter((i) => i.type === 'app').length})`]];
           return (
-            <section id="tools" aria-labelledby="tools-title" className="py-24 relative overflow-hidden">
-              <div className="absolute top-1/3 right-0 w-[420px] h-[420px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <AnimateIn>
-                  <div className="text-center mb-10 relative z-10">
-                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Tools</span>
-                    <h2 id="tools-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Explore, map, and model</span></h2>
-                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Computational notebooks and web applications for analyzing the indicators, visualizing patterns, and extending research results, all running in your browser.</p>
-                  </div>
-                </AnimateIn>
-                <div role="group" aria-label="Filter tools" className="flex flex-wrap justify-center gap-2 mb-10">
+            <section id="tools" aria-labelledby="tools-title" className="relative border-t border-white/10">
+              <SatelliteHeader band={SECTION_BANDS.tools}>
+                <SectionHeading index="03" eyebrow="GeoDevelopment Tools" title="Explore, map," emphasis="and model" id="tools-title">
+                  Computational notebooks and web applications for analyzing the indicators, visualizing patterns, and extending research results, all running in your browser.
+                </SectionHeading>
+              </SatelliteHeader>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
+                <div role="group" aria-label="Filter tools" className="flex flex-wrap gap-2 mb-10">
                   {options.map(([k, label]) => (
                     <button key={k} type="button" onClick={() => setFilter(k)} aria-pressed={filter === k}
-                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${filter === k ? 'bg-brand-red text-white shadow-sm' : 'bg-navy-800 text-slate-300 border border-white/10 hover:border-brand-sky/50 hover:text-white'}`}>
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${filter === k ? 'bg-brand-red text-white shadow-sm' : 'bg-transparent text-slate-300 border border-white/15 hover:border-white/30 hover:text-white'}`}>
                       {label}
                     </button>
                   ))}
@@ -1625,16 +1694,13 @@ twoway scatter HDI lnNTL`,
         const InsightsSection = () => {
           const items = byType(['insight']);
           return (
-            <section id="insights" aria-labelledby="insights-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
-              <div className="absolute top-1/4 left-0 w-[420px] h-[420px] bg-rose-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <AnimateIn>
-                  <div className="text-center mb-12 relative z-10">
-                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">GeoDevelopment Insights</span>
-                    <h2 id="insights-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Research, made accessible</span></h2>
-                    <p className="max-w-3xl mx-auto text-lg text-slate-400">Curated findings derived from the observatory’s indicators and tools, presented as papers, videos, podcasts, slides, story books, and chatbots for researchers, policymakers, and the public.</p>
-                  </div>
-                </AnimateIn>
+            <section id="insights" aria-labelledby="insights-title" className="relative border-t border-white/10">
+              <SatelliteHeader band={SECTION_BANDS.insights}>
+                <SectionHeading index="04" eyebrow="GeoDevelopment Insights" title="Research," emphasis="made accessible" id="insights-title">
+                  Curated findings derived from the observatory’s indicators and tools, presented as papers, videos, podcasts, slides, story books, and chatbots for researchers, policymakers, and the public.
+                </SectionHeading>
+              </SatelliteHeader>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {items.map((item, i) => <AnimateIn key={item.id} delay={i * 80}><ItemCard item={item} /></AnimateIn>)}
                 </div>
@@ -1647,21 +1713,19 @@ twoway scatter HDI lnNTL`,
           const events = byType(['event']);
           const today = new Date().toISOString().slice(0, 10);
           return (
-            <section id="events" aria-labelledby="events-title" className="py-24 relative overflow-hidden">
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <AnimateIn>
-                  <div className="text-center mb-12 relative z-10">
-                    <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Events</span>
-                    <h2 id="events-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-4 tracking-tight"><span className="gradient-text">Workshops and talks</span></h2>
-                    <p className="max-w-3xl mx-auto text-lg text-slate-400">We bring together researchers, practitioners, and students working at the intersection of development, geospatial analytics, and AI.</p>
-                  </div>
-                </AnimateIn>
+            <section id="events" aria-labelledby="events-title" className="relative border-t border-white/10">
+              <SatelliteHeader band={SECTION_BANDS.events}>
+                <SectionHeading index="05" eyebrow="Events" title="Workshops" emphasis="and talks" id="events-title">
+                  We bring together researchers, practitioners, and students working at the intersection of development, geospatial analytics, and AI.
+                </SectionHeading>
+              </SatelliteHeader>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
                 <div className="space-y-6 mb-12">
                   {events.map((ev) => {
                     const past = ev.date < today;
                     return (
                       <AnimateIn key={ev.id}>
-                        <article className="group relative grid grid-cols-1 md:grid-cols-[300px_minmax(0,1fr)] gap-0 bg-white/[0.04] rounded-2xl border border-white/10 overflow-hidden hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all">
+                        <article className="group relative grid grid-cols-1 md:grid-cols-[300px_minmax(0,1fr)] gap-0 bg-white/[0.03] rounded-xl border border-white/10 overflow-hidden hover:border-emerald-400/40 transition-all">
                           <div className="bg-white aspect-square self-start overflow-hidden">
                             <img src={ev.image} alt={ev.imageAlt} loading="lazy" className="w-full h-full object-cover" />
                           </div>
@@ -1687,11 +1751,13 @@ twoway scatter HDI lnNTL`,
                   })}
                 </div>
                 <AnimateIn>
-                  <div className="text-center rounded-2xl border border-white/10 bg-gradient-to-br from-navy-800/80 to-navy-900 p-8">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    <div>
                     <h3 className="text-xl font-bold text-white mb-2">Never miss an event</h3>
-                    <p className="text-slate-400 mb-6 max-w-xl mx-auto">Subscribe to our events calendar for upcoming workshops, seminars, and training sessions on spatial data science and development.</p>
+                    <p className="text-slate-400 max-w-xl">Subscribe to our events calendar for upcoming workshops, seminars, and training sessions on spatial data science and development.</p>
+                    </div>
                     <a href="https://luma.com/cmg" target="_blank" rel="noopener noreferrer"
-                       className="inline-flex items-center gap-2 px-7 py-3 rounded-lg font-semibold text-white bg-brand-red hover:bg-brand-redHover transition-all hover:-translate-y-0.5 shadow-lg shadow-red-900/30">
+                       className="flex-shrink-0 self-start md:self-auto inline-flex items-center gap-2 px-7 py-3 rounded-lg font-semibold text-white bg-brand-red hover:bg-brand-redHover transition-all hover:-translate-y-0.5 shadow-lg shadow-red-900/30">
                       <Calendar size={18} /> Subscribe to upcoming events<span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   </div>
@@ -1723,23 +1789,20 @@ twoway scatter HDI lnNTL`,
         };
 
         const TeamSection = () => (
-          <section id="team" aria-labelledby="team-title" className="py-24 bg-navy-900 border-t border-white/5">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <AnimateIn>
-                <div className="text-center mb-14">
-                  <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Team</span>
-                  <h2 id="team-title" className="text-3xl md:text-4xl font-extrabold mt-2 tracking-tight"><span className="gradient-text">The people behind GDO-Cambodia</span></h2>
-                </div>
+          <section id="team" aria-labelledby="team-title" className="py-24 border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn className="mb-14">
+                <SectionHeading index="06" eyebrow="Team" title="The people behind" emphasis="GDO‑Cambodia" id="team-title" />
               </AnimateIn>
               <AnimateIn>
-                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Core team</h3>
-                <div className="flex flex-wrap justify-center gap-x-16 gap-y-10 mb-16">
+                <Eyebrow as="h3" tone="text-slate-300" className="mb-8">Core team</Eyebrow>
+                <div className="flex flex-wrap gap-x-16 gap-y-10 mb-16">
                   {PEOPLE.core.map((p) => <PersonCard key={p.name} person={p} />)}
                 </div>
               </AnimateIn>
               <AnimateIn>
-                <h3 className="text-center text-sm font-bold tracking-widest uppercase text-slate-400 mb-8">Research assistants</h3>
-                <div className="flex flex-wrap justify-center gap-x-16 gap-y-10">
+                <Eyebrow as="h3" tone="text-slate-300" className="mb-8">Research assistants</Eyebrow>
+                <div className="flex flex-wrap gap-x-16 gap-y-10">
                   {PEOPLE.associates.map((p) => <PersonCard key={p.name} person={p} small />)}
                 </div>
               </AnimateIn>
@@ -1748,15 +1811,14 @@ twoway scatter HDI lnNTL`,
         );
 
         const CommunitySection = () => (
-          <section id="community" aria-labelledby="community-title" className="py-24 relative overflow-hidden">
-            <div className="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true"></div>
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-              <AnimateIn>
-                <span className="text-brand-sky font-bold tracking-widest uppercase text-xs sm:text-sm">Community</span>
-                <h2 id="community-title" className="text-3xl md:text-4xl font-extrabold mt-2 mb-6 tracking-tight"><span className="gradient-text">Join the conversation</span></h2>
+          <section id="community" aria-labelledby="community-title" className="py-24 border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn className="mb-10">
+                <SectionHeading index="07" eyebrow="Community" title="Join" emphasis="the conversation" id="community-title">
+                  GDO-Cambodia is open by design. Use GitHub Discussions to connect with the team and with other users of the observatory.
+                </SectionHeading>
               </AnimateIn>
-              <p className="text-slate-400 leading-relaxed mb-8">GDO-Cambodia is open by design. Use GitHub Discussions to connect with the team and with other users of the observatory.</p>
-              <ul className="text-left max-w-lg mx-auto space-y-3 text-slate-300 mb-10">
+              <ul className="max-w-lg space-y-3 text-slate-300 mb-10">
                 {[
                   [MessageCircle, 'Ask questions about the data, methods, and tools'],
                   [Lightbulb, 'Suggest new indicators, regions, or features'],
@@ -1775,14 +1837,15 @@ twoway scatter HDI lnNTL`,
         );
 
         const CiteSection = () => (
-          <section id="cite" aria-labelledby="cite-title" className="py-24 bg-navy-900 border-t border-white/5 relative overflow-hidden">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <AnimateIn>
-                <h2 id="cite-title" className="text-2xl md:text-3xl font-extrabold mb-3 flex items-center gap-3 tracking-tight">
-                  <FileText className="text-brand-sky" /> <span className="gradient-text">How to cite</span>
-                </h2>
-                <p className="text-slate-400 mb-8">If you use the observatory in your work, please cite it as below. Each dataset also has its own recommended citation on its detail page.</p>
-                <div className="bg-white/[0.04] p-6 rounded-2xl border border-white/10 mb-6">
+          <section id="cite" aria-labelledby="cite-title" className="py-24 border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <AnimateIn className="max-w-4xl">
+                <div className="mb-10">
+                  <SectionHeading index="08" eyebrow="Cite" title="How to" emphasis="cite" id="cite-title">
+                    If you use the observatory in your work, please cite it as below. Each dataset also has its own recommended citation on its detail page.
+                  </SectionHeading>
+                </div>
+                <div className="bg-white/[0.03] p-6 rounded-xl border border-white/10 mb-6">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-bold text-slate-200 text-sm uppercase tracking-wide">APA</h3>
                     <CopyButton text={CITATION_APA} />
@@ -1796,14 +1859,16 @@ twoway scatter HDI lnNTL`,
         );
 
         const ContactSection = () => (
-          <section id="contact" aria-labelledby="contact-title" className="py-20 border-t border-white/5">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section id="contact" aria-labelledby="contact-title" className="py-24 border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <AnimateIn>
-                <h2 id="contact-title" className="text-2xl md:text-3xl font-extrabold mb-8 text-center tracking-tight"><span className="gradient-text">Contact us</span></h2>
+                <div className="mb-10">
+                  <SectionHeading index="09" eyebrow="Contact" title="Contact" emphasis="us" id="contact-title" />
+                </div>
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {CONTACTS.map((c) => (
                     <li key={c.email}>
-                      <div className="flex items-center gap-3 p-5 rounded-2xl bg-white/[0.04] border border-white/10 h-full">
+                      <div className="flex items-center gap-3 p-5 rounded-xl bg-white/[0.03] border border-white/10 h-full">
                         <span className="w-10 h-10 rounded-full bg-brand-red/15 text-[#ff8a8a] flex items-center justify-center flex-shrink-0"><Mail size={18} /></span>
                         <span className="min-w-0">
                           <span className="block font-semibold text-white">{c.name}</span>
@@ -1818,32 +1883,56 @@ twoway scatter HDI lnNTL`,
           </section>
         );
 
-        const Footer = () => (
-          <footer className="bg-navy-950 border-t border-white/5 py-14">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 mb-10">
-                <div className="text-center md:text-left max-w-sm">
-                  <div className="flex justify-center md:justify-start"><Wordmark /></div>
-                  <p className="text-slate-400 text-sm mt-4">Open data, tools, and insights for sustainable regional development in Cambodia.</p>
-                </div>
-                <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
-                  {NAV_LINKS.map((l) => <a key={l.id} href={`#${l.id}`} className="text-slate-400 hover:text-white">{l.name}</a>)}
-                  <a href="#community" className="text-slate-400 hover:text-white">Community</a>
-                  <a href="#contact" className="text-slate-400 hover:text-white">Contact</a>
-                </nav>
-                <a href={REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub repository (opens in a new tab)"
-                   className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:border-brand-sky/50">
-                  <Github size={20} />
-                </a>
+        const Footer = () => {
+          const band = SECTION_BANDS.footer;
+          const imgRef = useParallax();
+          return (
+          <footer className="bg-navy-950 border-t border-white/10">
+            <div className="relative overflow-hidden">
+              <div className="absolute inset-0" aria-hidden="true">
+                <img ref={imgRef} src={band.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover scale-125 saturate-[1.2] brightness-110 will-change-transform" />
+                <div className="absolute inset-0 bg-navy-950/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/50 to-transparent"></div>
+                <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-navy-950 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-950 to-transparent"></div>
               </div>
-              <div className="border-t border-white/5 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
+              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12">
+                  <div className="max-w-md">
+                    <Wordmark size="lg" />
+                    <p className="text-slate-200 mt-5">Open data, tools, and insights for sustainable regional development in Cambodia.</p>
+                    <BandCaption band={band} className="mt-8" />
+                  </div>
+                  <div className="flex flex-wrap gap-12 items-start">
+                    <nav aria-label="Footer">
+                      <Eyebrow className="mb-4">Explore</Eyebrow>
+                      <div className="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
+                        {NAV_LINKS.map((l) => <a key={l.id} href={`#${l.id}`} className="text-slate-300 hover:text-white">{l.name}</a>)}
+                        <a href="#community" className="text-slate-300 hover:text-white">Community</a>
+                        <a href="#contact" className="text-slate-300 hover:text-white">Contact</a>
+                      </div>
+                    </nav>
+                    <div>
+                      <Eyebrow className="mb-4">Code</Eyebrow>
+                      <a href={REPO_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub repository (opens in a new tab)"
+                         className="w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-200 hover:text-white hover:border-brand-sky/50">
+                        <Github size={20} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+              <div className="border-t border-white/10 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
                 <p><strong className="text-slate-400">Disclaimer.</strong> The indicators, tools, and insights are the responsibility of the individual researchers and do not necessarily represent the views of their affiliated institutions or related organizations. Maps on this website are for geo-statistical use only and have a referential, informational character. They represent indicators spatially and do not constitute an official definition of Cambodia’s territorial boundaries.</p>
-                <p><strong className="text-slate-400">Credits.</strong> Section illustrations were generated with OpenAI image generation (via Codex). The hero globe uses <a href="https://s2maps.eu" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), licensed under CC BY 4.0, over NASA's Blue Marble Next Generation (public domain), and is rendered with globe.gl. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
+                <p><strong className="text-slate-400">Credits.</strong> Section illustrations were generated with OpenAI image generation (via Codex). The hero globe uses <a href="https://s2maps.eu" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), licensed under CC BY 4.0, over NASA's Blue Marble Next Generation (public domain), and is rendered with globe.gl; the section and footer backgrounds are Sentinel-2 cloudless crops of Cambodia from the same source. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
                 <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue</a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions</a>.</p>
               </div>
             </div>
           </footer>
-        );
+          );
+        };
 
         // ====================================================================
         // Detail views
@@ -1852,24 +1941,34 @@ twoway scatter HDI lnNTL`,
 
         const DetailShell = ({ item, children, aside }) => {
           const headingRef = useRef(null);
+          const imgRef = useParallax(0.05, 1.3);
           useEffect(() => { if (headingRef.current) headingRef.current.focus({ preventScroll: true }); }, [item.id]);
           return (
-            <article className="pt-28 pb-20">
+            <article className="pb-20">
+              <header className="relative overflow-hidden min-h-[420px] md:min-h-[480px] flex items-end mb-12">
+                <div className="absolute inset-0" aria-hidden="true">
+                  {item.image && <img ref={imgRef} src={item.image} alt="" decoding="async" className="w-full h-full object-cover scale-[1.3] blur-[2px] will-change-transform" />}
+                  <div className="absolute inset-0 bg-navy-950/75"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/40 to-transparent"></div>
+                  <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-navy-950 to-transparent"></div>
+                  <div className="absolute inset-x-0 -bottom-0.5 h-40 bg-gradient-to-t from-navy-950 to-transparent"></div>
+                </div>
+                <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-6">
+                  <nav aria-label="Breadcrumb" className="mb-8">
+                    <ol className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                      <li><a href="#top" className="hover:text-white">Home</a></li>
+                      <li aria-hidden="true">/</li>
+                      <li><a href={`#${item.section}`} className="hover:text-white">{SECTION_LABEL[item.section]}</a></li>
+                      <li aria-hidden="true">/</li>
+                      <li aria-current="page" className="text-brand-sky truncate max-w-[60vw]">{item.title}</li>
+                    </ol>
+                  </nav>
+                  <div className="flex flex-wrap items-center gap-3 mb-5"><TypeBadge item={item} solid />{item.scope && <span className="text-xs font-mono text-brand-sky">{item.scope}</span>}</div>
+                  <h1 ref={headingRef} tabIndex={-1} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-[1.05] text-white mb-5 max-w-4xl focus:outline-none">{item.title}</h1>
+                  <p className="text-lg md:text-xl text-slate-200 max-w-3xl leading-relaxed">{item.summary}</p>
+                </div>
+              </header>
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav aria-label="Breadcrumb" className="mb-6">
-                  <ol className="flex flex-wrap items-center gap-1 text-sm text-slate-400">
-                    <li><a href="#top" className="hover:text-white">Home</a></li>
-                    <li aria-hidden="true"><ChevronRight size={14} /></li>
-                    <li><a href={`#${item.section}`} className="hover:text-white">{SECTION_LABEL[item.section]}</a></li>
-                    <li aria-hidden="true"><ChevronRight size={14} /></li>
-                    <li aria-current="page" className="text-slate-200 truncate max-w-[60vw]">{item.title}</li>
-                  </ol>
-                </nav>
-                <header className="mb-10">
-                  <div className="flex flex-wrap items-center gap-2 mb-4"><TypeBadge item={item} />{item.scope && <span className="text-xs font-mono text-brand-sky">{item.scope}</span>}</div>
-                  <h1 ref={headingRef} tabIndex={-1} className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4 focus:outline-none">{item.title}</h1>
-                  <p className="text-lg md:text-xl text-slate-300 max-w-4xl leading-relaxed">{item.summary}</p>
-                </header>
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10">
                   <div className="min-w-0 space-y-12">{children}</div>
                   <div className="space-y-6 lg:sticky lg:top-24 self-start">{aside}</div>
@@ -1883,14 +1982,14 @@ twoway scatter HDI lnNTL`,
         };
 
         const Block = ({ title, children, id }) => (
-          <section aria-labelledby={id}>
-            <h2 id={id} className="text-xl md:text-2xl font-bold text-white mb-5">{title}</h2>
+          <section aria-labelledby={id} className="pt-10 border-t border-white/10 first:pt-0 first:border-t-0">
+            <h2 id={id} className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-5">{title}</h2>
             {children}
           </section>
         );
 
         const AsideCard = ({ title, children }) => (
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
+          <div className="rounded-xl bg-white/[0.03] border border-white/10 p-5">
             {title && <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">{title}</h2>}
             {children}
           </div>
@@ -1919,7 +2018,7 @@ twoway scatter HDI lnNTL`,
         };
 
         const CitationBox = ({ text }) => (
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
+          <div className="rounded-xl bg-white/[0.03] border border-white/10 p-5">
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">Recommended citation</h2>
               <CopyButton text={text} />
@@ -1952,7 +2051,7 @@ twoway scatter HDI lnNTL`,
             <CitationBox text={item.citation} />
             <RelatedList ids={item.related} />
           </>}>
-            <figure className="rounded-2xl overflow-hidden border border-white/10 bg-navy-900">
+            <figure className="rounded-xl overflow-hidden border border-white/10 bg-navy-900">
               <img src={item.image} alt={item.imageAlt} className="w-full h-auto" />
             </figure>
             <Block title="About this dataset" id="d-about"><p className="text-slate-300 leading-relaxed">{item.description}</p>
@@ -1964,7 +2063,7 @@ twoway scatter HDI lnNTL`,
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {item.files.map((f) => (
                   <li key={f.path} className="min-w-0">
-                    <a href={f.path} download className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-sky/40 hover:bg-white/[0.06] transition-all h-full">
+                    <a href={f.path} download className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-brand-sky/40 hover:bg-white/[0.06] transition-all h-full">
                       <span className={`text-[11px] font-bold px-2 py-1 rounded ${FORMAT_STYLE[f.format]}`}>{f.format}</span>
                       <span className="min-w-0 flex-grow">
                         <span className="block text-sm text-slate-200">{f.form}</span>
@@ -1977,7 +2076,7 @@ twoway scatter HDI lnNTL`,
               </ul>
             </Block>
             <Block title="Variables" id="d-variables">
-              <div className="rounded-2xl overflow-hidden border border-white/10">
+              <div className="rounded-xl overflow-hidden border border-white/10">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <caption className="sr-only">Variable dictionary</caption>
@@ -2014,7 +2113,7 @@ twoway scatter HDI lnNTL`,
               <AsideCard title="Topics"><div className="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag key={t} type={item.type}>{t}</Tag>)}</div></AsideCard>
               <RelatedList ids={item.related} />
             </>}>
-              <a href={primary.url} target="_blank" rel="noopener noreferrer" className="block rounded-2xl overflow-hidden border border-white/10 bg-navy-900 group relative">
+              <a href={primary.url} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-white/10 bg-navy-900 group relative">
                 <img src={item.image} alt={item.imageAlt} className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
                 <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-navy-950/85 border border-white/15 text-sm font-semibold text-white">{primary.label} <ExternalLink size={14} /></span>
                 <span className="sr-only"> (opens in a new tab)</span>
@@ -2045,7 +2144,7 @@ twoway scatter HDI lnNTL`,
               <RelatedList ids={item.related} />
             </>}>
               {item.citation && (
-                <div className="rounded-2xl border border-rose-400/20 bg-rose-500/[0.06] p-5">
+                <div className="rounded-xl border border-rose-400/20 bg-rose-500/[0.06] p-5">
                   <div className="flex justify-between items-center mb-2 gap-4">
                     <h2 className="text-xs font-bold uppercase tracking-widest text-rose-200">Original publication</h2>
                     <CopyButton text={`${item.citation} ${item.doi}`} />
@@ -2068,7 +2167,7 @@ twoway scatter HDI lnNTL`,
                 <Block title="Key points" id="i-summary">
                   <div className="space-y-3">
                     {item.summarySections.map((s, i) => (
-                      <details key={s.h} className="group rounded-xl bg-white/[0.04] border border-white/10 open:border-rose-400/30" open={i === 0}>
+                      <details key={s.h} className="group rounded-xl bg-white/[0.03] border border-white/10 open:border-rose-400/30" open={i === 0}>
                         <summary className="flex items-center gap-3 px-5 py-4 font-semibold text-white">
                           <ChevronRight size={16} className="chev text-rose-300 transition-transform" /> {s.h}
                         </summary>
@@ -2098,7 +2197,7 @@ twoway scatter HDI lnNTL`,
               <AsideCard title="Organizers"><ul className="space-y-2 text-sm text-slate-300">{item.organizers.map((o) => <li key={o}>{o}</li>)}</ul></AsideCard>
               <RelatedList ids={item.related} />
             </>}>
-              <figure className="rounded-2xl overflow-hidden border border-white/10 bg-navy-900 max-w-xl">
+              <figure className="rounded-xl overflow-hidden border border-white/10 bg-navy-900 max-w-xl">
                 <img src={item.image} alt={item.imageAlt} className="w-full h-auto" />
               </figure>
               <Block title="Overview" id="e-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
@@ -2107,7 +2206,7 @@ twoway scatter HDI lnNTL`,
                 <Block title="Objectives" id="e-objectives"><ul className="space-y-2 text-slate-300 text-sm list-disc pl-5">{item.objectives.map((o) => <li key={o}>{o}</li>)}</ul></Block>
               </div>
               <Block title="Program" id="e-program">
-                <div className="rounded-2xl overflow-hidden border border-white/10">
+                <div className="rounded-xl overflow-hidden border border-white/10">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
                       <caption className="sr-only">Workshop program</caption>
@@ -2131,9 +2230,10 @@ twoway scatter HDI lnNTL`,
           const headingRef = useRef(null);
           useEffect(() => { if (headingRef.current) headingRef.current.focus(); }, []);
           return (
-            <div className="pt-40 pb-32 text-center px-4">
-              <h1 ref={headingRef} tabIndex={-1} className="text-4xl font-extrabold mb-4 focus:outline-none"><span className="gradient-text">Page not found</span></h1>
-              <p className="text-slate-400 mb-8">We couldn’t find that item. It may have moved.</p>
+            <div className="max-w-7xl mx-auto pt-40 pb-32 px-4 sm:px-6 lg:px-8">
+              <Eyebrow className="mb-5">Error 404</Eyebrow>
+              <h1 ref={headingRef} tabIndex={-1} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-[1.05] text-white mb-5 focus:outline-none">Page <em className="gradient-text pr-2">not found</em></h1>
+              <p className="text-lg text-slate-300 mb-8">We couldn’t find that item. It may have moved.</p>
               <a href="#top" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-semibold"><ArrowLeft size={16} /> Back to home</a>
             </div>
           );
