@@ -1,0 +1,246 @@
+geo_id,scale,name,parent_id,country_id,province_id,district_id,gdl_id,gid,shapeISO,shapeID,GDLcode,name_gadm,name_geoboundaries,name_gdl,area_km2
+KH,country,Cambodia,,KH,,,,KHM,,,,,,,181647.28
+KH-01,province,Banteay Meanchey,KH,KH,KH-01,,KH-GDL-01,KHM.1_1,KH-1,KHM-ADM1-1590546715-B14,KHMr101,BântéayMéanchey,Bantey Meanchey,,6144.52
+KH-02,province,Battambang,KH,KH,KH-02,,KH-GDL-13,KHM.2_1,KH-2,KHM-ADM1-1590546715-B25,KHMr113,Batdâmbâng,Battambang,,12105.39
+KH-03,province,Kampong Cham,KH,KH,KH-03,,KH-GDL-02,KHM.3_1,KH-3,KHM-ADM1-1590546715-B17,KHMr102,KâmpóngCham,Kampong Cham,,4550.95
+KH-04,province,Kampong Chhnang,KH,KH,KH-04,,KH-GDL-03,KHM.4_1,KH-4,KHM-ADM1-1590546715-B12,KHMr103,KâmpóngChhnang,Kampong Chhnang,,5382.97
+KH-05,province,Kampong Speu,KH,KH,KH-05,,KH-GDL-04,KHM.5_1,KH-5,KHM-ADM1-1590546715-B21,KHMr104,KâmpóngSpœ,Kampong Speu,,6970.19
+KH-06,province,Kampong Thom,KH,KH,KH-06,,KH-GDL-05,KHM.6_1,KH-6,KHM-ADM1-1590546715-B3,KHMr105,KâmpóngThum,Kampong Thom,,12827.73
+KH-07,province,Kampot,KH,KH,KH-07,,KH-GDL-14,KHM.7_1,KH-7,KHM-ADM1-1590546715-B7,KHMr114,Kâmpôt,Kampot,,4722.14
+KH-08,province,Kandal,KH,KH,KH-08,,KH-GDL-06,KHM.8_1,KH-8,KHM-ADM1-1590546715-B9,KHMr106,Kândal,Kandal,,3253.09
+KH-09,province,Koh Kong,KH,KH,KH-09,,KH-GDL-07,KHM.9_1,KH-9,KHM-ADM1-1590546715-B5,KHMr107,KaôhKong,Koh Kong,,11005.82
+KH-10,province,Kep,KH,KH,KH-10,,KH-GDL-14,KHM.10_1,KH-23,KHM-ADM1-1590546715-B6,KHMr114,Kep,Kep,,152.22
+KH-11,province,Kratie,KH,KH,KH-11,,KH-GDL-15,KHM.11_1,KH-10,KHM-ADM1-1590546715-B19,KHMr115,Krâchéh,Kratie,,11982.68
+KH-12,province,Pailin,KH,KH,KH-12,,KH-GDL-13,KHM.12_1,KH-24,KHM-ADM1-1590546715-B13,KHMr113,KrongPailin,Pailin,,1074.8
+KH-13,province,Preah Sihanouk,KH,KH,KH-13,,KH-GDL-14,KHM.13_1,KH-18,KHM-ADM1-1590546715-B23,KHMr114,KrongPreahSihanouk,Preah Sihanouk,,2634.5
+KH-14,province,Mondulkiri,KH,KH,KH-14,,KH-GDL-16,KHM.14_1,KH-11,KHM-ADM1-1590546715-B18,KHMr116,MôndólKiri,Mondulkiri,,13663.15
+KH-15,province,Oddar Meanchey,KH,KH,KH-15,,KH-GDL-17,KHM.15_1,KH-22,KHM-ADM1-1590546715-B16,KHMr117,OtdarMeanChey,Oddar Meanchey,,6633.26
+KH-16,province,Phnom Penh,KH,KH,KH-16,,KH-GDL-08,KHM.16_1,KH-12,KHM-ADM1-1590546715-B4,KHMr108,PhnomPenh,Phnom Penh,,684.08
+KH-17,province,Pursat,KH,KH,KH-17,,KH-GDL-10,KHM.17_1,KH-15,KHM-ADM1-1590546715-B10,KHMr110,Pouthisat,Pursat,,12510.02
+KH-18,province,Preah Vihear,KH,KH,KH-18,,KH-GDL-15,KHM.18_1,KH-13,KHM-ADM1-1590546715-B2,KHMr115,PreahVihéar,Preah Vihear,,14040.06
+KH-19,province,Prey Veng,KH,KH,KH-19,,KH-GDL-09,KHM.19_1,KH-14,KHM-ADM1-1590546715-B20,KHMr109,PreyVêng,Prey Veng,,4764.41
+KH-20,province,Ratanakiri,KH,KH,KH-20,,KH-GDL-16,KHM.20_1,KH-16,KHM-ADM1-1590546715-B11,KHMr116,Rôtânôkiri,Ratanakiri Province,,11779.15
+KH-21,province,Siem Reap,KH,KH,KH-21,,KH-GDL-17,KHM.21_1,KH-17,KHM-ADM1-1590546715-B15,KHMr117,Siemréab,Siem Reap,,11475.19
+KH-22,province,Stung Treng,KH,KH,KH-22,,KH-GDL-15,KHM.22_1,KH-19,KHM-ADM1-1590546715-B1,KHMr115,StœngTrêng,Stung Treng,,12019.4
+KH-23,province,Svay Rieng,KH,KH,KH-23,,KH-GDL-11,KHM.23_1,KH-20,KHM-ADM1-1590546715-B22,KHMr111,SvayRieng,Svay Rieng,,2867.22
+KH-24,province,Takeo,KH,KH,KH-24,,KH-GDL-12,KHM.24_1,KH-21,KHM-ADM1-1590546715-B8,KHMr112,Takêv,Takeo,,3492.02
+KH-25,province,Tbong Khmum,KH,KH,KH-25,,KH-GDL-02,KHM.25_1,KH-25,KHM-ADM1-1590546715-B24,KHMr102,TbongKhmum,Tbong Khmum,,4930.41
+KH-01-01,district,Malai,KH-01,KH,KH-01,KH-01-01,KH-GDL-01,KHM.1.1_2,,,,Malai,,,501.06
+KH-01-02,district,Mongkol Borei,KH-01,KH,KH-01,KH-01-02,KH-GDL-01,KHM.1.2_2,,,,MongkolBorei,,,806.34
+KH-01-03,district,Ou Chrov,KH-01,KH,KH-01,KH-01-03,KH-GDL-01,KHM.1.3_2,,,,OuChrov,,,545.52
+KH-01-04,district,Paoy Paet,KH-01,KH,KH-01,KH-01-04,KH-GDL-01,KHM.1.4_2,,,,PaoyPaet,,,265.68
+KH-01-05,district,Phnum Srok,KH-01,KH,KH-01,KH-01-05,KH-GDL-01,KHM.1.5_2,,,,PhnumSrok,,,763.27
+KH-01-06,district,Preah Netr Preah,KH-01,KH,KH-01,KH-01-06,KH-GDL-01,KHM.1.6_2,,,,PreahNetrPreah,,,1092.04
+KH-01-07,district,Serei Saophoan,KH-01,KH,KH-01,KH-01-07,KH-GDL-01,KHM.1.7_2,,,,SereiSaophoan,,,269.47
+KH-01-08,district,Svay Chek,KH-01,KH,KH-01,KH-01-08,KH-GDL-01,KHM.1.8_2,,,,SvayChek,,,812.53
+KH-01-09,district,Thma Puok,KH-01,KH,KH-01,KH-01-09,KH-GDL-01,KHM.1.9_2,,,,ThmaPuok,,,1089.79
+KH-02-01,district,Aek Phnum,KH-02,KH,KH-02,KH-02-01,KH-GDL-13,KHM.2.1_2,,,,AekPhnum,,,1067.87
+KH-02-02,district,Banan,KH-02,KH,KH-02,KH-02-02,KH-GDL-13,KHM.2.2_2,,,,Banan,,,874.24
+KH-02-03,district,Battambang,KH-02,KH,KH-02,KH-02-03,KH-GDL-13,KHM.2.3_2,,,,Battambang,,,115.48
+KH-02-04,district,Bavel,KH-02,KH,KH-02,KH-02-04,KH-GDL-13,KHM.2.4_2,,,,Bavel,,,962.23
+KH-02-05,district,Kamrieng,KH-02,KH,KH-02,KH-02-05,KH-GDL-13,KHM.2.5_2,,,,Kamrieng,,,527.81
+KH-02-06,district,Koas Krala,KH-02,KH,KH-02,KH-02-06,KH-GDL-13,KHM.2.6_2,,,,KoasKrala,,,1092.69
+KH-02-07,district,Moung Ruessei,KH-02,KH,KH-02,KH-02-07,KH-GDL-13,KHM.2.7_2,,,,MoungRuessei,,,1413.46
+KH-02-08,district,Phnum Proek,KH-02,KH,KH-02,KH-02-08,KH-GDL-13,KHM.2.8_2,,,,PhnumProek,,,647.08
+KH-02-09,district,Rotonak Mondol,KH-02,KH,KH-02,KH-02-09,KH-GDL-13,KHM.2.9_2,,,,RotonakMondol,,,791.42
+KH-02-10,district,Rukh Kiri,KH-02,KH,KH-02,KH-02-10,KH-GDL-13,KHM.2.10_2,,,,RukhKiri,,,471.3
+KH-02-11,district,Samlout,KH-02,KH,KH-02,KH-02-11,KH-GDL-13,KHM.2.11_2,,,,Samlout,,,1427.79
+KH-02-12,district,Sampov Lun,KH-02,KH,KH-02,KH-02-12,KH-GDL-13,KHM.2.12_2,,,,SampovLun,,,452.46
+KH-02-13,district,Sangkae,KH-02,KH,KH-02,KH-02-13,KH-GDL-13,KHM.2.13_2,,,,Sangkae,,,1167.82
+KH-02-14,district,Thma Koul,KH-02,KH,KH-02,KH-02-14,KH-GDL-13,KHM.2.14_2,,,,ThmaKoul,,,856.67
+KH-02-15,district,Tonlé Sap,KH-02,KH,KH-02,KH-02-15,KH-GDL-13,KHM.2.15_2,,,,TonléSap,,,238.21
+KH-03-01,district,Batheay,KH-03,KH,KH-03,KH-03-01,KH-GDL-02,KHM.3.1_2,,,,Batheay,,,666.3
+KH-03-02,district,Chamkar Leu,KH-03,KH,KH-03,KH-03-02,KH-GDL-02,KHM.3.2_2,,,,ChamkarLeu,,,600.09
+KH-03-03,district,Cheung Prey,KH-03,KH,KH-03,KH-03-03,KH-GDL-02,KHM.3.3_2,,,,CheungPrey,,,369.56
+KH-03-04,district,Kampong Cham,KH-03,KH,KH-03,KH-03-04,KH-GDL-02,KHM.3.4_2,,,,KampongCham,,,22.98
+KH-03-05,district,Kampong Siem,KH-03,KH,KH-03,KH-03-05,KH-GDL-02,KHM.3.5_2,,,,KampongSiem,,,431.32
+KH-03-06,district,Kang Meas,KH-03,KH,KH-03,KH-03-06,KH-GDL-02,KHM.3.6_2,,,,KangMeas,,,390.13
+KH-03-07,district,Kaoh Soutin,KH-03,KH,KH-03,KH-03-07,KH-GDL-02,KHM.3.7_2,,,,KaohSoutin,,,186.39
+KH-03-08,district,Prey Chhor,KH-03,KH,KH-03,KH-03-08,KH-GDL-02,KHM.3.8_2,,,,PreyChhor,,,445.85
+KH-03-09,district,Srei Santhor,KH-03,KH,KH-03,KH-03-09,KH-GDL-02,KHM.3.9_2,,,,SreiSanthor,,,347.68
+KH-03-10,district,Stueng Trang,KH-03,KH,KH-03,KH-03-10,KH-GDL-02,KHM.3.10_2,,,,StuengTrang,,,1092.08
+KH-04-01,district,Baribour,KH-04,KH,KH-04,KH-04-01,KH-GDL-03,KHM.4.1_2,,,,Baribour,,,432.81
+KH-04-02,district,Chol Kiri,KH-04,KH,KH-04,KH-04-02,KH-GDL-03,KHM.4.2_2,,,,CholKiri,,,329.41
+KH-04-03,district,Kampong Chhnang,KH-04,KH,KH-04,KH-04-03,KH-GDL-03,KHM.4.3_2,,,,KampongChhnang,,,46.64
+KH-04-04,district,Kampong Leaeng,KH-04,KH,KH-04,KH-04-04,KH-GDL-03,KHM.4.4_2,,,,KampongLeaeng,,,949.34
+KH-04-05,district,Kampong Tralach,KH-04,KH,KH-04,KH-04-05,KH-GDL-03,KHM.4.5_2,,,,KampongTralach,,,463.74
+KH-04-06,district,Rolea B'ier,KH-04,KH,KH-04,KH-04-06,KH-GDL-03,KHM.4.6_2,,,,RoleaB'ier,,,707.97
+KH-04-07,district,Sameakki Mean Chey,KH-04,KH,KH-04,KH-04-07,KH-GDL-03,KHM.4.7_2,,,,SameakkiMeanChey,,,672.77
+KH-04-08,district,Tonlé Sap,KH-04,KH,KH-04,KH-04-08,KH-GDL-03,KHM.4.8_2,,,,TonléSap,,,86.06
+KH-04-09,district,Tuek Phos,KH-04,KH,KH-04,KH-04-09,KH-GDL-03,KHM.4.9_2,,,,TuekPhos,,,1695.58
+KH-05-01,district,Aoral,KH-05,KH,KH-05,KH-05-01,KH-GDL-04,KHM.5.1_2,,,,Aoral,,,2382.46
+KH-05-02,district,Basedth,KH-05,KH,KH-05,KH-05-02,KH-GDL-04,KHM.5.2_2,,,,Basedth,,,509.14
+KH-05-03,district,Chbar Mon,KH-05,KH,KH-05,KH-05-03,KH-GDL-04,KHM.5.3_2,,,,ChbarMon,,,80.89
+KH-05-04,district,Kong Pisei,KH-05,KH,KH-05,KH-05-04,KH-GDL-04,KHM.5.4_2,,,,KongPisei,,,381.53
+KH-05-05,district,Odongk,KH-05,KH,KH-05,KH-05-05,KH-GDL-04,KHM.5.5_2,,,,Odongk,,,522.31
+KH-05-06,district,Phnum Sruoch,KH-05,KH,KH-05,KH-05-06,KH-GDL-04,KHM.5.6_2,,,,PhnumSruoch,,,1649.29
+KH-05-07,district,Samraong Tong,KH-05,KH,KH-05,KH-05-07,KH-GDL-04,KHM.5.7_2,,,,SamraongTong,,,734.17
+KH-05-08,district,Thpong,KH-05,KH,KH-05,KH-05-08,KH-GDL-04,KHM.5.8_2,,,,Thpong,,,711.37
+KH-06-01,district,Baray,KH-06,KH,KH-06,KH-06-01,KH-GDL-05,KHM.6.1_2,,,,Baray,,,1310.18
+KH-06-02,district,Kampong Svay,KH-06,KH,KH-06,KH-06-02,KH-GDL-05,KHM.6.2_2,,,,KampongSvay,,,1396.12
+KH-06-03,district,Prasat Ballangk,KH-06,KH,KH-06,KH-06-03,KH-GDL-05,KHM.6.3_2,,,,PrasatBallangk,,,1375.3
+KH-06-04,district,Prasat Sambour,KH-06,KH,KH-06,KH-06-04,KH-GDL-05,KHM.6.4_2,,,,PrasatSambour,,,739.03
+KH-06-05,district,Sandan,KH-06,KH,KH-06,KH-06-05,KH-GDL-05,KHM.6.5_2,,,,Sandan,,,2964.98
+KH-06-06,district,Santuk,KH-06,KH,KH-06,KH-06-06,KH-GDL-05,KHM.6.6_2,,,,Santuk,,,2593.98
+KH-06-07,district,Stoung,KH-06,KH,KH-06,KH-06-07,KH-GDL-05,KHM.6.7_2,,,,Stoung,,,1707.47
+KH-06-08,district,Stueng Saen,KH-06,KH,KH-06,KH-06-08,KH-GDL-05,KHM.6.8_2,,,,StuengSaen,,,366.61
+KH-06-09,district,Tonlé Sap,KH-06,KH,KH-06,KH-06-09,KH-GDL-05,KHM.6.9_2,,,,TonléSap,,,375.75
+KH-07-01,district,Angkor Chey,KH-07,KH,KH-07,KH-07-01,KH-GDL-14,KHM.7.1_2,,,,AngkorChey,,,316.54
+KH-07-02,district,Banteay Meas,KH-07,KH,KH-07,KH-07-02,KH-GDL-14,KHM.7.2_2,,,,BanteayMeas,,,401.33
+KH-07-03,district,Chhuk,KH-07,KH,KH-07,KH-07-03,KH-GDL-14,KHM.7.3_2,,,,Chhuk,,,1294.35
+KH-07-04,district,Chum Kiri,KH-07,KH,KH-07,KH-07-04,KH-GDL-14,KHM.7.4_2,,,,ChumKiri,,,448.71
+KH-07-05,district,Dang Tong,KH-07,KH,KH-07,KH-07-05,KH-GDL-14,KHM.7.5_2,,,,DangTong,,,315.19
+KH-07-06,district,Kampong Trach,KH-07,KH,KH-07,KH-07-06,KH-GDL-14,KHM.7.6_2,,,,KampongTrach,,,377.72
+KH-07-07,district,Kampot,KH-07,KH,KH-07,KH-07-07,KH-GDL-14,KHM.7.7_2,,,,Kampot,,,53.73
+KH-07-08,district,Tuek Chhou,KH-07,KH,KH-07,KH-07-08,KH-GDL-14,KHM.7.8_2,,,,TuekChhou,,,1515.65
+KH-08-01,district,Angk Snuol,KH-08,KH,KH-08,KH-08-01,KH-GDL-06,KHM.8.1_2,,,,AngkSnuol,,,183.31
+KH-08-02,district,Kandal Stueng,KH-08,KH,KH-08,KH-08-02,KH-GDL-06,KHM.8.2_2,,,,KandalStueng,,,231.1
+KH-08-03,district,Kaoh Thum,KH-08,KH,KH-08,KH-08-03,KH-GDL-06,KHM.8.3_2,,,,KaohThum,,,483.33
+KH-08-04,district,Khsach Kandal,KH-08,KH,KH-08,KH-08-04,KH-GDL-06,KHM.8.4_2,,,,KhsachKandal,,,364.42
+KH-08-05,district,Kien Svay,KH-08,KH,KH-08,KH-08-05,KH-GDL-06,KHM.8.5_2,,,,KienSvay,,,315.18
+KH-08-06,district,Leuk Daek,KH-08,KH,KH-08,KH-08-06,KH-GDL-06,KHM.8.6_2,,,,LeukDaek,,,376.1
+KH-08-07,district,Lvea Aem,KH-08,KH,KH-08,KH-08-07,KH-GDL-06,KHM.8.7_2,,,,LveaAem,,,258.46
+KH-08-08,district,Mukh Kampul,KH-08,KH,KH-08,KH-08-08,KH-GDL-06,KHM.8.8_2,,,,MukhKampul,,,199.51
+KH-08-09,district,Ponhea Lueu,KH-08,KH,KH-08,KH-08-09,KH-GDL-06,KHM.8.9_2,,,,PonheaLueu,,,292.4
+KH-08-10,district,S'ang,KH-08,KH,KH-08,KH-08-10,KH-GDL-06,KHM.8.10_2,,,,S'ang,,,519.01
+KH-08-11,district,Ta Khmau,KH-08,KH,KH-08,KH-08-11,KH-GDL-06,KHM.8.11_2,,,,TaKhmau,,,31.48
+KH-09-01,district,Botum Sakor,KH-09,KH,KH-09,KH-09-01,KH-GDL-07,KHM.9.1_2,,,,BotumSakor,,,1074.28
+KH-09-02,district,Kaoh Kong,KH-09,KH,KH-09,KH-09-02,KH-GDL-07,KHM.9.2_2,,,,KaohKong,,,1598.88
+KH-09-03,district,Khemara Phoumin,KH-09,KH,KH-09,KH-09-03,KH-GDL-07,KHM.9.3_2,,,,KhemaraPhoumin,,,100.13
+KH-09-04,district,Kiri Sakor,KH-09,KH,KH-09,KH-09-04,KH-GDL-07,KHM.9.4_2,,,,KiriSakor,,,680.34
+KH-09-05,district,Mondol Seima,KH-09,KH,KH-09,KH-09-05,KH-GDL-07,KHM.9.5_2,,,,MondolSeima,,,1482.3
+KH-09-06,district,Srae Ambel,KH-09,KH,KH-09,KH-09-06,KH-GDL-07,KHM.9.6_2,,,,SraeAmbel,,,2266.32
+KH-09-07,district,Thma Bang,KH-09,KH,KH-09,KH-09-07,KH-GDL-07,KHM.9.7_2,,,,ThmaBang,,,3804.99
+KH-10-01,district,Damnak Chang'aeur,KH-10,KH,KH-10,KH-10-01,KH-GDL-14,KHM.10.1_2,,,,DamnakChang'aeur,,,72.13
+KH-10-02,district,Kaeb,KH-10,KH,KH-10,KH-10-02,KH-GDL-14,KHM.10.2_2,,,,Kaeb,,,80.14
+KH-11-01,district,Chetr Borei,KH-11,KH,KH-11,KH-11-01,KH-GDL-15,KHM.11.1_2,,,,ChetrBorei,,,1459.84
+KH-11-02,district,Chhloung,KH-11,KH,KH-11,KH-11-02,KH-GDL-15,KHM.11.2_2,,,,Chhloung,,,866.55
+KH-11-03,district,Kracheh,KH-11,KH,KH-11,KH-11-03,KH-GDL-15,KHM.11.3_2,,,,Kracheh,,,88.46
+KH-11-04,district,Prek Prasab,KH-11,KH,KH-11,KH-11-04,KH-GDL-15,KHM.11.4_2,,,,PrekPrasab,,,1379.63
+KH-11-05,district,Sambour,KH-11,KH,KH-11,KH-11-05,KH-GDL-15,KHM.11.5_2,,,,Sambour,,,5371.14
+KH-11-06,district,Snuol,KH-11,KH,KH-11,KH-11-06,KH-GDL-15,KHM.11.6_2,,,,Snuol,,,2818.77
+KH-12-01,district,Pailin,KH-12,KH,KH-12,KH-12-01,KH-GDL-13,KHM.12.1_2,,,,Pailin,,,572.38
+KH-12-02,district,Sala Krau,KH-12,KH,KH-12,KH-12-02,KH-GDL-13,KHM.12.2_2,,,,SalaKrau,,,502.42
+KH-13-01,district,Kampong Seila,KH-13,KH,KH-13,KH-13-01,KH-GDL-14,KHM.13.1_2,,,,KampongSeila,,,984.74
+KH-13-02,district,Preah Sihanouk,KH-13,KH,KH-13,KH-13-02,KH-GDL-14,KHM.13.2_2,,,,PreahSihanouk,,,202.04
+KH-13-03,district,Prey Nob,KH-13,KH,KH-13,KH-13-03,KH-GDL-14,KHM.13.3_2,,,,PreyNob,,,1181.95
+KH-13-04,district,Stueng Hav,KH-13,KH,KH-13,KH-13-04,KH-GDL-14,KHM.13.4_2,,,,StuengHav,,,266.24
+KH-14-01,district,Kaev Seima,KH-14,KH,KH-14,KH-14-01,KH-GDL-16,KHM.14.1_2,,,,KaevSeima,,,2817.01
+KH-14-02,district,Kaoh Nheaek,KH-14,KH,KH-14,KH-14-02,KH-GDL-16,KHM.14.2_2,,,,KaohNheaek,,,5279.6
+KH-14-03,district,Ou Reang,KH-14,KH,KH-14,KH-14-03,KH-GDL-16,KHM.14.3_2,,,,OuReang,,,1231.83
+KH-14-04,district,Pech Chreada,KH-14,KH,KH-14,KH-14-04,KH-GDL-16,KHM.14.4_2,,,,PechChreada,,,3794.77
+KH-14-05,district,Saen Monourom,KH-14,KH,KH-14,KH-14-05,KH-GDL-16,KHM.14.5_2,,,,SaenMonourom,,,540.32
+KH-15-01,district,Anlong Veaeng,KH-15,KH,KH-15,KH-15-01,KH-GDL-17,KHM.15.1_2,,,,AnlongVeaeng,,,1533.58
+KH-15-02,district,Banteay Ampil,KH-15,KH,KH-15,KH-15-02,KH-GDL-17,KHM.15.2_2,,,,BanteayAmpil,,,1352.65
+KH-15-03,district,Chong Kal,KH-15,KH,KH-15,KH-15-03,KH-GDL-17,KHM.15.3_2,,,,ChongKal,,,840.11
+KH-15-04,district,Samraong,KH-15,KH,KH-15,KH-15-04,KH-GDL-17,KHM.15.4_2,,,,Samraong,,,1421.09
+KH-15-05,district,Trapeang Prasat,KH-15,KH,KH-15,KH-15-05,KH-GDL-17,KHM.15.5_2,,,,TrapeangPrasat,,,1487.28
+KH-16-01,district,Chamkar Mon,KH-16,KH,KH-16,KH-16-01,KH-GDL-08,KHM.16.1_2,,,,ChamkarMon,,,11.21
+KH-16-02,district,Chbar Ampov,KH-16,KH,KH-16,KH-16-02,KH-GDL-08,KHM.16.2_2,,,,ChbarAmpov,,,86.44
+KH-16-03,district,Chraoy Chongvar,KH-16,KH,KH-16,KH-16-03,KH-GDL-08,KHM.16.3_2,,,,ChraoyChongvar,,,85.59
+KH-16-04,district,Dangkao,KH-16,KH,KH-16,KH-16-04,KH-GDL-08,KHM.16.4_2,,,,Dangkao,,,114.27
+KH-16-05,district,Doun Penh,KH-16,KH,KH-16,KH-16-05,KH-GDL-08,KHM.16.5_2,,,,DounPenh,,,7.8
+KH-16-06,district,Mean Chey,KH-16,KH,KH-16,KH-16-06,KH-GDL-08,KHM.16.6_2,,,,MeanChey,,,28.76
+KH-16-07,district,Praek Pnov,KH-16,KH,KH-16,KH-16-07,KH-GDL-08,KHM.16.7_2,,,,PraekPnov,,,115.34
+KH-16-08,district,Prampir Meakkakra,KH-16,KH,KH-16,KH-16-08,KH-GDL-08,KHM.16.8_2,,,,PrampirMeakkakra,,,2.21
+KH-16-09,district,Pur Sen Chey,KH-16,KH,KH-16,KH-16-09,KH-GDL-08,KHM.16.9_2,,,,PurSenChey,,,148.02
+KH-16-10,district,Russey Keo,KH-16,KH,KH-16,KH-16-10,KH-GDL-08,KHM.16.10_2,,,,RusseyKeo,,,23.63
+KH-16-11,district,Saensokh,KH-16,KH,KH-16,KH-16-11,KH-GDL-08,KHM.16.11_2,,,,Saensokh,,,53.78
+KH-16-12,district,Tuol Kouk,KH-16,KH,KH-16,KH-16-12,KH-GDL-08,KHM.16.12_2,,,,TuolKouk,,,7.81
+KH-17-01,district,Bakan,KH-17,KH,KH-17,KH-17-01,KH-GDL-10,KHM.17.1_2,,,,Bakan,,,1542.22
+KH-17-02,district,Kandieng,KH-17,KH,KH-17,KH-17-02,KH-GDL-10,KHM.17.2_2,,,,Kandieng,,,582.84
+KH-17-03,district,Krakor,KH-17,KH,KH-17,KH-17-03,KH-GDL-10,KHM.17.3_2,,,,Krakor,,,1333.09
+KH-17-04,district,Phnum Kravanh,KH-17,KH,KH-17,KH-17-04,KH-GDL-10,KHM.17.4_2,,,,PhnumKravanh,,,3418.86
+KH-17-05,district,Pursat,KH-17,KH,KH-17,KH-17-05,KH-GDL-10,KHM.17.5_2,,,,Pursat,,,351.97
+KH-17-06,district,Tonlé Sap,KH-17,KH,KH-17,KH-17-06,KH-GDL-10,KHM.17.6_2,,,,TonléSap,,,923.15
+KH-17-07,district,Veal Veaeng,KH-17,KH,KH-17,KH-17-07,KH-GDL-10,KHM.17.7_2,,,,VealVeaeng,,,4359.08
+KH-18-01,district,Chey Saen,KH-18,KH,KH-18,KH-18-01,KH-GDL-15,KHM.18.1_2,,,,CheySaen,,,1100.48
+KH-18-02,district,Chhaeb,KH-18,KH,KH-18,KH-18-02,KH-GDL-15,KHM.18.2_2,,,,Chhaeb,,,2540.74
+KH-18-03,district,Choam Ksant,KH-18,KH,KH-18,KH-18-03,KH-GDL-15,KHM.18.3_2,,,,ChoamKsant,,,3773.21
+KH-18-04,district,Kuleaen,KH-18,KH,KH-18,KH-18-04,KH-GDL-15,KHM.18.4_2,,,,Kuleaen,,,2190.13
+KH-18-05,district,Preah Vihear,KH-18,KH,KH-18,KH-18-05,KH-GDL-15,KHM.18.5_2,,,,PreahVihear,,,285.17
+KH-18-06,district,Rovieng,KH-18,KH,KH-18,KH-18-06,KH-GDL-15,KHM.18.6_2,,,,Rovieng,,,2184.61
+KH-18-07,district,Sangkum Thmei,KH-18,KH,KH-18,KH-18-07,KH-GDL-15,KHM.18.7_2,,,,SangkumThmei,,,1323.95
+KH-18-08,district,Tbaeng Mean Chey,KH-18,KH,KH-18,KH-18-08,KH-GDL-15,KHM.18.8_2,,,,TbaengMeanChey,,,645.09
+KH-19-01,district,Ba Phnum,KH-19,KH,KH-19,KH-19-01,KH-GDL-09,KHM.19.1_2,,,,BaPhnum,,,342.75
+KH-19-02,district,Kamchay Mear,KH-19,KH,KH-19,KH-19-02,KH-GDL-09,KHM.19.2_2,,,,KamchayMear,,,463.92
+KH-19-03,district,Kampong Trabaek,KH-19,KH,KH-19,KH-19-03,KH-GDL-09,KHM.19.3_2,,,,KampongTrabaek,,,505.11
+KH-19-04,district,Kanhchriech,KH-19,KH,KH-19,KH-19-04,KH-GDL-09,KHM.19.4_2,,,,Kanhchriech,,,316.77
+KH-19-05,district,Me Sang,KH-19,KH,KH-19,KH-19-05,KH-GDL-09,KHM.19.5_2,,,,MeSang,,,408.37
+KH-19-06,district,Pea Reang,KH-19,KH,KH-19,KH-19-06,KH-GDL-09,KHM.19.6_2,,,,PeaReang,,,485.48
+KH-19-07,district,Peam Chor,KH-19,KH,KH-19,KH-19-07,KH-GDL-09,KHM.19.7_2,,,,PeamChor,,,437.39
+KH-19-08,district,Peam Ro,KH-19,KH,KH-19,KH-19-08,KH-GDL-09,KHM.19.8_2,,,,PeamRo,,,192.93
+KH-19-09,district,Preah Sdach,KH-19,KH,KH-19,KH-19-09,KH-GDL-09,KHM.19.9_2,,,,PreahSdach,,,483.96
+KH-19-10,district,Prey Veng,KH-19,KH,KH-19,KH-19-10,KH-GDL-09,KHM.19.10_2,,,,PreyVeng,,,68.66
+KH-19-11,district,Pur Rieng,KH-19,KH,KH-19,KH-19-11,KH-GDL-09,KHM.19.11_2,,,,PurRieng,,,275.3
+KH-19-12,district,Sithor Kandal,KH-19,KH,KH-19,KH-19-12,KH-GDL-09,KHM.19.12_2,,,,SithorKandal,,,313.15
+KH-19-13,district,Svay Antor,KH-19,KH,KH-19,KH-19-13,KH-GDL-09,KHM.19.13_2,,,,SvayAntor,,,472.93
+KH-20-01,district,Andoung Meas,KH-20,KH,KH-20,KH-20-01,KH-GDL-16,KHM.20.1_2,,,,AndoungMeas,,,836.72
+KH-20-02,district,Ban Lung,KH-20,KH,KH-20,KH-20-02,KH-GDL-16,KHM.20.2_2,,,,BanLung,,,201.61
+KH-20-03,district,Bar Kaev,KH-20,KH,KH-20,KH-20-03,KH-GDL-16,KHM.20.3_2,,,,BarKaev,,,466.72
+KH-20-04,district,Koun Mom,KH-20,KH,KH-20,KH-20-04,KH-GDL-16,KHM.20.4_2,,,,KounMom,,,2100.56
+KH-20-05,district,Lumphat,KH-20,KH,KH-20,KH-20-05,KH-GDL-16,KHM.20.5_2,,,,Lumphat,,,1826.12
+KH-20-06,district,Ou Chum,KH-20,KH,KH-20,KH-20-06,KH-GDL-16,KHM.20.6_2,,,,OuChum,,,558.02
+KH-20-07,district,Ou Ya Dav,KH-20,KH,KH-20,KH-20-07,KH-GDL-16,KHM.20.7_2,,,,OuYaDav,,,1670.03
+KH-20-08,district,Ta Veaeng,KH-20,KH,KH-20,KH-20-08,KH-GDL-16,KHM.20.8_2,,,,TaVeaeng,,,2271.48
+KH-20-09,district,Veun Sai,KH-20,KH,KH-20,KH-20-09,KH-GDL-16,KHM.20.9_2,,,,VeunSai,,,1849.28
+KH-21-01,district,Angkor Chum,KH-21,KH,KH-21,KH-21-01,KH-GDL-17,KHM.21.1_2,,,,AngkorChum,,,479.32
+KH-21-02,district,Angkor Thum,KH-21,KH,KH-21,KH-21-02,KH-GDL-17,KHM.21.2_2,,,,AngkorThum,,,357.16
+KH-21-03,district,Banteay Srei,KH-21,KH,KH-21,KH-21-03,KH-GDL-17,KHM.21.3_2,,,,BanteaySrei,,,600.85
+KH-21-04,district,Chi Kraeng,KH-21,KH,KH-21,KH-21-04,KH-GDL-17,KHM.21.4_2,,,,ChiKraeng,,,2364.42
+KH-21-05,district,Kralanh,KH-21,KH,KH-21,KH-21-05,KH-GDL-17,KHM.21.5_2,,,,Kralanh,,,567.68
+KH-21-06,district,Prasat Bakong,KH-21,KH,KH-21,KH-21-06,KH-GDL-17,KHM.21.6_2,,,,PrasatBakong,,,341.76
+KH-21-07,district,Puok,KH-21,KH,KH-21,KH-21-07,KH-GDL-17,KHM.21.7_2,,,,Puok,,,1013.03
+KH-21-08,district,Siem Reap,KH-21,KH,KH-21,KH-21-08,KH-GDL-17,KHM.21.8_2,,,,SiemReap,,,470.36
+KH-21-09,district,Soutr Nikom,KH-21,KH,KH-21,KH-21-09,KH-GDL-17,KHM.21.9_2,,,,SoutrNikom,,,781.29
+KH-21-10,district,Srei Snam,KH-21,KH,KH-21,KH-21-10,KH-GDL-17,KHM.21.10_2,,,,SreiSnam,,,557.77
+KH-21-11,district,Svay Leu,KH-21,KH,KH-21,KH-21-11,KH-GDL-17,KHM.21.11_2,,,,SvayLeu,,,1918.63
+KH-21-12,district,Tonlé Sap,KH-21,KH,KH-21,KH-21-12,KH-GDL-17,KHM.21.12_2,,,,TonléSap,,,927.05
+KH-21-13,district,Varin,KH-21,KH,KH-21,KH-21-13,KH-GDL-17,KHM.21.13_2,,,,Varin,,,1099.32
+KH-22-01,district,Sesan,KH-22,KH,KH-22,KH-22-01,KH-GDL-15,KHM.22.1_2,,,,Sesan,,,2701.02
+KH-22-02,district,Siem Bouk,KH-22,KH,KH-22,KH-22-02,KH-GDL-15,KHM.22.2_2,,,,SiemBouk,,,1460.29
+KH-22-03,district,Siem Pang,KH-22,KH,KH-22,KH-22-03,KH-GDL-15,KHM.22.3_2,,,,SiemPang,,,4560.32
+KH-22-04,district,Stueng Traeng,KH-22,KH,KH-22,KH-22-04,KH-GDL-15,KHM.22.4_2,,,,StuengTraeng,,,690.58
+KH-22-05,district,Thala Barivat,KH-22,KH,KH-22,KH-22-05,KH-GDL-15,KHM.22.5_2,,,,ThalaBarivat,,,2608.28
+KH-23-01,district,Bavet,KH-23,KH,KH-23,KH-23-01,KH-GDL-11,KHM.23.1_2,,,,Bavet,,,202.0
+KH-23-02,district,Chantrea,KH-23,KH,KH-23,KH-23-02,KH-GDL-11,KHM.23.2_2,,,,Chantrea,,,276.38
+KH-23-03,district,Kampong Rou,KH-23,KH,KH-23,KH-23-03,KH-GDL-11,KHM.23.3_2,,,,KampongRou,,,393.54
+KH-23-04,district,Romeas Haek,KH-23,KH,KH-23,KH-23-04,KH-GDL-11,KHM.23.4_2,,,,RomeasHaek,,,763.23
+KH-23-05,district,Rumduol,KH-23,KH,KH-23,KH-23-05,KH-GDL-11,KHM.23.5_2,,,,Rumduol,,,275.2
+KH-23-06,district,Svay Chrum,KH-23,KH,KH-23,KH-23-06,KH-GDL-11,KHM.23.6_2,,,,SvayChrum,,,521.34
+KH-23-07,district,Svay Rieng,KH-23,KH,KH-23,KH-23-07,KH-GDL-11,KHM.23.7_2,,,,SvayRieng,,,103.1
+KH-23-08,district,Svay Teab,KH-23,KH,KH-23,KH-23-08,KH-GDL-11,KHM.23.8_2,,,,SvayTeab,,,333.47
+KH-24-01,district,Angkor Borei,KH-24,KH,KH-24,KH-24-01,KH-GDL-12,KHM.24.1_2,,,,AngkorBorei,,,301.37
+KH-24-02,district,Bati,KH-24,KH,KH-24,KH-24-02,KH-GDL-12,KHM.24.2_2,,,,Bati,,,374.91
+KH-24-03,district,Borei Cholsar,KH-24,KH,KH-24,KH-24-03,KH-GDL-12,KHM.24.3_2,,,,BoreiCholsar,,,244.28
+KH-24-04,district,Doun Kaev,KH-24,KH,KH-24,KH-24-04,KH-GDL-12,KHM.24.4_2,,,,DounKaev,,,95.98
+KH-24-05,district,Kaoh Andaet,KH-24,KH,KH-24,KH-24-05,KH-GDL-12,KHM.24.5_2,,,,KaohAndaet,,,349.96
+KH-24-06,district,Kiri Vong,KH-24,KH,KH-24,KH-24-06,KH-GDL-12,KHM.24.6_2,,,,KiriVong,,,593.35
+KH-24-07,district,Prey Kabbas,KH-24,KH,KH-24,KH-24-07,KH-GDL-12,KHM.24.7_2,,,,PreyKabbas,,,267.86
+KH-24-08,district,Samraong,KH-24,KH,KH-24,KH-24-08,KH-GDL-12,KHM.24.8_2,,,,Samraong,,,294.4
+KH-24-09,district,Tram Kak,KH-24,KH,KH-24,KH-24-09,KH-GDL-12,KHM.24.9_2,,,,TramKak,,,560.1
+KH-24-10,district,Treang,KH-24,KH,KH-24,KH-24-10,KH-GDL-12,KHM.24.10_2,,,,Treang,,,411.18
+KH-25-01,district,Dambae,KH-25,KH,KH-25,KH-25-01,KH-GDL-02,KHM.25.1_2,,,,Dambae,,,729.49
+KH-25-02,district,Krouch Chhmar,KH-25,KH,KH-25,KH-25-02,KH-GDL-02,KHM.25.2_2,,,,KrouchChhmar,,,559.6
+KH-25-03,district,Memot,KH-25,KH,KH-25,KH-25-03,KH-GDL-02,KHM.25.3_2,,,,Memot,,,1538.08
+KH-25-04,district,Ou Reang Ov,KH-25,KH,KH-25,KH-25-04,KH-GDL-02,KHM.25.4_2,,,,OuReangOv,,,341.13
+KH-25-05,district,Ponhea Kraek,KH-25,KH,KH-25,KH-25-05,KH-GDL-02,KHM.25.5_2,,,,PonheaKraek,,,760.6
+KH-25-06,district,Suong,KH-25,KH,KH-25,KH-25-06,KH-GDL-02,KHM.25.6_2,,,,Suong,,,109.44
+KH-25-07,district,Tboung Khmum,KH-25,KH,KH-25,KH-25-07,KH-GDL-02,KHM.25.7_2,,,,TboungKhmum,,,892.57
+KH-GDL-01,gdl,Banteay Mean Chey,KH,KH,,,KH-GDL-01,,,,KHMr101,,,Banteay Mean Chey,6144.52
+KH-GDL-02,gdl,Kampong Cham (incl Tboung Khmum),KH,KH,,,KH-GDL-02,,,,KHMr102,,,Kampong Cham (incl Tboung Khmum),9480.65
+KH-GDL-03,gdl,Kampong Chhnang,KH,KH,,,KH-GDL-03,,,,KHMr103,,,Kampong Chhnang,5382.97
+KH-GDL-04,gdl,Kampong Spueu,KH,KH,,,KH-GDL-04,,,,KHMr104,,,Kampong Spueu,6970.19
+KH-GDL-05,gdl,Kampong Thum,KH,KH,,,KH-GDL-05,,,,KHMr105,,,Kampong Thum,12827.73
+KH-GDL-06,gdl,Kandal,KH,KH,,,KH-GDL-06,,,,KHMr106,,,Kandal,3253.09
+KH-GDL-07,gdl,Kaoh Kong,KH,KH,,,KH-GDL-07,,,,KHMr107,,,Kaoh Kong,11005.82
+KH-GDL-08,gdl,Phnom Penh,KH,KH,,,KH-GDL-08,,,,KHMr108,,,Phnom Penh,684.08
+KH-GDL-09,gdl,Prey Veaeng,KH,KH,,,KH-GDL-09,,,,KHMr109,,,Prey Veaeng,4764.41
+KH-GDL-10,gdl,Pousat,KH,KH,,,KH-GDL-10,,,,KHMr110,,,Pousat,12510.02
+KH-GDL-11,gdl,Svay Rieng,KH,KH,,,KH-GDL-11,,,,KHMr111,,,Svay Rieng,2867.22
+KH-GDL-12,gdl,Takaev,KH,KH,,,KH-GDL-12,,,,KHMr112,,,Takaev,3492.02
+KH-GDL-13,gdl,Bat Dambang-Krong Pailin,KH,KH,,,KH-GDL-13,,,,KHMr113,,,Bat Dambang-Krong Pailin,13179.89
+KH-GDL-14,gdl,Kampot-Krong Kaeb-Krong Preah Sihanouk,KH,KH,,,KH-GDL-14,,,,KHMr114,,,Kampot-Krong Kaeb-Krong Preah Sihanouk,7508.36
+KH-GDL-15,gdl,Preah Vihear-Stueng Traeng-Kracheh,KH,KH,,,KH-GDL-15,,,,KHMr115,,,Preah Vihear-Stueng Traeng-Kracheh,38042.0
+KH-GDL-16,gdl,Mondol Kiri-Rotanak Kiri,KH,KH,,,KH-GDL-16,,,,KHMr116,,,Mondol Kiri-Rotanak Kiri,25441.83
+KH-GDL-17,gdl,Siem Reab-Otdar Mean Chey,KH,KH,,,KH-GDL-17,,,,KHMr117,,,Siem Reab-Otdar Mean Chey,18108.01

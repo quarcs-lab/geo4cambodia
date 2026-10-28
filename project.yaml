@@ -1,0 +1,38 @@
+# Project identity.
+#
+# This is the one file that makes this repository *this* project. Everything
+# generic (loading, linking, aggregation, overlay, validation, docs generation)
+# reads its settings from here, so a new geo4<country> project starts by
+# changing these values (scripts/new_project.py does it for you, see TEMPLATE.md).
+#
+# The file is also bundled into the Python package, so an installed copy
+# (pip, Colab) knows which GitHub repository to read its data from.
+
+name: GeoDevelopment Observatory of Cambodia
+short_name: GDO-Cambodia
+
+# Python package (import name), CLI command and prefix of the environment
+# variables (GEO4CAMBODIA_DATA_DIR, GEO4CAMBODIA_BASE_URL, GEO4CAMBODIA_REF).
+# Must match the folder name in src/ and [project].name in pyproject.toml.
+package: geo4cambodia
+
+# GitHub repository holding the published files (owner/name), and the git ref
+# an installed package reads from unless the user passes ref= or sets
+# GEO4CAMBODIA_REF. Use a release tag (e.g. v0.3.0) for frozen data.
+repository: quarcs-lab/geo4cambodia
+default_ref: main
+
+website: https://quarcs-lab.github.io/geo4cambodia/
+
+country:
+  name: Cambodia
+  iso2: KH     # prefix of every geo_id (KH, KH-16, KH-16-01, ...)
+  iso3: KHM    # GADM country code (GID_0)
+
+# Equal-area projection used for areas, crosswalk weights and overlays. Any
+# equal-area CRS gives exact areas; one fitted to the country also keeps shapes.
+# A good default for a new project is EPSG:6933 (World Cylindrical Equal Area).
+equal_area_crs: "+proj=aea +lat_0=12.5 +lon_0=105 +lat_1=10.5 +lat_2=14.5 +datum=WGS84 +units=m +no_defs"
+
+# Generated table listing every variable of every dataset.
+catalog: definitions_gdo-cambodia.csv

@@ -1,0 +1,73 @@
+# Spatial scales of the GeoDevelopment Observatory of Cambodia.
+#
+# Every unit at every scale has a geo ID matching `id_pattern`. Administrative
+# scales follow the GADM 4.1 hierarchy and nest by prefix (KH > KH-01 > KH-01-01).
+# `parent` is the next coarser scale that a unit nests in exactly; units of a
+# scale with `parent: null` (or non-nested scales such as grids) are linked to
+# others by area-weighted spatial overlay instead.
+#
+# status: active  -> units, boundaries and crosswalks are published in geo/
+#         planned -> the scale and its ID scheme are reserved; no units yet
+
+country:
+  label: Country
+  kind: admin
+  level: 0
+  parent: null
+  id_pattern: '^KH$'
+  example: KH
+  source: GADM 4.1 (dissolved from districts)
+  status: active
+
+province:
+  label: Province
+  kind: admin
+  level: 1
+  parent: country
+  id_pattern: '^KH-\d{2}$'
+  example: KH-16
+  source: GADM 4.1 level 1 (dissolved from districts)
+  status: active
+
+district:
+  label: District
+  kind: admin
+  level: 2
+  parent: province
+  id_pattern: '^KH-\d{2}-\d{2}$'
+  example: KH-16-01
+  source: GADM 4.1 level 2 (via Kummu et al. 2025)
+  status: active
+
+commune:
+  label: Commune
+  kind: admin
+  level: 3
+  parent: district
+  id_pattern: '^KH-\d{2}-\d{2}-\d{2}$'
+  example: KH-16-01-01
+  source: GADM 4.1 level 3
+  status: planned
+
+gdl:
+  label: Global Data Lab region
+  kind: grouping
+  level: 1
+  parent: country
+  children: province   # each GDL region is a union of whole provinces
+  id_pattern: '^KH-GDL-\d{2}$'
+  example: KH-GDL-02
+  source: Global Data Lab (Smits & Permanyer 2019), mapped to GADM provinces
+  status: active
+
+grid10k:
+  label: 10 km grid cell
+  kind: grid
+  level: null
+  parent: null
+  id_pattern: '^KH-G10K-r\d{3}c\d{3}$'
+  example: KH-G10K-r012c034
+  cell_size_m: 10000
+  crs: EPSG:32648
+  source: Regular grid in UTM zone 48N
+  status: planned

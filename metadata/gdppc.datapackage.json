@@ -1,0 +1,47 @@
+{
+  "name": "gdppc",
+  "title": "Estimated GDP per capita",
+  "description": "Annual estimates of GDP per capita (PPP, constant 2017 international dollars) for Cambodia's 202 districts, 1990–2022. They are aggregated from the downscaled gridded GDP-per-capita dataset of Kummu et al. (2025). Alongside the levels, the dataset provides the log of GDP per capita and Hodrick–Prescott trends with three smoothing parameters (λ = 6.25, 100, 400), for studying long-run regional growth and convergence.",
+  "version": "2.0.0",
+  "licenses": [{"name": "MIT", "path": "https://github.com/quarcs-lab/geo4cambodia/blob/main/LICENSE", "title": "MIT License"}],
+  "sources": [
+    {"title": "Kummu, M., Kosonen, M., & Masoumzadeh Sayyar, S. (2025). Downscaled gridded global dataset for gross domestic product (GDP) per capita PPP over 1990–2022. Scientific Data, 12, 178.", "path": "https://doi.org/10.1038/s41597-025-04487-x"}
+  ],
+  "geo:categories": ["Economy"],
+  "geo:citation": "He, D., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/gdppc.md",
+  "geo:notes": [
+    "GDP per capita cannot be aggregated to provinces without district population weights, so its aggregation rule is `none`. Pass weights explicitly, e.g. `geo.aggregate(df, to=\"province\", rules={\"y\": \"weighted_mean:pop\"}, weights=pop)`.",
+    "Original repository: https://github.com/gdo-cambodia/cambodia202-1990-2022-GDPpc"
+  ],
+  "geo:notebooks": [
+    {"title": "Exploratory data analysis", "path": "../../notebooks/districts202_gdppc_eda.ipynb"},
+    {"title": "Exploratory spatial data analysis", "path": "../../notebooks/districts202_gdppc_esda.ipynb"}
+  ],
+  "resources": [
+    {
+      "name": "gdppc-district",
+      "path": "https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/district/gdppc.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "geo:scale": "district",
+      "geo:period": [1990, 2022],
+      "geo:path": "data/district/gdppc.csv",
+      "geo:parquet": "data/district/gdppc.parquet",
+      "geo:source_geometry": "GADM 4.1 level 2 (202 districts, as used by Kummu et al. 2025)",
+      "schema": {
+        "primaryKey": ["geo_id", "year"],
+        "fields": [
+          {"name": "geo_id", "type": "string", "description": "District geo ID", "geo:role": "id", "constraints": {"required": true, "pattern": "^KH-\\d{2}-\\d{2}$"}},
+          {"name": "year", "type": "integer", "description": "Year", "geo:role": "time", "constraints": {"required": true}},
+          {"name": "GID_2", "type": "string", "description": "GADM level-2 code", "geo:role": "source_key", "geo:units_column": "gid", "geo:source": "GADM 4.1", "constraints": {"required": true}},
+          {"name": "y", "type": "number", "description": "GDP per capita", "geo:unit": "PPP, constant 2017 international USD", "geo:aggregation": "none", "geo:source": "Kummu et al. (2025)", "constraints": {"minimum": 0}},
+          {"name": "ln_y", "type": "number", "description": "Log GDP per capita", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "trend6_ln_y", "type": "number", "description": "Hodrick–Prescott trend of log GDP per capita (λ = 6.25)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "trend100_ln_y", "type": "number", "description": "Hodrick–Prescott trend of log GDP per capita (λ = 100)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "trend400_ln_y", "type": "number", "description": "Hodrick–Prescott trend of log GDP per capita (λ = 400)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"}
+        ]
+      }
+    }
+  ]
+}

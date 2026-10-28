@@ -64,8 +64,8 @@
           "keywords": ["human development index", "night-time lights", "Cambodia", "subnational"],
           "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" },
           "distribution": [
-            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.csv" },
-            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/maps/provinces17_wide.geojson" }
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/data/gdl/hdi.csv" },
+            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/geo/boundaries/gdl.geojson" }
           ]
         },
         {
@@ -79,7 +79,7 @@
           "keywords": ["night-time lights", "PM2.5", "population", "GDP", "Cambodia", "remote sensing"],
           "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" },
           "distribution": [
-            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv" }
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/data/province/env.csv" }
           ]
         },
         {
@@ -97,9 +97,19 @@
             { "@type": "Person", "name": "Li Xiaomeng", "url": "https://carlos-mendez.org/authors/lixiaomeng/" }
           ],
           "distribution": [
-            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/districts202-gdppc/wide_y.csv" },
-            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/maps/districts202_wide_y.geojson" }
+            { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/data/district/gdppc.csv" },
+            { "@type": "DataDownload", "encodingFormat": "application/geo+json", "contentUrl": "https://quarcs-lab.github.io/geo4cambodia/geo/boundaries/district.geojson" }
           ]
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "name": "geo4cambodia",
+          "description": "Python package to load, link, aggregate and build subnational development data for Cambodia across spatial scales.",
+          "url": "https://quarcs-lab.github.io/geo4cambodia/#/tools/geo4cambodia-package",
+          "codeRepository": "https://github.com/quarcs-lab/geo4cambodia",
+          "programmingLanguage": "Python",
+          "license": "https://opensource.org/licenses/MIT",
+          "creator": { "@id": "https://quarcs-lab.github.io/geo4cambodia/#org" }
         }
       ]
     }
@@ -179,9 +189,9 @@
         <p>A public-access platform for analyzing, monitoring, and evaluating sustainable regional development in Cambodia. It brings together environmental, social, and economic indicators from satellite imagery, surveys, and administrative records; makes them explorable through notebooks and web apps; and turns the results into accessible insights.</p>
         <h2>GeoDevelopment Indicators</h2>
         <ul>
-          <li><a href="provinces17-hdi/">Human development, income, night-time lights and population (17 provinces, 2013–2019)</a></li>
-          <li><a href="provinces25-env/">Population, night-time lights, electricity-based GDP, NPP and PM2.5 (25 provinces, 1990–2023)</a></li>
-          <li><a href="districts202-gdppc/">Estimated GDP per capita (202 districts, 1990–2022)</a></li>
+          <li><a href="docs/datasets/hdi.md">Human development, income, night-time lights and population (17 provinces, 2013–2019)</a></li>
+          <li><a href="docs/datasets/env.md">Population, night-time lights, electricity-based GDP, NPP and PM2.5 (25 provinces, 1990–2023)</a></li>
+          <li><a href="docs/datasets/gdppc.md">Estimated GDP per capita (202 districts, 1990–2022)</a></li>
         </ul>
         <h2>GeoDevelopment Tools and Insights</h2>
         <p>Notebooks, Earth Engine apps, papers, videos and slides. See the <a href="https://github.com/quarcs-lab/geo4cambodia">GitHub repository</a>.</p>
@@ -212,6 +222,7 @@
             {children}
           </svg>
         );
+        const PackageIcon = (p) => (<IconWrapper {...p}><path d="m7.5 4.27 9 5.15" /><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></IconWrapper>);
         const MapIcon = (p) => (<IconWrapper {...p}><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" /><line x1="8" y1="2" x2="8" y2="18" /><line x1="16" y1="6" x2="16" y2="22" /></IconWrapper>);
         const Database = (p) => (<IconWrapper {...p}><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></IconWrapper>);
         const Terminal = (p) => (<IconWrapper {...p}><polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" /></IconWrapper>);
@@ -389,10 +400,8 @@
         // ====================================================================
         // Content registry: every indicator, tool, insight and event
         // ====================================================================
-        const PYTHON_SETUP = `import pandas as pd
-import geopandas as gpd
-
-BASE = "${RAW_URL}"`;
+        const PYTHON_SETUP = `# pip install geo4cambodia      (in Colab: !pip install geo4cambodia -q)
+import geo4cambodia as geo`;
 
         const CONTENT_REGISTRY = [
           // ---------------------------------------------------------------- Indicators
@@ -402,54 +411,63 @@ BASE = "${RAW_URL}"`;
             scope: '202 districts · 1990–2022',
             summary: 'Three decades of district-level GDP per capita, with log levels and long-run trends for studying regional growth and convergence.',
             description: 'Annual estimates of GDP per capita (PPP, constant 2017 international dollars) for all 202 districts of Cambodia from 1990 to 2022, aggregated from the downscaled global grid of Kummu et al. (2025). The module adds log GDP per capita and Hodrick–Prescott trends with three smoothing parameters (λ = 6.25, 100, 400), so you can separate short-run fluctuations from long-run regional dynamics.',
-            geography: 'District', units: 202, period: '1990–2022', frequency: 'Annual', key: 'GID_2',
+            geography: 'District', units: 202, period: '1990–2022', frequency: 'Annual', key: 'geo_id', idExample: 'KH-16-01',
             categories: ['Economy'], tags: ['GDP per capita', 'districts', 'convergence', 'panel data'],
             image: 'images/indicators/districts202-gdppc.webp',
             imageAlt: 'Quantile map of GDP per capita across 202 Cambodian districts in 2022, highest around Phnom Penh, Siem Reap and Sihanoukville',
-            date: '2025-09-22', pinned: true, folder: 'districts202-gdppc',
+            date: '2025-09-22', pinned: true, dataset: 'gdppc', folder: 'data/district', docs: 'docs/datasets/gdppc.md',
             variables: [
-              ['GID_2', 'GADM level-2 code, used for geographic merges', 'Kummu et al. (2025)'],
-              ['id', 'District ID (1–202)', 'Based on Kummu et al. (2025)'],
-              ['year', 'Year', 'Kummu et al. (2025)'],
-              ['province', 'Province name', 'Kummu et al. (2025)'],
-              ['district', 'District name', 'Kummu et al. (2025)'],
+              ['geo_id', 'District geo ID (e.g. KH-16-01); names and parent units in geo/units.csv', 'GDO'],
+              ['year', 'Year', '—'],
+              ['GID_2', 'GADM level-2 code of the source data', 'GADM 4.1'],
               ['y', 'GDP per capita (PPP, constant 2017 international USD)', 'Kummu et al. (2025)'],
-              ['ln_y', 'Log GDP per capita', 'Based on Kummu et al. (2025)'],
-              ['trend6_ln_y', 'HP trend of log GDP per capita (λ = 6.25)', 'Based on Kummu et al. (2025)'],
-              ['trend100_ln_y', 'HP trend of log GDP per capita (λ = 100)', 'Based on Kummu et al. (2025)'],
-              ['trend400_ln_y', 'HP trend of log GDP per capita (λ = 400)', 'Based on Kummu et al. (2025)'],
+              ['ln_y', 'Log GDP per capita', 'Derived'],
+              ['trend6_ln_y', 'HP trend of log GDP per capita (λ = 6.25)', 'Derived'],
+              ['trend100_ln_y', 'HP trend of log GDP per capita (λ = 100)', 'Derived'],
+              ['trend400_ln_y', 'HP trend of log GDP per capita (λ = 400)', 'Derived'],
             ],
             files: [
-              { format: 'DTA', form: 'Long panel · all variables', path: 'districts202-gdppc/cambodia202-1990-2022-GDPpc.dta' },
-              { format: 'CSV', form: 'Wide · GDP per capita', path: 'districts202-gdppc/wide_y.csv' },
-              { format: 'CSV', form: 'Wide · log GDP per capita', path: 'districts202-gdppc/wide_ln_y.csv' },
-              { format: 'CSV', form: 'Wide · HP trend (λ = 6.25)', path: 'districts202-gdppc/wide_trend6_ln_y.csv' },
-              { format: 'CSV', form: 'Wide · HP trend (λ = 100)', path: 'districts202-gdppc/wide_trend100_ln_y.csv' },
-              { format: 'CSV', form: 'Wide · HP trend (λ = 400)', path: 'districts202-gdppc/wide_trend400_ln_y.csv' },
-              { format: 'GeoJSON', form: 'Wide · GDP per capita + polygons', path: 'maps/districts202_wide_y.geojson' },
-              { format: 'GeoJSON', form: 'Wide · log GDP per capita + polygons', path: 'maps/districts202_wide_ln_y.geojson' },
-              { format: 'GeoJSON', form: 'Wide · HP trend (λ = 400) + polygons', path: 'maps/districts202_wide_trend400_ln_y.geojson' },
-              { format: 'GeoJSON', form: 'District boundaries', path: 'maps/districts202.geojson' },
+              { format: 'CSV', form: 'Panel · 6,666 rows', path: 'data/district/gdppc.csv' },
+              { format: 'Parquet', form: 'Panel · typed, compact', path: 'data/district/gdppc.parquet' },
+              { format: 'GeoJSON', form: 'District boundaries', path: 'geo/boundaries/district.geojson' },
+              { format: 'JSON', form: 'Metadata · datapackage', path: 'metadata/gdppc.datapackage.json' },
             ],
             code: {
               python: `${PYTHON_SETUP}
 
-# Wide panel with district polygons
-gdf = gpd.read_file(BASE + "maps/districts202_wide_y.geojson")
+# District panel with boundaries (one row per district and year)
+gdf = geo.load("gdppc", years=2022, geometry=True)
 
 # Map GDP per capita in 2022 (quintiles)
-gdf.plot(column="y2022", cmap="magma", scheme="quantiles", k=5,
+gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5,
          legend=True, edgecolor="white", linewidth=0.2)`,
-              stata: `* Long panel: 202 districts x 33 years
-use "${RAW_URL}districts202-gdppc/cambodia202-1990-2022-GDPpc.dta", clear
-describe
-xtset id year
+              pandas: `import pandas as pd
+import geopandas as gpd
+
+# No package needed: every file is a plain URL
+BASE = "${RAW_URL}"
+df = pd.read_csv(BASE + "data/district/gdppc.csv")             # geo_id, year, y, ln_y, ...
+districts = gpd.read_file(BASE + "geo/boundaries/district.geojson")
+
+gdf = districts.merge(df[df["year"] == 2022], on="geo_id")
+gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5, legend=True)`,
+              r: `library(readr); library(dplyr); library(sf)
+
+base <- "${RAW_URL}"
+df   <- read_csv(paste0(base, "data/district/gdppc.csv"))
+map  <- st_read(paste0(base, "geo/boundaries/district.geojson")) |>
+  left_join(filter(df, year == 2022), by = "geo_id")
+plot(map["y"])`,
+              stata: `* Panel: 202 districts x 33 years
+import delimited "${RAW_URL}data/district/gdppc.csv", clear
+encode geo_id, gen(uid)
+xtset uid year
 xtsum y ln_y trend400_ln_y`,
             },
             references: [
               { text: 'Kummu, M., Kosonen, M., & Masoumzadeh Sayyar, S. (2025). Downscaled gridded global dataset for gross domestic product (GDP) per capita PPP over 1990–2022. Scientific Data, 12, 178.', url: 'https://doi.org/10.1038/s41597-025-04487-x' },
             ],
-            citation: 'He, D., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/tree/main/districts202-gdppc',
+            citation: 'He, D., Mendez, C., & Li, X. (2025). Estimates of district-level GDP per capita in Cambodia 1990–2022. GeoDevelopment Observatory of Cambodia. https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/gdppc.md',
             related: ['districts202-eda', 'districts202-esda', 'egdp-dynamics', 'space-time-egdp'],
           },
           {
@@ -458,42 +476,62 @@ xtsum y ln_y trend400_ln_y`,
             scope: '25 provinces · 1990–2023',
             summary: 'Five global remote-sensing products summarized for every province: people, lights, output, vegetation and air quality.',
             description: 'A province-level panel that aggregates five global gridded remote-sensing products to the 25 present-day provinces: gridded population (GlobPOP), NPP-VIIRS-like night-time lights, electricity-consumption-based GDP, net primary productivity, and PM2.5 concentration (GHAP). Each variable is the zonal sum of the grid values inside a province, and each has its own time coverage.',
-            geography: 'Province', units: 25, period: '1990–2023', frequency: 'Annual', key: 'shapeISO',
+            geography: 'Province', units: 25, period: '1990–2023', frequency: 'Annual', key: 'geo_id', idExample: 'KH-16',
             categories: ['Economy', 'Social', 'Environment'], tags: ['night-time lights', 'PM2.5', 'population', 'remote sensing'],
             image: 'images/indicators/provinces25-env.webp',
             imageAlt: 'Charts of province-level night-time lights, GDP and PM2.5 in Cambodia',
-            date: '2025-09-09', pinned: false, folder: 'provinces25-env',
+            date: '2025-09-09', pinned: false, dataset: 'env', folder: 'data/province', docs: 'docs/datasets/env.md',
             variables: [
-              ['shapeISO', 'ISO 3166-2 province code (e.g. KH-12)', 'geoBoundaries'],
-              ['shapeName', 'Province name', 'geoBoundaries'],
-              ['shapeID', 'geoBoundaries ADM1 identifier', 'geoBoundaries'],
+              ['geo_id', 'Province geo ID (e.g. KH-16); names and parent units in geo/units.csv', 'GDO'],
               ['year', 'Year (1986–2023)', '—'],
+              ['shapeISO', 'ISO 3166-2 code of the source data (numbering differs from geo IDs)', 'geoBoundaries'],
               ['total_GlobPOP_Count', 'Gridded population count, 1990–2022', 'Liu et al. (2024)'],
               ['total_GlobPOP_Density', 'Gridded population density, 1990–2022', 'Liu et al. (2024)'],
               ['total_VNL', 'NPP-VIIRS-like night-time lights, 2000–2023', 'Chen et al. (2021)'],
               ['total_EGDP', 'Electricity-consumption-based real GDP, 1992–2019', 'Chen et al. (2022)'],
-              ['total_NPP', 'Net primary productivity (see known issue)', 'Robinson et al. (2018)'],
+              ['total_NPP', 'Net primary productivity (missing, see known issue)', 'Robinson et al. (2018)'],
               ['total_GHAP', 'PM2.5 concentration, 2017–2022', 'Wei et al. (2023)'],
             ],
-            notice: 'Known issue: total_NPP is 0 for every province and year in the current release. Treat it as missing until the module is regenerated.',
+            notice: 'Known issue: total_NPP is 0 for every province and year in the source release, so it is published as missing until the dataset is regenerated.',
             files: [
-              { format: 'CSV', form: 'Long panel · 950 rows', path: 'provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv' },
-              { format: 'DTA', form: 'Long panel · Stata', path: 'provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.dta' },
+              { format: 'CSV', form: 'Panel · 950 rows', path: 'data/province/env.csv' },
+              { format: 'Parquet', form: 'Panel · typed, compact', path: 'data/province/env.parquet' },
+              { format: 'GeoJSON', form: 'Province boundaries', path: 'geo/boundaries/province.geojson' },
+              { format: 'JSON', form: 'Metadata · datapackage', path: 'metadata/env.datapackage.json' },
             ],
             code: {
               python: `${PYTHON_SETUP}
 
-df = pd.read_csv(BASE + "provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.csv")
+df = geo.load("env", years=(2000, 2022))
+df = df.merge(geo.units("province")[["geo_id", "name"]], on="geo_id")
 
-# Night-time lights per person by province, 2000-2022
+# Night-time lights per person by province
 df["vnl_pc"] = df["total_VNL"] / df["total_GlobPOP_Count"]
-(df.query("2000 <= year <= 2022")
-   .pivot(index="year", columns="shapeName", values="vnl_pc")
-   .plot(legend=False, title="Night-time lights per person"))`,
-              stata: `use "${RAW_URL}provinces25-env/provinces25-1990-2023-pop-viirs-like-egdp-npp-pm25.dta", clear
-encode shapeISO, gen(pid)
+df.pivot(index="year", columns="name", values="vnl_pc").plot(legend=False)
+
+# Sum provinces up to Global Data Lab regions or the whole country
+geo.aggregate(df, to="country", dataset="env", variables=["total_GlobPOP_Count"])`,
+              pandas: `import pandas as pd
+
+BASE = "${RAW_URL}"
+df = pd.read_csv(BASE + "data/province/env.csv")
+names = pd.read_csv(BASE + "geo/units.csv")[["geo_id", "name"]]
+df = df.merge(names, on="geo_id")
+
+# Night-time lights per person by province
+df["vnl_pc"] = df["total_VNL"] / df["total_GlobPOP_Count"]
+df.pivot(index="year", columns="name", values="vnl_pc").plot(legend=False)`,
+              r: `library(readr); library(dplyr)
+
+base  <- "${RAW_URL}"
+df    <- read_csv(paste0(base, "data/province/env.csv"))
+units <- read_csv(paste0(base, "geo/units.csv"))
+df    <- left_join(df, select(units, geo_id, name), by = "geo_id") |>
+  mutate(vnl_pc = total_VNL / total_GlobPOP_Count)`,
+              stata: `import delimited "${RAW_URL}data/province/env.csv", clear
+encode geo_id, gen(pid)
 xtset pid year
-xtsum total_VNL total_EGDP total_GHAP`,
+xtsum total_vnl total_egdp total_ghap`,
             },
             references: [
               { text: 'Liu, L., Cao, X., Li, S., & Jie, N. (2024). A 31-year (1990–2020) global gridded population dataset generated by cluster analysis and statistical learning. Scientific Data, 11, 124.', url: 'https://doi.org/10.1038/s41597-024-02913-0' },
@@ -505,7 +543,7 @@ xtsum total_VNL total_EGDP total_GHAP`,
             extraLinks: [
               { label: 'Getting remote sensing data in Python (Colab)', url: 'https://colab.research.google.com/drive/1VQFcaKJl0Lz_c_gGrb4FZ2uJvAVseEKp?usp=sharing', kind: 'colab' },
             ],
-            citation: 'GeoDevelopment Observatory of Cambodia (2025). Population, (VIIRS-like) lights, electricity-based GDP, net primary productivity, and PM2.5 (25 provinces, 1990–2023). https://github.com/quarcs-lab/geo4cambodia/tree/main/provinces25-env',
+            citation: 'GeoDevelopment Observatory of Cambodia (2025). Population, (VIIRS-like) lights, electricity-based GDP, net primary productivity, and PM2.5 (25 provinces, 1990–2023). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/env.md',
             related: ['egdp-dynamics', 'space-time-egdp', 'lst-smc-lulc'],
           },
           {
@@ -514,16 +552,15 @@ xtsum total_VNL total_EGDP total_GHAP`,
             scope: '17 provinces · 2013–2019',
             summary: 'The subnational Human Development Index next to income, population and night-time lights, for comparing well-being with what satellites see.',
             description: 'An annual panel for the 17 subnational regions of Cambodia used by the Global Data Lab. It combines the subnational Human Development Index, gross national income and population (Smits & Permanyer, 2019) with harmonized DMSP-like night-time lights (Li et al., 2020). Some regions group several present-day provinces; for example, Battambang and Pailin form one region.',
-            geography: 'Province (GDL region)', units: 17, period: '2013–2019', frequency: 'Annual', key: 'GDLcode',
+            geography: 'Global Data Lab region', units: 17, period: '2013–2019', frequency: 'Annual', key: 'geo_id', idExample: 'KH-GDL-02',
             categories: ['Economy', 'Health', 'Social'], tags: ['HDI', 'night-time lights', 'income', 'population'],
             image: 'images/indicators/provinces17-hdi.webp',
             imageAlt: 'Choropleth map of the Human Development Index across 17 Cambodian regions in 2019, highest in Phnom Penh',
-            date: '2025-08-26', pinned: false, folder: 'provinces17-hdi',
+            date: '2025-08-26', pinned: false, dataset: 'hdi', folder: 'data/gdl', docs: 'docs/datasets/hdi.md',
             variables: [
-              ['id', 'Region ID (1–17)', '—'],
-              ['GDLcode', 'Global Data Lab region code', 'Smits & Permanyer (2019)'],
-              ['region', 'Region name', 'Smits & Permanyer (2019)'],
+              ['geo_id', 'Global Data Lab region geo ID (e.g. KH-GDL-02); member provinces in geo/units.csv', 'GDO'],
               ['year', 'Year', '—'],
+              ['GDLcode', 'Global Data Lab region code of the source data', 'Smits & Permanyer (2019)'],
               ['HDI', 'Subnational Human Development Index (0–1)', 'Smits & Permanyer (2019)'],
               ['GNI', 'Gross national income (thousands of 2011 PPP USD)', 'Smits & Permanyer (2019)'],
               ['GNIpc', 'GNI per capita (2011 PPP USD)', 'Smits & Permanyer (2019)'],
@@ -532,35 +569,183 @@ xtsum total_VNL total_EGDP total_GHAP`,
               ['lnNTL, lnGNI, lnGNIpc, lnNTLpc', 'Log transformations (per-capita logs are rescaled as in the source panel)', 'Derived'],
             ],
             files: [
-              { format: 'CSV', form: 'Long panel · 119 rows', path: 'provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.csv' },
-              { format: 'CSV', form: 'Wide panel · 17 rows', path: 'provinces17-hdi/df_cambodia17_20132019_widePanel_HDI_GNI_NTL_POP.csv' },
-              { format: 'DTA', form: 'Long panel · Stata', path: 'provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.dta' },
-              { format: 'DTA', form: 'Wide panel · Stata', path: 'provinces17-hdi/df_cambodia17_20132019_widePanel_HDI_GNI_NTL_POP.dta' },
-              { format: 'GeoJSON', form: 'Wide panel + polygons', path: 'maps/provinces17_wide.geojson' },
-              { format: 'GeoJSON', form: 'Region boundaries', path: 'maps/provinces17.geojson' },
+              { format: 'CSV', form: 'Panel · 119 rows', path: 'data/gdl/hdi.csv' },
+              { format: 'Parquet', form: 'Panel · typed, compact', path: 'data/gdl/hdi.parquet' },
+              { format: 'GeoJSON', form: 'GDL region boundaries', path: 'geo/boundaries/gdl.geojson' },
+              { format: 'JSON', form: 'Metadata · datapackage', path: 'metadata/hdi.datapackage.json' },
             ],
             code: {
               python: `${PYTHON_SETUP}
 
-# Wide panel with region polygons
-gdf = gpd.read_file(BASE + "maps/provinces17_wide.geojson")
+# GDL regions with boundaries: map the HDI in 2019
+gdf = geo.load("hdi", years=2019, geometry=True)
+gdf.plot(column="HDI", cmap="viridis", legend=True)
 
-# Map the Human Development Index in 2019
-gdf.plot(column="HDI2019", cmap="viridis", legend=True)`,
-              stata: `use "${RAW_URL}provinces17-hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.dta", clear
-xtset id year
-xtsum HDI GNIpc NTL
-twoway scatter HDI lnNTL`,
+# Population-weighted national HDI, 2013-2019
+geo.aggregate(geo.load("hdi"), to="country", dataset="hdi", variables=["HDI", "POP"])`,
+              pandas: `import pandas as pd
+import geopandas as gpd
+
+BASE = "${RAW_URL}"
+df = pd.read_csv(BASE + "data/gdl/hdi.csv")
+regions = gpd.read_file(BASE + "geo/boundaries/gdl.geojson")
+regions.merge(df[df["year"] == 2019], on="geo_id").plot(column="HDI", legend=True)`,
+              r: `library(readr); library(dplyr); library(sf)
+
+base <- "${RAW_URL}"
+df   <- read_csv(paste0(base, "data/gdl/hdi.csv"))
+map  <- st_read(paste0(base, "geo/boundaries/gdl.geojson")) |>
+  left_join(filter(df, year == 2019), by = "geo_id")
+plot(map["HDI"])`,
+              stata: `import delimited "${RAW_URL}data/gdl/hdi.csv", clear
+encode geo_id, gen(rid)
+xtset rid year
+xtsum hdi gnipc ntl
+twoway scatter hdi lnntl`,
             },
             references: [
               { text: 'Smits, J., & Permanyer, I. (2019). The Subnational Human Development Database. Scientific Data, 6, 190038.', url: 'https://doi.org/10.1038/sdata.2019.38' },
               { text: 'Li, X., Zhou, Y., Zhao, M., & Zhao, X. (2020). A harmonized global nighttime light dataset 1992–2018. Scientific Data, 7, 168.', url: 'https://doi.org/10.1038/s41597-020-0510-y' },
             ],
-            citation: 'GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/tree/main/provinces17-hdi',
+            citation: 'GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md',
             related: ['hdi-ntl-esda'],
           },
 
+          // ---------------------------------------------------------------- Tools: packages
+          {
+            id: 'geo4cambodia-package', type: 'package', section: 'tools',
+            title: 'geo4cambodia: load, link and build subnational data',
+            scope: 'pip install geo4cambodia',
+            summary: 'The observatory’s Python package. Load every indicator as a tidy panel with boundaries, link your own data to the same units, and build new indicators across districts, provinces and regions.',
+            description: 'geo4cambodia is the data engine of the observatory. One line loads any dataset as a panel (one row per unit and year) with names and boundaries. Every spatial unit has one geo ID that nests by prefix (district KH-16-01 lies in province KH-16, in Cambodia KH), so the package can move data up the hierarchy with each variable’s own aggregation rule, interpolate it onto grids or custom zones, and combine datasets published at different scales. To build your own indicators, it links tables that identify units by name in any spelling, summarises rasters such as Earth Engine exports over units, and saves the result with the same documented format as the published data. It is small, works out of the box in Google Colab, and hands its data to the geometrics package for spatial analysis.',
+            tags: ['Python', 'data loading', 'multi-scale', 'Colab', 'open data'],
+            image: 'images/tools/geo4cambodia-package.webp',
+            imageAlt: 'Three stacked map layers of Cambodia, the 17 Global Data Lab regions, 25 provinces and 202 districts, linked by geo IDs, beside a code snippet that loads the data',
+            date: '2026-10-28', pinned: true,
+            install: `pip install geo4cambodia                 # in Colab: !pip install geo4cambodia -q
+pip install "geo4cambodia[raster]"       # + rasterio, for zonal statistics from rasters`,
+            quickstart: {
+              python: `import geo4cambodia as geo
+
+geo.datasets()                                       # datasets x scales x years
+geo.dictionary("gdppc")                              # variables, units, aggregation rules
+gdf = geo.load("gdppc", years=2022, geometry=True)   # 202 districts with boundaries
+gdf.plot(column="y", scheme="quantiles", k=5, legend=True)
+
+# Across scales: provinces -> Global Data Lab regions -> Cambodia
+geo.aggregate(geo.load("env"), to="gdl", dataset="env")
+panel = geo.combine(["env", "hdi"], scale="gdl")      # two datasets, one scale`,
+              pandas: `import pandas as pd
+
+# The same files without the package: plain URLs
+BASE = "${RAW_URL}"
+df = pd.read_csv(BASE + "data/district/gdppc.csv")
+units = pd.read_csv(BASE + "geo/units.csv")           # names, parents, source codes
+df = df.merge(units[["geo_id", "name", "province_id"]], on="geo_id")`,
+            },
+            build: `import geo4cambodia as geo
+
+# 1. Your table, with province names in any spelling -> geo IDs
+mine = geo.link(my_table, scale="province", on="Province")   # "BântéayMéanchey" -> KH-01
+geo.check(mine, scale="province")                            # [] = valid panel
+
+# 2. A raster (e.g. an Earth Engine export) -> district indicator
+ntl = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
+
+# 3. Combine with published data, derive, and save in the same format
+panel = geo.combine(["env"], scale="province", extra=[mine])
+panel["clinics_per_10k"] = panel["clinics"] / panel["total_GlobPOP_Count"] * 1e4
+geo.save(panel, "clinics", scale="province", directory="my_data")
+
+# 4. Hand it to geometrics for spatial analysis
+gdf, df, df_dict = geo.for_geometrics(panel)`,
+            features: [
+              { title: 'Load', fns: ['datasets', 'dictionary', 'load', 'units', 'boundaries', 'crosswalk'], text: 'Panels with filters, wide reshaping and boundaries; names, parents and source codes of every unit.' },
+              { title: 'Link', fns: ['link', 'check'], text: 'Attach geo IDs to any table by names or codes, ignoring accents, case and spacing, with spelling suggestions.' },
+              { title: 'Extract', fns: ['zonal'], text: 'Summarise rasters (sum, mean, max, count, ...) over districts or provinces, for one year or a series.' },
+              { title: 'Move across scales', fns: ['aggregate', 'overlay', 'overlay_weights'], text: 'Up the hierarchy with metadata rules, or onto grids and custom zones by area weights.' },
+              { title: 'Combine & save', fns: ['combine', 'save'], text: 'Several datasets as one panel at one scale; your result as CSV, Parquet and a documented datapackage.' },
+              { title: 'Analyse', fns: ['for_geometrics'], text: 'The three inputs of the geometrics package, labelled from the metadata.' },
+            ],
+            links: [
+              { label: 'Quickstart in Colab', url: COLAB_URL + 'geo4cambodia_quickstart.ipynb', kind: 'colab' },
+              { label: 'How the database works', url: REPO_URL + '/blob/main/docs/data-infrastructure.md', kind: 'docs' },
+              { label: 'Package guide', url: REPO_URL + '/blob/main/docs/python-package.md', kind: 'docs' },
+              { label: 'PyPI', url: 'https://pypi.org/project/geo4cambodia/', kind: 'pypi' },
+              { label: 'Source code', url: REPO_URL + '/tree/main/src/geo4cambodia', kind: 'github' },
+            ],
+            related: ['geometrics-package', 'geo4cambodia-quickstart', 'geometrics-convergence', 'districts202-gdppc', 'provinces25-env', 'provinces17-hdi'],
+          },
+          {
+            id: 'geometrics-package', type: 'package', section: 'tools',
+            title: 'geometrics: regional growth, convergence and inequality',
+            scope: 'pip install geometrics',
+            summary: 'A companion package for spatial analysis: maps, spatial dependence, β-, σ- and club convergence, spatial regressions, distribution dynamics and inequality, each with a plain-language reading.',
+            description: 'geometrics turns the standard analyses of regional growth into single functions built on the PySAL stack. Explore functions map variables, build spatial weights and test spatial dependence (Moran’s I, LISA clusters). Analyze functions estimate β-convergence (OLS and spatial models with LeSage–Pace impacts), σ-convergence, Phillips–Sul convergence clubs, Markov and spatial Markov transitions, Gini and Theil decompositions, and geographically weighted regressions. Learn functions simulate each concept from a known truth. Every result carries an interactive figure, a table and an interpret() method that explains it in words. geo4cambodia prepares Cambodian data for it in one line: geo.for_geometrics().',
+            tags: ['Python', 'spatial econometrics', 'convergence', 'inequality', 'PySAL'],
+            image: 'images/tools/geometrics-package.webp',
+            imageAlt: 'Collage of geometrics results on Cambodian districts: a LISA cluster map, a Moran scatterplot and a β-convergence scatter of growth against initial income',
+            date: '2026-10-27', pinned: true,
+            install: `pip install geo4cambodia geometrics      # in Colab: !pip install geo4cambodia geometrics -q`,
+            quickstart: {
+              python: `import geo4cambodia as geo
+import geometrics as gm
+
+gdf, df, df_dict = geo.for_geometrics("gdppc")     # 202 districts, 1990-2022
+df = gm.set_labels(df, df_dict, set_panel=True)
+w = gm.make_weights(gdf, method="queen")
+
+gm.explore_lisa_cluster_map(df, "ln_y", gdf=gdf, w=w, period=2022).fig
+res = gm.analyze_beta_convergence(df, "ln_y", gdf=gdf, w=w, model="sdm")
+print(res.interpret())`,
+            },
+            features: [
+              { title: 'Explore', fns: ['explore_choropleth_map', 'explore_moran_plot', 'explore_lisa_cluster_map'], text: 'Maps, spatial weights, Moran’s I and local clusters, over time.' },
+              { title: 'Converge', fns: ['analyze_beta_convergence', 'analyze_sigma_convergence', 'analyze_convergence_clubs'], text: 'β-, σ- and club convergence, including spatial models.' },
+              { title: 'Model', fns: ['analyze_spatial_model', 'analyze_gwr', 'analyze_mgwr'], text: 'SAR, SEM, SLX and SDM with impacts; local regressions.' },
+              { title: 'Inequality & dynamics', fns: ['analyze_inequality_over_time', 'analyze_theil_decomposition', 'analyze_markov_transitions'], text: 'Gini and Theil (between and within groups), Markov and spatial Markov chains.' },
+              { title: 'Learn', fns: ['learn_beta_convergence', 'explain'], text: 'Simulations from a known truth and plain-language explainers for 30 topics.' },
+            ],
+            links: [
+              { label: 'Convergence notebook in Colab', url: COLAB_URL + 'geometrics_convergence.ipynb', kind: 'colab' },
+              { label: 'Documentation', url: 'https://quarcs-lab.github.io/geometrics/', kind: 'docs' },
+              { label: 'PyPI', url: 'https://pypi.org/project/geometrics/', kind: 'pypi' },
+              { label: 'Source code', url: 'https://github.com/quarcs-lab/geometrics', kind: 'github' },
+            ],
+            related: ['geo4cambodia-package', 'geometrics-convergence', 'districts202-esda', 'districts202-gdppc'],
+          },
+
           // ---------------------------------------------------------------- Tools: notebooks
+          {
+            id: 'geo4cambodia-quickstart', type: 'notebook', section: 'tools',
+            title: 'Load, link and build indicators with geo4cambodia',
+            summary: 'A hands-on tour: load data with and without the package, move it across scales, link your own table, and build a new indicator from a raster.',
+            description: 'This Colab notebook starts by reading the observatory’s files as plain URLs with pandas and geopandas, then does the same with the geo4cambodia package in one line. It aggregates province data to Global Data Lab regions and the whole country, combines night-time lights and population with the Human Development Index, links a table whose province names are spelled in several ways, computes distance to Phnom Penh from a raster for every district, interpolates population onto a 20 km grid, and saves the new indicator in the observatory’s format.',
+            tags: ['geo4cambodia', 'data loading', 'zonal statistics', 'Python'],
+            image: 'images/tools/geo4cambodia-quickstart.webp',
+            imageAlt: 'Two maps from the quickstart notebook: Human Development Index and night-time lights per person across the 17 Global Data Lab regions in 2019',
+            date: '2026-10-28', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'geo4cambodia_quickstart.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/geo4cambodia_quickstart.ipynb', kind: 'github' },
+            ],
+            related: ['geo4cambodia-package', 'geometrics-convergence', 'provinces25-env', 'provinces17-hdi'],
+          },
+          {
+            id: 'geometrics-convergence', type: 'notebook', section: 'tools',
+            title: 'Are Cambodia’s districts converging?',
+            summary: 'geo4cambodia loads the district GDP panel; geometrics maps it, measures spatial clustering, and tests β-, σ- and club convergence and inequality.',
+            description: 'A complete spatial analysis of district GDP per capita (202 districts, 1990–2022) in a few lines of code. geo4cambodia prepares the data with one call, and geometrics does the analysis: choropleths and distributions over time, Moran’s I and LISA clusters, β-convergence with OLS and a spatial Durbin model, σ-convergence, Phillips–Sul convergence clubs, and Gini and Theil inequality decomposed between and within provinces. Every result comes with a plain-language interpretation.',
+            tags: ['geometrics', 'convergence', 'spatial econometrics', 'inequality'],
+            image: 'images/tools/geometrics-convergence.webp',
+            imageAlt: 'LISA cluster map of log GDP per capita across Cambodian districts in 2022 and a β-convergence scatter of growth against initial income',
+            date: '2026-10-28', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'geometrics_convergence.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/geometrics_convergence.ipynb', kind: 'github' },
+            ],
+            related: ['geometrics-package', 'geo4cambodia-package', 'districts202-gdppc', 'districts202-esda'],
+          },
           {
             id: 'hdi-ntl-esda', type: 'notebook', section: 'tools',
             title: 'Monitoring subnational human development',
@@ -776,6 +961,7 @@ twoway scatter HDI lnNTL`,
 
         const TYPE_STYLE = {
           indicator: { label: 'Indicator', text: 'text-sky-300', bg: 'bg-sky-400/10', ring: 'border-sky-400/30', glow: 'hover:border-sky-400/40', icon: Database },
+          package: { label: 'Python package', text: 'text-teal-300', bg: 'bg-teal-400/10', ring: 'border-teal-400/30', glow: 'hover:border-teal-400/40', icon: PackageIcon },
           notebook: { label: 'Notebook', text: 'text-violet-300', bg: 'bg-violet-400/10', ring: 'border-violet-400/30', glow: 'hover:border-violet-400/40', icon: BookOpen },
           app: { label: 'Web app', text: 'text-amber-300', bg: 'bg-amber-400/10', ring: 'border-amber-400/30', glow: 'hover:border-amber-400/40', icon: Globe },
           insight: { label: 'Insight', text: 'text-rose-300', bg: 'bg-rose-400/10', ring: 'border-rose-400/30', glow: 'hover:border-rose-400/40', icon: Lightbulb },
@@ -783,7 +969,7 @@ twoway scatter HDI lnNTL`,
         };
 
         const LINK_ICON = {
-          colab: BookOpen, github: Github, launch: Globe, 'gee-code': Code, external: ExternalLink, paper: FileText,
+          colab: BookOpen, github: Github, pypi: PackageIcon, docs: FileText, launch: Globe, 'gee-code': Code, external: ExternalLink, paper: FileText,
           slides: Presentation, notebooklm: Sparkles, story: BookOpen, chatbot: Bot,
         };
 
@@ -824,9 +1010,14 @@ twoway scatter HDI lnNTL`,
             keywords: ['import', 'from', 'as', 'def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'in', 'not', 'and', 'or', 'is', 'with', 'try', 'except', 'lambda', 'True', 'False', 'None'],
             builtins: ['print', 'display', 'len', 'int', 'str', 'float', 'list', 'dict', 'range', 'sum', 'min', 'max', 'round', 'sorted'],
           },
+          r: {
+            comment: (src, i) => src[i] === '#',
+            keywords: ['library', 'function', 'if', 'else', 'for', 'in', 'TRUE', 'FALSE', 'NULL'],
+            builtins: ['read_csv', 'st_read', 'left_join', 'filter', 'select', 'mutate', 'paste0', 'plot'],
+          },
           stata: {
             comment: (src, i) => (src[i] === '*' && (i === 0 || src[i - 1] === '\n')) || (src[i] === '/' && src[i + 1] === '/'),
-            keywords: ['use', 'clear', 'describe', 'xtset', 'xtsum', 'encode', 'gen', 'generate', 'summarize', 'regress', 'twoway', 'scatter', 'line', 'keep', 'drop', 'merge', 'reshape', 'collapse', 'tabulate', 'if', 'by', 'bysort'],
+            keywords: ['use', 'import', 'delimited', 'clear', 'describe', 'xtset', 'xtsum', 'encode', 'gen', 'generate', 'summarize', 'regress', 'twoway', 'scatter', 'line', 'keep', 'drop', 'merge', 'reshape', 'collapse', 'tabulate', 'if', 'by', 'bysort'],
             builtins: [],
           },
         };
@@ -962,8 +1153,13 @@ twoway scatter HDI lnNTL`,
           );
         };
 
+        // Every dataset can be loaded with the package or straight from its URL
+        const CODE_TABS = [['python', 'Python · package'], ['pandas', 'Python · URL'], ['r', 'R'], ['stata', 'Stata'], ['shell', 'Terminal']];
+        const CODE_LANG = { pandas: 'python', shell: 'text' };
+        const CODE_TITLE = { python: 'with_geo4cambodia.py', pandas: 'without_package.py', r: 'example.R', stata: 'example.do', shell: 'terminal' };
+
         const CodeTabs = ({ code, idPrefix }) => {
-          const tabs = [['python', 'Python'], ['stata', 'Stata']].filter(([k]) => code[k]);
+          const tabs = CODE_TABS.filter(([k]) => code[k]);
           const [active, setActive] = useState(tabs[0][0]);
           return (
             <div>
@@ -978,7 +1174,7 @@ twoway scatter HDI lnNTL`,
               </div>
               {tabs.map(([k]) => (
                 <div key={k} role="tabpanel" id={`${idPrefix}-panel-${k}`} aria-labelledby={`${idPrefix}-tab-${k}`} hidden={active !== k}>
-                  <CodeBlock code={code[k]} language={k} title={k === 'python' ? 'example.py' : 'example.do'} />
+                  <CodeBlock code={code[k]} language={CODE_LANG[k] || k} title={CODE_TITLE[k] || 'example'} />
                 </div>
               ))}
             </div>
@@ -1228,7 +1424,7 @@ twoway scatter HDI lnNTL`,
               const { lat, lng } = world.pointOfView();
               handlersRef.current.onMove(lat, lng);
             };
-            Promise.all([loadScript(GLOBE_JS_URL), fetch('maps/cambodia-outline.geojson').then((r) => r.json())])
+            Promise.all([loadScript(GLOBE_JS_URL), fetch('geo/boundaries/country_outline_web.geojson').then((r) => r.json())])
               .then(([, outline]) => {
                 if (cancelled || !el || typeof window.Globe !== 'function') throw new Error('Globe unavailable');
                 world = new window.Globe(el, { animateIn: false, rendererConfig: { logarithmicDepthBuffer: true } })
@@ -1474,7 +1670,7 @@ twoway scatter HDI lnNTL`,
             { value: indicators.length, label: 'indicator datasets' },
             { value: Math.max(...indicators.map((i) => i.units)), label: 'districts mapped' },
             { value: '1990–2023', label: 'years covered' },
-            { value: byType(['notebook', 'app']).length, label: 'notebooks & apps' },
+            { value: byType(['package', 'notebook', 'app']).length, label: 'packages, notebooks & apps' },
             { value: byType(['insight']).length, label: 'research insights' },
           ];
           return (
@@ -1589,22 +1785,22 @@ twoway scatter HDI lnNTL`,
                   {items.map((item, i) => <AnimateIn key={item.id} delay={i * 80}><ItemCard item={item} /></AnimateIn>)}
                 </div>
 
-                {/* Dataset architecture */}
+                {/* Database architecture */}
                 <AnimateIn>
                   <h3 id="get-the-data" className="text-2xl font-bold tracking-tight text-white flex items-baseline gap-3 mb-6">
                     <span className="font-mono text-sm text-brand-sky">01</span>
-                    Dataset architecture
+                    Database architecture
                   </h3>
                   <div className="rounded-xl overflow-hidden border border-white/10 bg-white/[0.03] mb-16">
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm">
-                        <caption className="sr-only">Indicator modules, geography, coverage, join key and documentation</caption>
+                        <caption className="sr-only">Datasets, spatial scale, coverage, unit ID and files</caption>
                         <thead className="bg-white/5 text-slate-300 text-xs uppercase tracking-wider">
                           <tr>
-                            <th scope="col" className="px-4 py-3 md:px-6">Module</th>
-                            <th scope="col" className="px-4 py-3 md:px-6">Geography</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Dataset</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Scale</th>
                             <th scope="col" className="px-4 py-3 md:px-6">Period</th>
-                            <th scope="col" className="px-4 py-3 md:px-6">Join key</th>
+                            <th scope="col" className="px-4 py-3 md:px-6">Unit ID</th>
                             <th scope="col" className="px-4 py-3 md:px-6">Files</th>
                           </tr>
                         </thead>
@@ -1612,24 +1808,24 @@ twoway scatter HDI lnNTL`,
                           {items.map((it) => (
                             <tr key={it.id} className="hover:bg-sky-400/[0.04] transition-colors">
                               <td className="px-4 py-4 md:px-6">
-                                <a href={`${REPO_URL}/tree/main/${it.folder}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">/{it.folder}</a>
+                                <a href={`${REPO_URL}/blob/main/${it.docs}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">{it.folder}/{it.dataset}</a>
                                 <div className="text-slate-300 mt-1">{it.title}</div>
                               </td>
                               <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">{it.units} · {it.geography}</td>
                               <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">{it.period}</td>
-                              <td className="px-4 py-4 md:px-6"><code className="font-mono text-brand-sky bg-sky-400/10 px-2 py-0.5 rounded text-xs font-bold">{it.key}</code></td>
+                              <td className="px-4 py-4 md:px-6"><code className="font-mono text-brand-sky bg-sky-400/10 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">{it.idExample}</code></td>
                               <td className="px-4 py-4 md:px-6 text-slate-400 whitespace-nowrap">{[...new Set(it.files.map((f) => f.format))].join(' · ')}</td>
                             </tr>
                           ))}
                           <tr className="hover:bg-sky-400/[0.04] transition-colors">
                             <td className="px-4 py-4 md:px-6">
-                              <a href={`${REPO_URL}/tree/main/regionNames`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">/regionNames</a>
-                              <div className="text-slate-300 mt-1">Region names and identifiers</div>
+                              <a href={`${REPO_URL}/tree/main/geo`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-sky hover:underline">geo</a>
+                              <div className="text-slate-300 mt-1">Units, boundaries and crosswalks</div>
                             </td>
-                            <td className="px-4 py-4 md:px-6 text-slate-300">17 · 25 · 202</td>
+                            <td className="px-4 py-4 md:px-6 text-slate-300 whitespace-nowrap">All scales · 245 units</td>
                             <td className="px-4 py-4 md:px-6 text-slate-300">—</td>
-                            <td className="px-4 py-4 md:px-6 text-slate-400 text-xs">all keys</td>
-                            <td className="px-4 py-4 md:px-6 text-slate-400">CSV</td>
+                            <td className="px-4 py-4 md:px-6"><code className="font-mono text-brand-sky bg-sky-400/10 px-2 py-0.5 rounded text-xs font-bold">KH</code></td>
+                            <td className="px-4 py-4 md:px-6 text-slate-400 whitespace-nowrap">CSV · Parquet · GeoJSON</td>
                           </tr>
                         </tbody>
                       </table>
@@ -1637,7 +1833,7 @@ twoway scatter HDI lnNTL`,
                     <div className="bg-amber-950/30 px-4 py-4 md:px-6 border-t border-amber-900/30 flex gap-3">
                       <Layers size={20} className="text-amber-400 flex-shrink-0 mt-0.5" />
                       <p className="text-sm text-amber-100/80">
-                        <strong className="text-amber-200">Three geographies, three keys.</strong> The 17 Global Data Lab regions, the 25 present-day provinces, and the 202 districts each use their own identifier. Use <a className="underline" href={`${REPO_URL}/tree/main/regionNames`} target="_blank" rel="noopener noreferrer">regionNames</a> to look up names, and harmonize province spellings before merging across geographies.
+                        <strong className="text-amber-200">One ID system for every scale.</strong> Every unit has a geo ID that nests by prefix: district <code>KH-16-01</code> lies in province <code>KH-16</code>, which lies in Cambodia (<code>KH</code>), and Global Data Lab regions such as <code>KH-GDL-08</code> are unions of whole provinces. <a className="underline" href={`${REPO_URL}/blob/main/geo/units.csv`} target="_blank" rel="noopener noreferrer">geo/units.csv</a> links each ID to its name and to the original GADM, geoBoundaries and Global Data Lab codes, and the <a className="underline" href="#/tools/geo4cambodia-package">geo4cambodia Python package</a> loads, links and aggregates data across scales. <a className="underline" href={`${REPO_URL}/blob/main/docs/data-infrastructure.md`} target="_blank" rel="noopener noreferrer">How the database works</a>.
                       </p>
                     </div>
                   </div>
@@ -1650,7 +1846,7 @@ twoway scatter HDI lnNTL`,
                     Start coding in seconds
                   </h3>
                   <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
-                    <p className="text-slate-400 max-w-2xl">Every file streams straight from this repository. Paste the snippet into a blank Colab notebook or Stata, and you have a district-level map or panel in seconds.</p>
+                    <p className="text-slate-400 max-w-2xl">Two ways in. With the <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2" href="#/tools/geo4cambodia-package">geo4cambodia</a> package, one line gives you a panel with names and boundaries. Without it, every file is a plain URL for pandas, R or Stata. Paste a snippet into a blank Colab notebook and you have a district map in seconds.</p>
                     <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
                       <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open a blank notebook in Google Colab" width="117" height="20" />
                     </a>
@@ -1664,14 +1860,15 @@ twoway scatter HDI lnNTL`,
 
         const ToolsSection = () => {
           const [filter, setFilter] = useState('all');
-          const all = byType(['notebook', 'app']);
+          const all = byType(['package', 'notebook', 'app']);
           const items = filter === 'all' ? all : all.filter((i) => i.type === filter);
-          const options = [['all', `All (${all.length})`], ['notebook', `Notebooks (${all.filter((i) => i.type === 'notebook').length})`], ['app', `Web apps (${all.filter((i) => i.type === 'app').length})`]];
+          const count = (t) => all.filter((i) => i.type === t).length;
+          const options = [['all', `All (${all.length})`], ['package', `Packages (${count('package')})`], ['notebook', `Notebooks (${count('notebook')})`], ['app', `Web apps (${count('app')})`]];
           return (
             <section id="tools" aria-labelledby="tools-title" className="relative border-t border-white/10">
               <SatelliteHeader band={SECTION_BANDS.tools}>
                 <SectionHeading index="03" eyebrow="GeoDevelopment Tools" title="Explore, map," emphasis="and model" id="tools-title">
-                  Computational notebooks and web applications for analyzing the indicators, visualizing patterns, and extending research results, all running in your browser.
+                  Python packages, computational notebooks and web applications for loading the indicators, building new ones, analyzing patterns and extending research results, all running in your browser.
                 </SectionHeading>
               </SatelliteHeader>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
@@ -2027,7 +2224,7 @@ twoway scatter HDI lnNTL`,
           </div>
         );
 
-        const FORMAT_STYLE = { CSV: 'text-emerald-300 bg-emerald-400/10', DTA: 'text-violet-300 bg-violet-400/10', GeoJSON: 'text-sky-300 bg-sky-400/10' };
+        const FORMAT_STYLE = { CSV: 'text-emerald-300 bg-emerald-400/10', Parquet: 'text-amber-300 bg-amber-400/10', GeoJSON: 'text-sky-300 bg-sky-400/10', JSON: 'text-violet-300 bg-violet-400/10' };
 
         const IndicatorDetail = ({ item }) => (
           <DetailShell item={item} aside={<>
@@ -2037,14 +2234,15 @@ twoway scatter HDI lnNTL`,
                 <dt className="text-slate-400">Units</dt><dd className="text-slate-200">{item.units}</dd>
                 <dt className="text-slate-400">Period</dt><dd className="text-slate-200">{item.period}</dd>
                 <dt className="text-slate-400">Frequency</dt><dd className="text-slate-200">{item.frequency}</dd>
-                <dt className="text-slate-400">Join key</dt><dd><code className="text-brand-sky text-xs font-bold">{item.key}</code></dd>
+                <dt className="text-slate-400">Join key</dt><dd><code className="text-brand-sky text-xs font-bold">{item.key}</code> <span className="text-slate-400 text-xs">e.g. {item.idExample}</span></dd>
+                <dt className="text-slate-400">Dataset id</dt><dd><code className="text-brand-sky text-xs font-bold">{item.dataset}</code></dd>
                 <dt className="text-slate-400">Categories</dt><dd className="text-slate-200">{item.categories.join(', ')}</dd>
               </dl>
             </AsideCard>
             <AsideCard title="Documentation">
               <div className="flex flex-col gap-2">
-                <LinkButton link={{ label: 'Folder on GitHub', url: `${REPO_URL}/tree/main/${item.folder}`, kind: 'github' }} />
-                <LinkButton link={{ label: 'README & dictionary', url: `${REPO_URL}/blob/main/${item.folder}/README.md`, kind: 'external' }} />
+                <LinkButton link={{ label: 'Data folder on GitHub', url: `${REPO_URL}/tree/main/${item.folder}`, kind: 'github' }} />
+                <LinkButton link={{ label: 'Dictionary & docs', url: `${REPO_URL}/blob/main/${item.docs}`, kind: 'external' }} />
                 {(item.extraLinks || []).map((l) => <LinkButton key={l.url} link={l} />)}
               </div>
             </AsideCard>
@@ -2099,6 +2297,63 @@ twoway scatter HDI lnNTL`,
                   <li key={r.url} className="pl-4 border-l-2 border-white/10">{r.text} <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2 hover:decoration-brand-sky break-all">{r.url}</a></li>
                 ))}
               </ul>
+            </Block>
+          </DetailShell>
+        );
+
+        const PackageDetail = ({ item }) => (
+          <DetailShell item={item} aside={<>
+            <AsideCard title="Install">
+              <div className="rounded-lg bg-navy-950/70 border border-white/10 px-3 py-2.5 font-mono text-xs text-teal-200 flex items-center justify-between gap-2">
+                <span className="truncate">{item.scope}</span><CopyButton text={item.scope} />
+              </div>
+            </AsideCard>
+            <AsideCard title="Open">
+              <div className="flex flex-col gap-2">{item.links.map((l, i) => <LinkButton key={l.url} link={l} primary={i === 0} />)}</div>
+            </AsideCard>
+            <AsideCard title="Topics"><div className="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag key={t} type={item.type}>{t}</Tag>)}</div></AsideCard>
+            <RelatedList ids={item.related} />
+          </>}>
+            <figure className="rounded-xl overflow-hidden border border-white/10 bg-navy-900">
+              <img src={item.image} alt={item.imageAlt} className="w-full h-auto" />
+            </figure>
+            <Block title="About this package" id="p-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
+            <Block title="Install" id="p-install">
+              <CodeBlock title="terminal" language="text" code={item.install} />
+              <p className="text-sm text-slate-400 mt-3">Python 3.11 or later. In Google Colab the dependencies are already installed, so installing takes seconds.</p>
+            </Block>
+            <Block title="Quickstart" id="p-quick">
+              {item.quickstart.pandas && <p className="text-slate-300 leading-relaxed mb-4">Load data with the package, or read the same files without it.</p>}
+              <CodeTabs code={item.quickstart} idPrefix={`quick-${item.id}`} />
+            </Block>
+            {item.build && (
+              <Block title="Build your own indicator" id="p-build">
+                <p className="text-slate-300 leading-relaxed mb-4">Link your own data to the observatory’s units, extract indicators from rasters, combine them with the published datasets, and save the result in the same documented format.</p>
+                <CodeBlock title="my_indicator.py" language="python" code={item.build} />
+              </Block>
+            )}
+            <Block title="What it does" id="p-features">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {item.features.map((f) => (
+                  <div key={f.title} className="rounded-xl bg-white/[0.03] border border-white/10 p-5 hover:border-teal-400/30 transition-colors">
+                    <h3 className="text-base font-bold text-white mb-2">{f.title}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed mb-3">{f.text}</p>
+                    <div className="flex flex-wrap gap-1.5">{f.fns.map((fn) => <code key={fn} className="text-[11px] font-mono text-teal-200 bg-teal-400/10 px-1.5 py-0.5 rounded">{fn}()</code>)}</div>
+                  </div>
+                ))}
+              </div>
+            </Block>
+            <Block title="From data to insight" id="p-flow">
+              <ol className="flex flex-wrap items-center gap-2 text-sm">
+                {[['geo4cambodia', 'load & link'], ['geo4cambodia', 'build indicators'], ['geo4cambodia', 'move across scales'], ['geometrics', 'explore & analyze'], ['observatory', 'insights']].map(([pkg, step], i, arr) => (
+                  <li key={step} className="flex items-center gap-2">
+                    <span className={`rounded-lg px-3 py-2 border ${pkg === 'geometrics' ? 'border-violet-400/30 bg-violet-400/10 text-violet-200' : pkg === 'observatory' ? 'border-rose-400/30 bg-rose-400/10 text-rose-200' : 'border-teal-400/30 bg-teal-400/10 text-teal-200'}`}>
+                      <span className="block font-mono text-[10px] uppercase tracking-widest opacity-75">{pkg}</span>{step}
+                    </span>
+                    {i < arr.length - 1 && <ArrowRight size={14} className="text-slate-500" />}
+                  </li>
+                ))}
+              </ol>
             </Block>
           </DetailShell>
         );
@@ -2243,6 +2498,7 @@ twoway scatter HDI lnNTL`,
           const item = REGISTRY_BY_ID[route.id];
           if (!item || item.section !== route.section) return <NotFound />;
           if (item.type === 'indicator') return <IndicatorDetail item={item} />;
+          if (item.type === 'package') return <PackageDetail item={item} />;
           if (item.type === 'notebook' || item.type === 'app') return <ToolDetail item={item} />;
           if (item.type === 'insight') return <InsightDetail item={item} />;
           if (item.type === 'event') return <EventDetail item={item} />;

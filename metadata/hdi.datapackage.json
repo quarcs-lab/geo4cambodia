@@ -1,0 +1,51 @@
+{
+  "name": "hdi",
+  "title": "Human development, income, night-time lights and population",
+  "description": "An annual panel of Cambodia's 17 Global Data Lab (GDL) subnational regions, 2013–2019. It combines the Global Data Lab's subnational Human Development Index (HDI), gross national income (GNI) and population with harmonized DMSP-like night-time lights (NTL). Some GDL regions group several present-day provinces; for example, KH-GDL-13 is Battambang plus Pailin (see `geo/units.csv`).",
+  "version": "2.0.0",
+  "licenses": [{"name": "MIT", "path": "https://github.com/quarcs-lab/geo4cambodia/blob/main/LICENSE", "title": "MIT License"}],
+  "sources": [
+    {"title": "Smits, J., & Permanyer, I. (2019). The Subnational Human Development Database. Scientific Data, 6, 190038.", "path": "https://doi.org/10.1038/sdata.2019.38"},
+    {"title": "Li, X., Zhou, Y., Zhao, M., & Zhao, X. (2020). A harmonized global nighttime light dataset 1992–2018. Scientific Data, 7, 168.", "path": "https://doi.org/10.1038/s41597-020-0510-y"}
+  ],
+  "geo:categories": ["Economy", "Health", "Social"],
+  "geo:citation": "GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md",
+  "geo:notes": [
+    "`lnGNIpc` and `lnNTLpc` are rescaled as in the source panel; recompute from `GNIpc` if you need plain log-dollars.",
+    "GDL region boundaries are dissolved from the GADM districts of their member provinces, so they nest exactly in the country and contain whole provinces."
+  ],
+  "geo:notebooks": [
+    {"title": "Monitoring subnational human development in Cambodia", "path": "../../notebooks/hdi_ntl_esda.ipynb"}
+  ],
+  "resources": [
+    {
+      "name": "hdi-gdl",
+      "path": "https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/gdl/hdi.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "geo:scale": "gdl",
+      "geo:period": [2013, 2019],
+      "geo:path": "data/gdl/hdi.csv",
+      "geo:parquet": "data/gdl/hdi.parquet",
+      "geo:source_geometry": "Global Data Lab regions (unions of GADM provinces)",
+      "schema": {
+        "primaryKey": ["geo_id", "year"],
+        "fields": [
+          {"name": "geo_id", "type": "string", "description": "Global Data Lab region geo ID", "geo:role": "id", "constraints": {"required": true, "pattern": "^KH-GDL-\\d{2}$"}},
+          {"name": "year", "type": "integer", "description": "Year", "geo:role": "time", "constraints": {"required": true}},
+          {"name": "GDLcode", "type": "string", "description": "Global Data Lab region code", "geo:role": "source_key", "geo:units_column": "GDLcode", "geo:source": "Smits & Permanyer (2019)", "constraints": {"required": true}},
+          {"name": "NTL", "type": "number", "description": "Night-time lights: sum of DMSP-like digital numbers", "geo:unit": "digital number, summed over cells", "geo:aggregation": "sum", "geo:source": "Li et al. (2020)", "constraints": {"minimum": 0}},
+          {"name": "GNI", "type": "number", "description": "Gross national income", "geo:unit": "thousands of 2011 PPP USD", "geo:aggregation": "sum", "geo:source": "Smits & Permanyer (2019)", "constraints": {"minimum": 0}},
+          {"name": "HDI", "type": "number", "description": "Subnational Human Development Index", "geo:unit": "index, 0–1", "geo:aggregation": "weighted_mean:POP", "geo:source": "Smits & Permanyer (2019)", "constraints": {"minimum": 0, "maximum": 1}},
+          {"name": "POP", "type": "number", "description": "Population", "geo:unit": "thousands", "geo:aggregation": "sum", "geo:source": "Smits & Permanyer (2019)", "constraints": {"minimum": 0}},
+          {"name": "GNIpc", "type": "number", "description": "Gross national income per capita", "geo:unit": "2011 PPP USD", "geo:aggregation": "weighted_mean:POP", "geo:source": "Smits & Permanyer (2019)", "constraints": {"minimum": 0}},
+          {"name": "lnNTL", "type": "number", "description": "Log night-time lights", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "lnGNI", "type": "number", "description": "Log GNI", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "lnGNIpc", "type": "number", "description": "Log GNI per capita (rescaled as in the source panel)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "lnNTLpc", "type": "number", "description": "Log night-time lights per capita (rescaled as in the source panel)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"}
+        ]
+      }
+    }
+  ]
+}

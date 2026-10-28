@@ -42,6 +42,9 @@ outputId: bda9f7ac-739b-4857-f195-72575f9108e1
 !pip install mgwr -q
 
 !pip install statsmodels -q
+
+# The geo4cambodia package loads the data of the observatory (installed locally by `uv sync`)
+!pip install geo4cambodia -q
 ```
 
 ```{code-cell}
@@ -129,7 +132,15 @@ colab:
 id: UWL1H5ISVVrN
 outputId: 7fc2eeaf-9328-49f8-de6d-205e41099037
 ---
-gdf_wide = gpd.read_file("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/maps/districts202_wide_trend400_ln_y.geojson", encoding = "utf-8")
+import geo4cambodia as geo
+
+# One row per district, one column per year of trend400_ln_y, with names and boundaries
+wide = geo.load('gdppc', wide='trend400_ln_y')
+provinces = geo.units('province')[['geo_id', 'name']].rename(columns={'geo_id': 'parent_id', 'name': 'province'})
+names = (geo.units('district')[['geo_id', 'name', 'parent_id']].rename(columns={'name': 'district'})
+         .merge(provinces, on='parent_id').drop(columns='parent_id'))
+gdf_wide = geo.boundaries('district')[['geo_id', 'geometry']].merge(names, on='geo_id').merge(wide, on='geo_id')
+gdf_wide.insert(0, 'id', range(1, len(gdf_wide) + 1))  # integer ids for the spatial weights below
 gdf_wide
 ```
 

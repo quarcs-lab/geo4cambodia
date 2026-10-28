@@ -31,15 +31,23 @@ import requests
 ```{code-cell}
 :id: WnfMt9O2YmWk
 
-url = 'https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/districts202-gdppc/cambodia202-1990-2022-GDPpc.dta'
-response = requests.get(url)
+# The geo4cambodia package loads any dataset of the observatory (installed locally by `uv sync`; needed in Colab).
+# Without the package: pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/district/gdppc.csv")
+!pip install geo4cambodia -q
+```
 
-# Save the content to a local file
-with open('cambodia_gdp.dta', 'wb') as f:
-    f.write(response.content)
+```{code-cell}
+:id: WnfMt9O2YmWl
 
-# Read the .dta file into a pandas DataFrame
-df = pd.read_stata('cambodia_gdp.dta')
+import geo4cambodia as geo
+
+# District panel: one row per district (geo_id) and year
+df = geo.load('gdppc')
+
+# Add district and province names from the GDO unit table
+districts = geo.units('district')[['geo_id', 'name', 'parent_id']].rename(columns={'name': 'district'})
+provinces = geo.units('province')[['geo_id', 'name']].rename(columns={'geo_id': 'parent_id', 'name': 'province'})
+df = df.merge(districts.merge(provinces, on='parent_id').drop(columns='parent_id'), on='geo_id')
 ```
 
 ```{code-cell}
@@ -163,7 +171,6 @@ colab:
 id: mLmUzcFxkHVI
 outputId: 432a2f57-42ee-44ca-e6ce-abc91b2192b7
 ---
-
 # Calculate quantiles by year
 yearly_quantiles = df.groupby('year')['trend400_ln_y'].quantile([0.1, 0.25, 0.5, 0.75, 0.9]).unstack()
 
