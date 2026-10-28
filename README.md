@@ -97,7 +97,8 @@ mine = geo.link(my_table, scale="province", on="Province")         # "BântéayM
 ntl = geo.zonal("viirs_2020.tif", scale="district", name="ntl", year=2020)
 panel = geo.combine(["env"], scale="province", extra=[mine])
 geo.save(panel, "my_indicator", scale="province", directory="my_data")
-gdf, df, df_dict = geo.for_geometrics("gdppc")                      # inputs for geometrics
+df, df_def = geo.for_expdpy(panel)                                  # inputs for expdpy (panel econometrics)
+gdf, df, df_dict = geo.for_geometrics("gdppc")                      # inputs for geometrics (spatial analysis)
 ```
 
 The full guide is [`docs/data-infrastructure.md`](docs/data-infrastructure.md). It covers the scales and IDs, the metadata and aggregation rules, and recipes for building indicators. To add a dataset to the observatory, see [`CONTRIBUTING_DATA.md`](CONTRIBUTING_DATA.md).
@@ -111,6 +112,7 @@ The full guide is [`docs/data-infrastructure.md`](docs/data-infrastructure.md). 
 | Package | What it does | Install |
 | --- | --- | --- |
 | **[geo4cambodia](docs/python-package.md)** | Load every indicator as a panel with boundaries, link your own data, extract indicators from rasters, move data across scales | `pip install geo4cambodia` |
+| **[expdpy](https://cmg777.github.io/expdpy/)** | Panel exploration and econometrics: within/between variation, trajectories, fixed and random effects, Hausman tests, clustered SEs; `geo.for_expdpy()` prepares the observatory's data for it in one line | `pip install expdpy` |
 | **[geometrics](https://quarcs-lab.github.io/geometrics/)** | Regional growth, convergence and inequality with spatial methods; `geo.for_geometrics()` prepares the observatory's data for it in one line | `pip install geometrics` |
 
 ### Cloud-based notebooks
@@ -118,6 +120,8 @@ The full guide is [`docs/data-infrastructure.md`](docs/data-infrastructure.md). 
 | Notebook | Description |
 | --- | --- |
 | [Load, link and build indicators with geo4cambodia](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/geo4cambodia_quickstart.ipynb) | Load data with and without the package, move it across scales, link your own table, and build an indicator from a raster |
+| [Exploring Cambodia's subnational panels with expdpy](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/expdpy_explore.ipynb) | geo4cambodia + expdpy: panel structure, within/between variation, trajectories, transitions, missing values and correlations at three scales |
+| [Panel econometrics for Cambodia with expdpy](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/expdpy_analyze.ipynb) | geo4cambodia + expdpy: lights and income, human development, convergence with and without space, pollution and development (FE, RE, Hausman) |
 | [Are Cambodia's districts converging?](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/geometrics_convergence.ipynb) | geo4cambodia + geometrics: LISA clusters, β-, σ- and club convergence, and inequality between and within provinces |
 | [Monitoring subnational human development](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/hdi_ntl_esda.ipynb) | Maps, trajectories and spatial clusters of the Human Development Index and night-time lights |
 | [District GDP per capita: EDA](https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/districts202_gdppc_eda.ipynb) | Descriptive statistics and growth paths for 202 districts |

@@ -41,11 +41,12 @@ geo.load("<dataset>", years=2020, geometry=True)
 geo.link(my_table, scale="$coarsest", on="Name")      # names or codes -> geo_id
 geo.zonal("raster.tif", scale="$finest", name="ntl")    # raster -> panel
 geo.combine([...], scale="$coarsest")                   # datasets on one scale
-gdf, df, df_dict = geo.for_geometrics("<dataset>")      # for the geometrics package
+df, df_def = geo.for_expdpy("<dataset>")                # for expdpy (pass variables as analysed, e.g. logs)
+gdf, df, df_dict = geo.for_geometrics("<dataset>")      # for geometrics (pass levels; it logs internally)
 ```
 
 Without the package: `https://raw.githubusercontent.com/$repository/main/<path>`.
 
 ## Preferred libraries
 
-pandas, geopandas, libpysal, esda, mapclassify, statsmodels, matplotlib, plotly, and geometrics for spatial analysis.
+pandas, geopandas, libpysal, esda, mapclassify, statsmodels, matplotlib, plotly, expdpy for panel exploration and econometrics, and geometrics for spatial analysis.

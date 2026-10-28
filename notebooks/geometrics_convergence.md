@@ -105,23 +105,25 @@ lisa.fig
 
 ## 3. Analyse: convergence
 
+geometrics' convergence functions take a variable **in levels** (`"y"`, GDP per capita) and work with its logarithm internally. Pass `"y"`, not `"ln_y"`, or the data would be logged twice.
+
 **β-convergence.** Did poorer districts in 1990 grow faster? First a cross-section OLS, then a spatial Durbin model, which lets growth depend on the neighbours' growth and initial income.
 
 ```{code-cell}
-beta = gm.analyze_beta_convergence(df, "ln_y")                       # OLS: no weights needed
+beta = gm.analyze_beta_convergence(df, "y")                          # OLS: no weights needed
 print(beta.interpret())
 beta.fig
 ```
 
 ```{code-cell}
-beta_sdm = gm.analyze_beta_convergence(df, "ln_y", gdf=gdf, w=w, model="sdm")
+beta_sdm = gm.analyze_beta_convergence(df, "y", gdf=gdf, w=w, model="sdm")
 print(beta_sdm.interpret())
 ```
 
 **σ-convergence.** Is the dispersion of log income across districts shrinking?
 
 ```{code-cell}
-sigma = gm.analyze_sigma_convergence(df, "ln_y")
+sigma = gm.analyze_sigma_convergence(df, "y")
 print(sigma.interpret())
 sigma.fig
 ```
@@ -129,7 +131,7 @@ sigma.fig
 **Convergence clubs** (Phillips and Sul). If the whole country does not converge to one path, groups of districts may converge to their own paths:
 
 ```{code-cell}
-clubs = gm.analyze_convergence_clubs(df, "ln_y", gdf=gdf)
+clubs = gm.analyze_convergence_clubs(df, "y", gdf=gdf)
 print(clubs.interpret())
 clubs.fig
 ```

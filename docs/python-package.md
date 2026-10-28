@@ -23,7 +23,7 @@ gdf.plot(column="y", scheme="quantiles", k=5, legend=True)
 | **Extract** indicators from rasters (Earth Engine exports, WorldPop, ...) | `zonal` |
 | **Move** data up the hierarchy or onto grids and custom zones | `aggregate`, `overlay`, `overlay_weights` |
 | **Combine** datasets at one scale and **save** new ones in the same format | `combine`, `save` |
-| **Analyse** with [geometrics](https://quarcs-lab.github.io/geometrics/) (convergence, spatial dependence, inequality) | `for_geometrics` |
+| **Analyse** with [expdpy](https://cmg777.github.io/expdpy/) (panel exploration, fixed and random effects) and [geometrics](https://quarcs-lab.github.io/geometrics/) (convergence, spatial dependence, inequality) | `for_expdpy`, `for_geometrics` |
 
 ## One ID for every unit, at every scale
 
@@ -55,13 +55,22 @@ From a raster:
 lights = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 ```
 
-Then analyse with geometrics:
+Then explore and model the panel with expdpy:
+
+```python
+import expdpy as ex
+df, df_def = geo.for_expdpy("hdi")
+df = ex.set_labels(df, df_def, set_panel=True)
+ex.analyze_panel_table(df, "HDI", ["lnNTLpc"])            # pooled, between, fixed and random effects
+```
+
+Or analyse it spatially with geometrics:
 
 ```python
 import geometrics as gm
 gdf, df, df_dict = geo.for_geometrics("gdppc")
 df = gm.set_labels(df, df_dict, set_panel=True)
-gm.analyze_beta_convergence(df, "ln_y", gdf=gdf, w=gm.make_weights(gdf)).interpret()
+gm.analyze_beta_convergence(df, "y", gdf=gdf, w=gm.make_weights(gdf)).interpret()   # levels: logged internally
 ```
 
 ## Without the package

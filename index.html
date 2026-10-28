@@ -617,7 +617,7 @@ twoway scatter hdi lnntl`,
             title: 'geo4cambodia: load, link and build subnational data',
             scope: 'pip install geo4cambodia',
             summary: 'The observatory’s Python package. Load every indicator as a tidy panel with boundaries, link your own data to the same units, and build new indicators across districts, provinces and regions.',
-            description: 'geo4cambodia is the data engine of the observatory. One line loads any dataset as a panel (one row per unit and year) with names and boundaries. Every spatial unit has one geo ID that nests by prefix (district KH-16-01 lies in province KH-16, in Cambodia KH), so the package can move data up the hierarchy with each variable’s own aggregation rule, interpolate it onto grids or custom zones, and combine datasets published at different scales. To build your own indicators, it links tables that identify units by name in any spelling, summarises rasters such as Earth Engine exports over units, and saves the result with the same documented format as the published data. It is small, works out of the box in Google Colab, and hands its data to the geometrics package for spatial analysis.',
+            description: 'geo4cambodia is the data engine of the observatory. One line loads any dataset as a panel (one row per unit and year) with names and boundaries. Every spatial unit has one geo ID that nests by prefix (district KH-16-01 lies in province KH-16, in Cambodia KH), so the package can move data up the hierarchy with each variable’s own aggregation rule, interpolate it onto grids or custom zones, and combine datasets published at different scales. To build your own indicators, it links tables that identify units by name in any spelling, summarises rasters such as Earth Engine exports over units, and saves the result with the same documented format as the published data. It is small, works out of the box in Google Colab, and hands its data in one line to two companion packages: expdpy for panel exploration and econometrics, and geometrics for spatial analysis.',
             tags: ['Python', 'data loading', 'multi-scale', 'Colab', 'open data'],
             image: 'images/tools/geo4cambodia-package.webp',
             imageAlt: 'Three stacked map layers of Cambodia, the 17 Global Data Lab regions, 25 provinces and 202 districts, linked by geo IDs, beside a code snippet that loads the data',
@@ -657,7 +657,8 @@ panel = geo.combine(["env"], scale="province", extra=[mine])
 panel["clinics_per_10k"] = panel["clinics"] / panel["total_GlobPOP_Count"] * 1e4
 geo.save(panel, "clinics", scale="province", directory="my_data")
 
-# 4. Hand it to geometrics for spatial analysis
+# 4. Hand it to expdpy (panel econometrics) or geometrics (spatial analysis)
+df, df_def = geo.for_expdpy(panel)
 gdf, df, df_dict = geo.for_geometrics(panel)`,
             features: [
               { title: 'Load', fns: ['datasets', 'dictionary', 'load', 'units', 'boundaries', 'crosswalk'], text: 'Panels with filters, wide reshaping and boundaries; names, parents and source codes of every unit.' },
@@ -665,7 +666,7 @@ gdf, df, df_dict = geo.for_geometrics(panel)`,
               { title: 'Extract', fns: ['zonal'], text: 'Summarise rasters (sum, mean, max, count, ...) over districts or provinces, for one year or a series.' },
               { title: 'Move across scales', fns: ['aggregate', 'overlay', 'overlay_weights'], text: 'Up the hierarchy with metadata rules, or onto grids and custom zones by area weights.' },
               { title: 'Combine & save', fns: ['combine', 'save'], text: 'Several datasets as one panel at one scale; your result as CSV, Parquet and a documented datapackage.' },
-              { title: 'Analyse', fns: ['for_geometrics'], text: 'The three inputs of the geometrics package, labelled from the metadata.' },
+              { title: 'Analyse', fns: ['for_expdpy', 'for_geometrics'], text: 'Labelled inputs for expdpy (panel econometrics) and geometrics (spatial analysis), built from the metadata.' },
             ],
             links: [
               { label: 'Quickstart in Colab', url: COLAB_URL + 'geo4cambodia_quickstart.ipynb', kind: 'colab' },
@@ -674,7 +675,7 @@ gdf, df, df_dict = geo.for_geometrics(panel)`,
               { label: 'PyPI', url: 'https://pypi.org/project/geo4cambodia/', kind: 'pypi' },
               { label: 'Source code', url: REPO_URL + '/tree/main/src/geo4cambodia', kind: 'github' },
             ],
-            related: ['geometrics-package', 'geo4cambodia-quickstart', 'geometrics-convergence', 'districts202-gdppc', 'provinces25-env', 'provinces17-hdi'],
+            related: ['expdpy-package', 'geometrics-package', 'geo4cambodia-quickstart', 'expdpy-explore', 'expdpy-analyze', 'geometrics-convergence', 'districts202-gdppc'],
           },
           {
             id: 'geometrics-package', type: 'package', section: 'tools',
@@ -696,7 +697,7 @@ df = gm.set_labels(df, df_dict, set_panel=True)
 w = gm.make_weights(gdf, method="queen")
 
 gm.explore_lisa_cluster_map(df, "ln_y", gdf=gdf, w=w, period=2022).fig
-res = gm.analyze_beta_convergence(df, "ln_y", gdf=gdf, w=w, model="sdm")
+res = gm.analyze_beta_convergence(df, "y", gdf=gdf, w=w, model="sdm")   # levels: logged internally
 print(res.interpret())`,
             },
             features: [
@@ -712,10 +713,87 @@ print(res.interpret())`,
               { label: 'PyPI', url: 'https://pypi.org/project/geometrics/', kind: 'pypi' },
               { label: 'Source code', url: 'https://github.com/quarcs-lab/geometrics', kind: 'github' },
             ],
-            related: ['geo4cambodia-package', 'geometrics-convergence', 'districts202-esda', 'districts202-gdppc'],
+            related: ['geo4cambodia-package', 'expdpy-package', 'geometrics-convergence', 'expdpy-analyze', 'districts202-esda'],
+          },
+
+          {
+            id: 'expdpy-package', type: 'package', section: 'tools',
+            title: 'expdpy: explore and model panel data',
+            scope: 'pip install expdpy',
+            summary: 'A companion package for panel data: within/between variation, trajectories and transitions, then pooled, fixed and random effects, Hausman tests and clustered standard errors, each with a plain-language reading.',
+            description: 'expdpy (a Python port of the ExPanDaR R package) turns the everyday steps of panel-data research into single functions. Explore functions describe a panel’s structure, decompose variation into between and within components (Stata’s xtsum), and chart trajectories, distributions, transitions, missing values and correlations. Analyze functions estimate pooled, between, fixed-effects, random-effects and correlated-random-effects models, run Hausman and joint tests, fit fixest-style regressions with fixed effects and clustered or Driscoll–Kraay standard errors, and cover IV, event studies and β-, σ- and club convergence. Learn functions simulate each concept from a known truth. Every result has an interactive figure or table and an interpret() method. The observatory’s datasets are exactly the long panels expdpy expects: geo.for_expdpy() hands them over, labelled, in one line.',
+            tags: ['Python', 'panel data', 'econometrics', 'fixed effects', 'ExPanDaR'],
+            image: 'images/tools/expdpy-package.webp',
+            imageAlt: 'Collage of expdpy results on Cambodian data: district GDP-per-capita trajectories, a within/between variance split, and fixed-effects coefficients',
+            date: '2026-10-28', pinned: true,
+            install: `pip install geo4cambodia expdpy        # in Colab: !pip install geo4cambodia expdpy -q`,
+            quickstart: {
+              python: `import numpy as np
+import geo4cambodia as geo
+import expdpy as ex
+
+df, df_def = geo.for_expdpy("gdppc", groups=["province"])   # 202 districts, 1990-2022
+df = ex.set_labels(df, df_def, set_panel=True)              # geo_id x year panel
+ex.explore_xtsum_table(df, var=["ln_y"]).gt                 # within vs between variation
+ex.explore_trend_plot_by_group(df, group_var="province", var="ln_y").fig
+
+# HDI and lights per person across 17 GDL regions, with population summed from provinces
+hd = geo.combine({"hdi": None, "env": ["total_GlobPOP_Count"]}, scale="gdl")
+hd["ln_pop"] = np.log(hd["total_GlobPOP_Count"])
+hd, hd_def = geo.for_expdpy(hd)
+hd = ex.set_labels(hd, hd_def, set_panel=True)
+ex.analyze_panel_table(hd, "HDI", ["lnNTLpc", "ln_pop"]).etable     # pooled, between, FE, RE
+print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
+            },
+            features: [
+              { title: 'Explore', fns: ['explore_panel_structure', 'explore_xtsum_table', 'explore_spaghetti_plot', 'explore_transition_matrix'], text: 'Panel structure, within/between variation, trajectories, distributions and transitions.' },
+              { title: 'Panel models', fns: ['analyze_panel_table', 'analyze_hausman_test', 'analyze_cre_table'], text: 'Pooled, between, fixed, random and correlated random effects, side by side.' },
+              { title: 'Regressions & inference', fns: ['analyze_regression_table', 'analyze_coefficient_plot', 'analyze_robust_inference'], text: 'Fixed effects, clustered and Driscoll–Kraay errors, wild bootstrap, IV and event studies.' },
+              { title: 'Convergence & Kuznets', fns: ['analyze_beta_convergence', 'analyze_sigma_convergence', 'analyze_kuznets_waves'], text: 'Non-spatial β-, σ- and club convergence; inequality–development waves.' },
+              { title: 'Learn', fns: ['learn_pooled_vs_fixed_effects', 'explain'], text: 'Sandboxes that simulate from a known truth, and plain-language explainers.' },
+            ],
+            links: [
+              { label: 'Analyze notebook in Colab', url: COLAB_URL + 'expdpy_analyze.ipynb', kind: 'colab' },
+              { label: 'Explore notebook in Colab', url: COLAB_URL + 'expdpy_explore.ipynb', kind: 'colab' },
+              { label: 'Documentation', url: 'https://cmg777.github.io/expdpy/', kind: 'docs' },
+              { label: 'PyPI', url: 'https://pypi.org/project/expdpy/', kind: 'pypi' },
+              { label: 'Source code', url: 'https://github.com/cmg777/expdpy', kind: 'github' },
+              { label: 'No-code Analyze app', url: 'https://expdpy-analyze.streamlit.app', kind: 'launch' },
+            ],
+            related: ['geo4cambodia-package', 'geometrics-package', 'expdpy-explore', 'expdpy-analyze', 'provinces25-env', 'provinces17-hdi'],
           },
 
           // ---------------------------------------------------------------- Tools: notebooks
+          {
+            id: 'expdpy-explore', type: 'notebook', section: 'tools',
+            title: 'Exploring Cambodia’s subnational panels with expdpy',
+            summary: 'geo4cambodia loads three panels; expdpy explores them: within/between variation, trajectories, transitions, missing values and correlations.',
+            description: 'This Colab notebook explores the observatory’s panels at three scales with expdpy. For the 202 districts it shows the panel structure, descriptive statistics, the between/within split of GDP per capita, trajectories by district and province, the distribution over time and quintile transitions. For the 25 provinces it derives lights per person, electricity-based GDP per person and mean PM2.5, maps the gaps in coverage, and decomposes associations into between and within parts. For the 17 Global Data Lab regions it tracks the Human Development Index. Every step comes with a plain-language reading.',
+            tags: ['expdpy', 'panel data', 'EDA', 'Python'],
+            image: 'images/tools/expdpy-explore.webp',
+            imageAlt: 'District GDP-per-capita trajectories 1990–2022 and the between/within split of their variation',
+            date: '2026-10-28', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'expdpy_explore.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/expdpy_explore.ipynb', kind: 'github' },
+            ],
+            related: ['expdpy-package', 'geo4cambodia-package', 'expdpy-analyze', 'districts202-gdppc', 'provinces25-env'],
+          },
+          {
+            id: 'expdpy-analyze', type: 'notebook', section: 'tools',
+            title: 'Panel econometrics for Cambodia with expdpy',
+            summary: 'Do lights track income? What goes with human development? Are districts converging, and does space matter? Is pollution higher where development is? Fixed effects, random effects and Hausman tests.',
+            description: 'Four questions answered with geo4cambodia and expdpy. (1) Night-time lights and income: within provinces lights follow electricity-based GDP, but the association vanishes once year effects absorb the shared national trend; across Global Data Lab regions lights barely rank income. (2) Human development: HDI rises with lights per person and population within regions, and the Hausman test favours fixed effects. (3) District convergence: expdpy and geometrics agree on the non-spatial β (half-life about 60 years), but the spatial Durbin model attributes much of it to regional spillovers. (4) PM2.5 shows no significant link to development, and no environmental Kuznets curve.',
+            tags: ['expdpy', 'fixed effects', 'Hausman test', 'convergence'],
+            image: 'images/tools/expdpy-analyze.webp',
+            imageAlt: 'Coefficient comparison of pooled, between, fixed- and random-effects models and convergence estimates with and without space',
+            date: '2026-10-28', pinned: false,
+            links: [
+              { label: 'Open in Colab', url: COLAB_URL + 'expdpy_analyze.ipynb', kind: 'colab' },
+              { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/expdpy_analyze.ipynb', kind: 'github' },
+            ],
+            related: ['expdpy-package', 'geometrics-package', 'expdpy-explore', 'geometrics-convergence', 'provinces17-hdi', 'districts202-gdppc'],
+          },
           {
             id: 'geo4cambodia-quickstart', type: 'notebook', section: 'tools',
             title: 'Load, link and build indicators with geo4cambodia',
@@ -744,7 +822,7 @@ print(res.interpret())`,
               { label: 'Open in Colab', url: COLAB_URL + 'geometrics_convergence.ipynb', kind: 'colab' },
               { label: 'View on GitHub', url: REPO_URL + '/blob/main/notebooks/geometrics_convergence.ipynb', kind: 'github' },
             ],
-            related: ['geometrics-package', 'geo4cambodia-package', 'districts202-gdppc', 'districts202-esda'],
+            related: ['geometrics-package', 'geo4cambodia-package', 'expdpy-analyze', 'districts202-gdppc', 'districts202-esda'],
           },
           {
             id: 'hdi-ntl-esda', type: 'notebook', section: 'tools',
@@ -2345,9 +2423,9 @@ print(res.interpret())`,
             </Block>
             <Block title="From data to insight" id="p-flow">
               <ol className="flex flex-wrap items-center gap-2 text-sm">
-                {[['geo4cambodia', 'load & link'], ['geo4cambodia', 'build indicators'], ['geo4cambodia', 'move across scales'], ['geometrics', 'explore & analyze'], ['observatory', 'insights']].map(([pkg, step], i, arr) => (
+                {[['geo4cambodia', 'load & link'], ['geo4cambodia', 'build indicators'], ['geo4cambodia', 'move across scales'], ['expdpy', 'panel econometrics'], ['geometrics', 'spatial analysis'], ['observatory', 'insights']].map(([pkg, step], i, arr) => (
                   <li key={step} className="flex items-center gap-2">
-                    <span className={`rounded-lg px-3 py-2 border ${pkg === 'geometrics' ? 'border-violet-400/30 bg-violet-400/10 text-violet-200' : pkg === 'observatory' ? 'border-rose-400/30 bg-rose-400/10 text-rose-200' : 'border-teal-400/30 bg-teal-400/10 text-teal-200'}`}>
+                    <span className={`rounded-lg px-3 py-2 border ${pkg === 'geometrics' ? 'border-violet-400/30 bg-violet-400/10 text-violet-200' : pkg === 'expdpy' ? 'border-amber-400/30 bg-amber-400/10 text-amber-200' : pkg === 'observatory' ? 'border-rose-400/30 bg-rose-400/10 text-rose-200' : 'border-teal-400/30 bg-teal-400/10 text-teal-200'}`}>
                       <span className="block font-mono text-[10px] uppercase tracking-widest opacity-75">{pkg}</span>{step}
                     </span>
                     {i < arr.length - 1 && <ArrowRight size={14} className="text-slate-500" />}

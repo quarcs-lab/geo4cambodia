@@ -5,7 +5,7 @@ geo4cambodia is the reference implementation of a family of **geo4<country>** re
 - **geo IDs:** `<ISO2>`, `<ISO2>-NN`, `<ISO2>-NN-NN`, ... from GADM
 - **datasets:** long panels keyed by `geo_id` and `year`, as CSV and Parquet
 - **metadata:** Frictionless datapackages with `geo:` properties
-- **the same package API:** `load`, `link`, `zonal`, `aggregate`, `overlay`, `combine`, `save`, `for_geometrics`
+- **the same package API:** `load`, `link`, `zonal`, `aggregate`, `overlay`, `combine`, `save`, `for_expdpy`, `for_geometrics`
 
 How the database works is explained in [`docs/data-infrastructure.md`](docs/data-infrastructure.md). This page explains how to start a new project.
 

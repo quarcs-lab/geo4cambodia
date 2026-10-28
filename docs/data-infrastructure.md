@@ -230,6 +230,7 @@ Inside a clone of the repository the package reads the local files. Anywhere els
 | Filters, wide format | by hand | `years=`, `variables=`, `wide=` |
 | Across scales | join a crosswalk and aggregate by hand | `geo.aggregate()`, `geo.overlay()`, `geo.combine()` |
 | Your own data | — | `geo.link()`, `geo.zonal()`, `geo.check()`, `geo.save()` |
+| Panel econometrics | prepare inputs yourself | `geo.for_expdpy()` → [expdpy](https://cmg777.github.io/expdpy/) |
 | Spatial analysis | prepare inputs yourself | `geo.for_geometrics()` → [geometrics](https://quarcs-lab.github.io/geometrics/) |
 
 ---
@@ -330,13 +331,42 @@ gdf, df, df_dict = geo.for_geometrics("gdppc")                 # or geo.for_geom
 df = gm.set_labels(df, df_dict, set_panel=True)
 w = gm.make_weights(gdf, method="queen")
 gm.explore_lisa_cluster_map(df, "ln_y", gdf=gdf, w=w, period=2022).fig
-res = gm.analyze_beta_convergence(df, "ln_y", gdf=gdf, w=w)
+res = gm.analyze_beta_convergence(df, "y", gdf=gdf, w=w)          # levels: geometrics logs them
 print(res.interpret())
 ```
 
-**geo4cambodia gets the data ready; geometrics analyses it.**
+**geo4cambodia gets the data ready; geometrics analyses it.** Note the convention: geometrics' convergence functions take **levels** (`"y"`) and log them internally.
 
-### Recipe 7: contribute it to the observatory
+### Recipe 7: analyse panels with expdpy
+
+[expdpy](https://cmg777.github.io/expdpy/) is the companion package for panel data:
+- exploration: panel structure, within/between variation (`xtsum`), trajectories, transitions, missing values, correlations
+- econometrics: pooled, between, fixed and random effects, Hausman tests, fixed-effects regressions with clustered standard errors, IV, event studies, non-spatial convergence
+
+It takes a long panel and a data dictionary; `geo.for_expdpy()` returns both, labelled from the metadata. `groups=` adds the names of coarser units (e.g. the province of each district) for by-group views:
+
+```python
+# !pip install geo4cambodia expdpy -q
+import numpy as np
+import geo4cambodia as geo
+import expdpy as ex
+
+df, df_def = geo.for_expdpy("gdppc", groups=["province"])      # or geo.for_expdpy(my_panel, labels={...})
+df = ex.set_labels(df, df_def, set_panel=True)                  # geo_id x year
+ex.explore_xtsum_table(df, var=["ln_y"]).gt                     # between vs within variation
+ex.explore_trend_plot_by_group(df, group_var="province", var="ln_y").fig
+
+hd = geo.combine({"hdi": None, "env": ["total_GlobPOP_Count"]}, scale="gdl")   # HDI + population
+hd["ln_pop"] = np.log(hd["total_GlobPOP_Count"])
+hd, hd_def = geo.for_expdpy(hd)                                  # your own panel: labels kept
+hd = ex.set_labels(hd, hd_def, set_panel=True)
+ex.analyze_panel_table(hd, "HDI", ["lnNTLpc", "ln_pop"]).etable  # pooled, between, FE, RE side by side
+print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())
+```
+
+expdpy analyses the variable as given, so pass logs where you want logs (`"ln_y"`).
+
+### Recipe 8: contribute it to the observatory
 
 To publish a dataset in the repository, it must be reproducible from its originals: put them in `raw/<dataset>/`, write the metadata, add a small builder, then `build` and `validate`. Follow [`CONTRIBUTING_DATA.md`](../CONTRIBUTING_DATA.md); `geo.save()`'s datapackage is a good starting point for the metadata.
 
@@ -360,7 +390,8 @@ To publish a dataset in the repository, it must be reproducible from its origina
 | `aggregate(df, to, dataset=None, rules=None, variables=None, weights=None)` | Move a panel up the hierarchy |
 | `overlay(df, target, extensive=(), intensive=(), id_col="geo_id")`, `overlay_weights(...)` | Area-weighted interpolation to non-nested units |
 | `save(df, name, scale, directory=".", ...)` | Write CSV, Parquet and a datapackage |
-| `for_geometrics(data, scale=None, years=None, variables=None, labels=None)` | `(gdf, df, df_dict)` for the [geometrics](https://quarcs-lab.github.io/geometrics/) package |
+| `for_expdpy(data, scale=None, years=None, variables=None, labels=None, groups=None)` | `(df, df_def)` for the [expdpy](https://cmg777.github.io/expdpy/) package |
+| `for_geometrics(data, scale=None, years=None, variables=None, labels=None, groups=None)` | `(gdf, df, df_dict)` for the [geometrics](https://quarcs-lab.github.io/geometrics/) package |
 | `config()` | The project settings (project.yaml) |
 
 Every function has a docstring: `help(geo.link)`.

@@ -52,7 +52,7 @@ CONTRIBUTING_DATA.md, and register it on the website."
   | `metadata.py` | generic | reads the datapackages |
   | `io.py` | generic | `load`, `units`, `boundaries`, `crosswalk`, `datasets`, `dictionary` |
   | `create.py` | generic | `link`, `check`, `combine`, `zonal`, `save` |
-  | `bridge.py` | generic | `for_geometrics` |
+  | `bridge.py` | generic | `for_expdpy`, `for_geometrics` |
   | `aggregate.py` | generic | `aggregate`, `overlay`, `overlay_weights` |
   | `validate.py` | generic | the validator |
   | `cli.py` | generic | the command line |
@@ -64,7 +64,8 @@ CONTRIBUTING_DATA.md, and register it on the website."
 - **`scripts/new_project.py`** + `scripts/template/*.tpl`: create a new `geo4<country>` project.
 - **`notebooks/`**: Colab notebooks paired with MyST `.md` files through jupytext.
   - `geo4cambodia_quickstart`: load, link and build indicators.
-  - `geometrics_convergence`: analysis with geometrics.
+  - `expdpy_explore`, `expdpy_analyze`: panel exploration and econometrics with expdpy.
+  - `geometrics_convergence`: spatial analysis with geometrics.
   - three earlier analysis notebooks.
 - **`apps/`**: Google Earth Engine app source (`.js`).
 - **`code/`**: pointers to data-preparation code.
@@ -73,7 +74,7 @@ CONTRIBUTING_DATA.md, and register it on the website."
 ## Environment setup (uv)
 
 ```bash
-uv sync                                    # dependencies + the package (editable) + analysis libs incl. geometrics
+uv sync                                    # dependencies + the package (editable) + analysis libs incl. expdpy, geometrics
 uv run geo4cambodia build [geo|<dataset>]  # regenerate geo/, data/, docs/ from raw/
 uv run geo4cambodia validate               # check IDs, schemas, nesting, URLs, CSV = Parquet
 uv run geo4cambodia list                   # datasets x scales x years
@@ -124,7 +125,8 @@ geo.overlay(df_2020, grid_gdf, extensive=["pop"], id_col="cell")    # non-nested
 mine = geo.link(table, scale="province", on="Province")             # names/codes -> geo_id
 geo.zonal("raster.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 geo.save(panel, "name", scale="province", directory="my_data", variables={...})
-gdf, df, df_dict = geo.for_geometrics("gdppc")                      # for the geometrics package
+gdf, df, df_dict = geo.for_geometrics("gdppc")                      # for geometrics: pass LEVELS ("y"), it logs internally
+df, df_def = geo.for_expdpy("gdppc", groups=["province"])           # for expdpy: analyses variables as given ("ln_y")
 ```
 
 - **Location of the data.** Outside the repo, the package reads from GitHub: `ref=` or `GEO4CAMBODIA_REF` pins a tag or commit. Inside the repo it reads local files.
@@ -150,4 +152,4 @@ Design tokens are defined in `tailwind.config`: `navy-950…500`, `brand-red` (#
 
 ## Preferred libraries
 
-pandas, geopandas, libpysal, esda, splot, mapclassify, mgwr, inequality, statsmodels, matplotlib, seaborn, plotly, and **geometrics** (https://quarcs-lab.github.io/geometrics/) for convergence, spatial dependence and inequality analysis.
+pandas, geopandas, libpysal, esda, splot, mapclassify, mgwr, inequality, statsmodels, matplotlib, seaborn, plotly, **expdpy** (https://cmg777.github.io/expdpy/) for panel exploration and econometrics (FE/RE, Hausman, clustered SEs), and **geometrics** (https://quarcs-lab.github.io/geometrics/) for convergence, spatial dependence and inequality analysis.

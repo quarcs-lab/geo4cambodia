@@ -1,6 +1,6 @@
 [project]
 name = "geo4cambodia"
-version = "0.3.0"
+version = "0.3.1"
 description = "Load, link, aggregate and build subnational development data for Cambodia across spatial scales (GeoDevelopment Observatory of Cambodia)"
 readme = "docs/python-package.md"
 license = {text = "MIT"}
@@ -64,6 +64,7 @@ analysis = [
     "notebook>=7.0",
     "jupytext>=1.19.1",
     "geometrics>=0.1.3",
+    "expdpy>=0.5.2",
 ]
 dev = [
     "pytest>=8.0",

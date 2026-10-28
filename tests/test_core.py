@@ -213,3 +213,18 @@ def test_for_geometrics_returns_its_three_inputs():
     assert list(df_dict["var_name"]) == list(df.columns)
     assert df_dict.set_index("var_name").loc[["geo_id", "year"], "type"].tolist() == ["entity", "time"]
     assert set(gdf["geo_id"]) == set(df["geo_id"]) and df["name"].notna().all()
+
+
+@needs_data
+def test_for_expdpy_returns_a_labelled_panel_with_groups():
+    dataset = DATASETS[0]
+    scale = metadata.resource(dataset)["geo:scale"]
+    groups = [s for s in geo.ancestors(scale) if s in ACTIVE and s != "country"][:1]
+    df, df_def = geo.for_expdpy(dataset, groups=groups)
+    assert list(df_def["var_name"]) == list(df.columns)
+    types = df_def.set_index("var_name")["type"]
+    assert types["geo_id"] == "entity" and types["year"] == "time"
+    for g in groups:
+        assert df[g].notna().all() and types[g] == "factor"
+    with pytest.raises(ValueError, match="do not nest"):
+        geo.for_expdpy(dataset, groups=[scale])

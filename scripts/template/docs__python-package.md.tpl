@@ -19,7 +19,7 @@ gdf = geo.load("<dataset>", geometry=True)
 | Extract indicators from rasters | `zonal` |
 | Move data across scales | `aggregate`, `overlay`, `overlay_weights` |
 | Combine and save datasets | `combine`, `save` |
-| Analyse with [geometrics](https://quarcs-lab.github.io/geometrics/) | `for_geometrics` |
+| Analyse with [expdpy](https://cmg777.github.io/expdpy/) (panel econometrics) and [geometrics](https://quarcs-lab.github.io/geometrics/) (spatial analysis) | `for_expdpy`, `for_geometrics` |
 
 Without the package, every file is a plain URL: `https://raw.githubusercontent.com/$repository/main/<path>`.
 
