@@ -32,8 +32,8 @@ An annual panel of Cambodia's 17 Global Data Lab (GDL) subnational regions, 2013
 | `GNIpc` | Gross national income per capita | 2011 PPP USD | 2013–2019 | weighted_mean:POP | Smits & Permanyer (2019) |
 | `lnNTL` | Log night-time lights | log | 2013–2019 | none | Derived |
 | `lnGNI` | Log GNI | log | 2013–2019 | none | Derived |
-| `lnGNIpc` | Log GNI per capita (rescaled as in the source panel) | log | 2013–2019 | none | Derived |
-| `lnNTLpc` | Log night-time lights per capita (rescaled as in the source panel) | log | 2013–2019 | none | Derived |
+| `lnGNIpc` | Log GNI per capita (natural log of GNIpc) | log of 2011 PPP USD | 2013–2019 | none | Derived |
+| `lnNTLpc` | Log night-time lights per capita (rescaled: log of NTL × 10^8 / POP) | log | 2013–2019 | none | Derived |
 
 ## Load it
 
@@ -56,7 +56,8 @@ df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main
 
 ## Notes
 
-- `lnGNIpc` and `lnNTLpc` are rescaled as in the source panel; recompute from `GNIpc` if you need plain log-dollars.
+- `lnGNIpc` is the natural log of `GNIpc`. The source panel computed it as log(GNIpc × 10^8 / POP), dividing by population twice; the builder recomputes it from `GNIpc`.
+- `lnNTLpc` is log(NTL × 10^8 / POP) as in the source panel (POP in thousands): a log of lights per capita shifted by a constant.
 - GDL region boundaries are dissolved from the GADM districts of their member provinces, so they nest exactly in the country and contain whole provinces.
 
 ## Related notebooks
@@ -70,4 +71,4 @@ df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main
 
 ## Recommended citation
 
-> GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md
+> GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 Global Data Lab regions, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md

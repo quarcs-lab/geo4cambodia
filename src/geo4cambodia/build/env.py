@@ -16,5 +16,9 @@ def build() -> None:
     # Known issue in the source release: NPP is 0 everywhere, so treat it as missing
     if (df["total_NPP"].fillna(0) == 0).all():
         df["total_NPP"] = np.nan
+    # The source has rows for 1986-1989 with no data in any variable: leave those years out
+    values = [c for c in df.columns if c.startswith("total_")]
+    has_data = df.groupby("year")[values].transform(lambda s: s.notna().any()).any(axis=1)
+    df = df[has_data]
     publish(DATASET, SCALE, df)
     write_docs(DATASET)

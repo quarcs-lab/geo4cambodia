@@ -5,7 +5,7 @@
 | Dataset | Title | Scale | Years | Files |
 | --- | --- | --- | --- | --- |
 | [`gdppc`](../docs/datasets/gdppc.md) | Estimated GDP per capita | `district` | 1990–2022 | [`data/district/gdppc.csv`](../data/district/gdppc.csv) · [`.parquet`](../data/district/gdppc.parquet) |
-| [`env`](../docs/datasets/env.md) | Population, night-time lights, electricity-based GDP, NPP and PM2.5 | `province` | 1986–2023 | [`data/province/env.csv`](../data/province/env.csv) · [`.parquet`](../data/province/env.parquet) |
+| [`env`](../docs/datasets/env.md) | Population, night-time lights, electricity-based GDP, NPP and PM2.5 | `province` | 1990–2023 | [`data/province/env.csv`](../data/province/env.csv) · [`.parquet`](../data/province/env.parquet) |
 | [`hdi`](../docs/datasets/hdi.md) | Human development, income, night-time lights and population | `gdl` | 2013–2019 | [`data/gdl/hdi.csv`](../data/gdl/hdi.csv) · [`.parquet`](../data/gdl/hdi.parquet) |
 
 Variable dictionaries, sources and citations: [`docs/datasets/`](../docs/datasets/). Unit names, parents and source keys: [`geo/units.csv`](../geo/units.csv). All variables in one table: [`definitions_gdo-cambodia.csv`](../definitions_gdo-cambodia.csv).

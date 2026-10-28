@@ -9,9 +9,10 @@
     {"title": "Li, X., Zhou, Y., Zhao, M., & Zhao, X. (2020). A harmonized global nighttime light dataset 1992–2018. Scientific Data, 7, 168.", "path": "https://doi.org/10.1038/s41597-020-0510-y"}
   ],
   "geo:categories": ["Economy", "Health", "Social"],
-  "geo:citation": "GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 provinces, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md",
+  "geo:citation": "GeoDevelopment Observatory of Cambodia (2025). Human development, income, (DMSP-like) lights and population in Cambodia (17 Global Data Lab regions, 2013–2019). https://github.com/quarcs-lab/geo4cambodia/blob/main/docs/datasets/hdi.md",
   "geo:notes": [
-    "`lnGNIpc` and `lnNTLpc` are rescaled as in the source panel; recompute from `GNIpc` if you need plain log-dollars.",
+    "`lnGNIpc` is the natural log of `GNIpc`. The source panel computed it as log(GNIpc × 10^8 / POP), dividing by population twice; the builder recomputes it from `GNIpc`.",
+    "`lnNTLpc` is log(NTL × 10^8 / POP) as in the source panel (POP in thousands): a log of lights per capita shifted by a constant.",
     "GDL region boundaries are dissolved from the GADM districts of their member provinces, so they nest exactly in the country and contain whole provinces."
   ],
   "geo:notebooks": [
@@ -42,8 +43,8 @@
           {"name": "GNIpc", "type": "number", "description": "Gross national income per capita", "geo:unit": "2011 PPP USD", "geo:aggregation": "weighted_mean:POP", "geo:source": "Smits & Permanyer (2019)", "constraints": {"minimum": 0}},
           {"name": "lnNTL", "type": "number", "description": "Log night-time lights", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
           {"name": "lnGNI", "type": "number", "description": "Log GNI", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
-          {"name": "lnGNIpc", "type": "number", "description": "Log GNI per capita (rescaled as in the source panel)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"},
-          {"name": "lnNTLpc", "type": "number", "description": "Log night-time lights per capita (rescaled as in the source panel)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"}
+          {"name": "lnGNIpc", "type": "number", "description": "Log GNI per capita (natural log of GNIpc)", "geo:unit": "log of 2011 PPP USD", "geo:aggregation": "none", "geo:source": "Derived"},
+          {"name": "lnNTLpc", "type": "number", "description": "Log night-time lights per capita (rescaled: log of NTL × 10^8 / POP)", "geo:unit": "log", "geo:aggregation": "none", "geo:source": "Derived"}
         ]
       }
     }

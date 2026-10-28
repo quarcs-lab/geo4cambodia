@@ -1,5 +1,6 @@
 """Global Data Lab HDI, GNI, population and DMSP-like lights: raw/hdi -> data/gdl/hdi."""
 
+import numpy as np
 import pandas as pd
 
 from .. import store
@@ -12,5 +13,7 @@ RAW = "raw/hdi/df_cambodia17_20132019_longPanel_HDI_GNI_NTL_POP.dta"
 def build() -> None:
     df = tidy_floats(pd.read_stata(store.repo_root() / RAW))
     df["geo_id"] = df["GDLcode"].map(ids_from_units(SCALE, "GDLcode"))
+    # The source computed lnGNIpc as log(GNIpc * 1e8 / POP), dividing by population twice
+    df["lnGNIpc"] = np.log(df["GNIpc"])
     publish(DATASET, SCALE, df)
     write_docs(DATASET)

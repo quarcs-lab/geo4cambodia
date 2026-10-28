@@ -4,7 +4,7 @@
 
 ## Overview
 
-An annual panel for Cambodia's 25 provinces that aggregates five global gridded remote-sensing products to the province level: population, VIIRS-like night-time lights, electricity-based GDP, net primary productivity and PM2.5 concentration. Each `total_*` variable is the zonal sum of the grid values inside a province's boundary. Rows run from 1986 to 2023; each variable has its own coverage.
+An annual panel for Cambodia's 25 provinces that aggregates five global gridded remote-sensing products to the province level: population, VIIRS-like night-time lights, electricity-based GDP, net primary productivity and PM2.5 concentration. Each `total_*` variable is the zonal sum of the grid values inside a province's boundary. Rows run from 1990 to 2023; each variable has its own coverage.
 
 - **Dataset id:** `env`
 - **Categories:** Economy, Social, Environment
@@ -12,7 +12,7 @@ An annual panel for Cambodia's 25 provinces that aggregates five global gridded 
 ## Scale: province
 
 - **Units:** 25 of 25 province units
-- **Period:** 1986–2023, annual (950 rows: one per unit and year)
+- **Period:** 1990–2023, annual (850 rows: one per unit and year)
 - **Source geometry:** geoBoundaries ADM1 (25 provinces), matched to GADM provinces by name
 
 | File | Format |
@@ -22,9 +22,9 @@ An annual panel for Cambodia's 25 provinces that aggregates five global gridded 
 
 | Variable | Description | Unit | Coverage | Aggregation | Source |
 | --- | --- | --- | --- | --- | --- |
-| `geo_id` | Province geo ID |  | 1986–2023 | — |  |
-| `year` | Year |  | 1986–2023 | — |  |
-| `shapeISO` | ISO 3166-2 province code (geoBoundaries) |  | 1986–2023 | — | geoBoundaries |
+| `geo_id` | Province geo ID |  | 1990–2023 | — |  |
+| `year` | Year |  | 1990–2023 | — |  |
+| `shapeISO` | ISO 3166-2 province code (geoBoundaries) |  | 1990–2023 | — | geoBoundaries |
 | `total_GlobPOP_Density` | Zonal sum of gridded population density | people per km², summed over cells | 1990–2022 | sum | Liu et al. (2024) |
 | `total_GlobPOP_Count` | Zonal sum of gridded population count | people | 1990–2022 | sum | Liu et al. (2024) |
 | `total_VNL` | Zonal sum of NPP-VIIRS-like night-time lights | nW/cm²/sr, summed over cells | 2000–2023 | sum | Chen et al. (2021) |

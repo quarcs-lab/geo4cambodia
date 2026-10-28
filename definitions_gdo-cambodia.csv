@@ -26,5 +26,5 @@ hdi,gdl,POP,Population,thousands,sum,Smits & Permanyer (2019)
 hdi,gdl,GNIpc,Gross national income per capita,2011 PPP USD,weighted_mean:POP,Smits & Permanyer (2019)
 hdi,gdl,lnNTL,Log night-time lights,log,none,Derived
 hdi,gdl,lnGNI,Log GNI,log,none,Derived
-hdi,gdl,lnGNIpc,Log GNI per capita (rescaled as in the source panel),log,none,Derived
-hdi,gdl,lnNTLpc,Log night-time lights per capita (rescaled as in the source panel),log,none,Derived
+hdi,gdl,lnGNIpc,Log GNI per capita (natural log of GNIpc),log of 2011 PPP USD,none,Derived
+hdi,gdl,lnNTLpc,Log night-time lights per capita (rescaled: log of NTL × 10^8 / POP),log,none,Derived
