@@ -48,7 +48,7 @@ gdf, df, df_dict = geo.for_geometrics("<dataset>")      # for geometrics (pass l
 
 Without the package: `https://raw.githubusercontent.com/$repository/main/<path>`.
 
-Every Python snippet in the README and docs runs as-is in Google Colab: it starts with `!pip install -q ...` and is followed by the Open-in-Colab badge plus the text "Open Google Colab.", both linking to `https://colab.research.google.com/notebooks/empty.ipynb`.
+Every Python snippet in the README and docs runs as-is in Google Colab: it starts with `!pip install -q ...` and is followed by the Open-in-Colab badge, linking to `https://colab.research.google.com/notebooks/empty.ipynb`.
 
 ## Preferred libraries
 

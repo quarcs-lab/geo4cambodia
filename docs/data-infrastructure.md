@@ -184,7 +184,7 @@ gdf.merge(df[df.year == 2022], on="geo_id").plot(column="y", legend=True)
 xw = pd.read_csv(BASE + "geo/crosswalks/district__province.csv")    # district -> province
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 ### B. With the package (Python)
 
@@ -204,7 +204,7 @@ xw = geo.crosswalk("district", "province")
 geo.load("gdppc", ref="v0.3.0")                    # a frozen release of the data
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Inside a clone of the repository the package reads the local files. Anywhere else it downloads them from GitHub, caching each file for the session.
 
@@ -242,7 +242,7 @@ mine = geo.link(mine, scale="province", on="Province")   # adds geo_id: KH-01, K
 geo.check(mine, scale="province")                         # [] means it is a valid panel
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Unmatched values raise an error that suggests the closest spelling (`errors="warn"` to continue). Pass `key="shapeISO"`, `key="gid"` or `key="GDLcode"` to match a specific code.
 
@@ -260,7 +260,7 @@ lights = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], na
 series = geo.zonal({2019: "viirs_2019.tif", 2020: "viirs_2020.tif"}, scale="district", name="ntl")
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Pixels count when their centre falls inside a unit (`all_touched=True` for very small units); nodata is ignored. URLs work too.
 
@@ -279,7 +279,7 @@ panel["lights_per_capita"] = panel["total_VNL"] / panel["total_GlobPOP_Count"]
 panel = geo.combine(["hdi"], scale="gdl", extra=[my_gdl_table])
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Variables without an aggregation rule are dropped with a warning when they would need aggregating; columns with the same name get the dataset id as prefix (`hdi_POP`).
 
@@ -303,7 +303,7 @@ cells = geo.overlay(env, my_grid, extensive=["total_GlobPOP_Count"], id_col="cel
 weights = geo.overlay_weights("district", my_zones, id_col="zone")   # the area shares used
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 `overlay()` assumes values are spread evenly within each source unit. Totals (`extensive`) are split by area and summed; rates (`intensive`) are area-weighted means.
 
@@ -324,7 +324,7 @@ geo.save(panel, "lights_pc", scale="gdl", directory="my_data",
 # my_data/data/gdl/lights_pc.csv, .parquet and my_data/metadata/lights_pc.datapackage.json
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 The output has the same layout and metadata as the published datasets, so it is easy to share or contribute.
 
@@ -345,7 +345,7 @@ res = gm.analyze_beta_convergence(df, "y", gdf=gdf, w=w)          # levels: geom
 print(res.interpret())
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 **geo4cambodia gets the data ready; geometrics analyses it.** Note the convention: geometrics' convergence functions take **levels** (`"y"`) and log them internally.
 
@@ -376,7 +376,7 @@ ex.analyze_panel_table(hd, "HDI", ["lnNTLpc", "ln_pop"]).etable  # pooled, betwe
 print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 expdpy analyses the variable as given, so pass logs where you want logs (`"ln_y"`).
 

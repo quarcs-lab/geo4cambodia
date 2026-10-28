@@ -1175,17 +1175,17 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
           );
         };
 
-        // Below every Python code box: a blank Colab notebook to paste the snippet into
-        const ColabHint = () => (
-          <p className="mt-3 flex flex-wrap items-center gap-3 text-sm">
-            <a href={COLAB_EMPTY} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-              <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab (new tab)" width="117" height="20" />
-            </a>
-            <a href={COLAB_EMPTY} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2">Open Google Colab.</a>
-          </p>
+        // Opens a blank Colab notebook to paste the snippet into; styled like CopyButton
+        const ColabButton = () => (
+          <a href={COLAB_EMPTY} target="_blank" rel="noopener noreferrer"
+             className="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-xs uppercase font-bold tracking-wider"
+             aria-label="Open a blank Google Colab notebook (new tab)">
+            <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="" width="14" height="14" />
+            <span>Open in Colab</span>
+          </a>
         );
 
-        const CodeBlock = ({ code, language = 'python', title }) => {
+        const CodeBlock = ({ code, language = 'python', title, colab = false }) => {
           const highlighted = useMemo(() => highlightCode(code, language), [code, language]);
           return (
             <div className="rounded-xl overflow-hidden bg-white/[0.03] backdrop-blur-md shadow-2xl border border-white/10">
@@ -1203,6 +1203,11 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               <div className="p-4 overflow-x-auto">
                 <pre className="text-xs sm:text-sm font-mono text-slate-300 leading-relaxed"><code dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
               </div>
+              {colab && (
+                <div className="flex justify-end px-4 py-2 bg-white/5 border-t border-white/10">
+                  <ColabButton />
+                </div>
+              )}
             </div>
           );
         };
@@ -1238,10 +1243,9 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               </div>
               {tabs.map(([k]) => (
                 <div key={k} role="tabpanel" id={`${idPrefix}-panel-${k}`} aria-labelledby={`${idPrefix}-tab-${k}`} hidden={active !== k}>
-                  <CodeBlock code={code[k]} language={CODE_LANG[k] || k} title={CODE_TITLE[k] || 'example'} />
+                  <CodeBlock code={code[k]} language={CODE_LANG[k] || k} title={CODE_TITLE[k] || 'example'} colab />
                 </div>
               ))}
-              <ColabHint />
             </div>
           );
         };
@@ -2388,8 +2392,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             </figure>
             <Block title="About this package" id="p-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
             <Block title="Install" id="p-install">
-              <CodeBlock title="Colab" language="text" code={item.install} />
-              <ColabHint />
+              <CodeBlock title="Colab" language="text" code={item.install} colab />
               <p className="text-sm text-slate-400 mt-3">Run this in a Google Colab code cell (Python 3.11+).{item.installNote ? ` ${item.installNote}` : ''}</p>
             </Block>
             <Block title="Quickstart" id="p-quick">
@@ -2399,9 +2402,8 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             {item.build && (
               <Block title="Build your own indicator" id="p-build">
                 <p className="text-slate-300 leading-relaxed mb-4">Link your own data to the observatory’s units, extract indicators from rasters, combine them with the published datasets, and save the result in the same documented format.</p>
-                <CodeBlock title="my_indicator.py" language="python" code={item.build} />
-                <ColabHint />
-              </Block>
+                <CodeBlock title="my_indicator.py" language="python" code={item.build} colab />
+                </Block>
             )}
             <Block title="What it does" id="p-features">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

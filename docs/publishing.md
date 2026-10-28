@@ -57,7 +57,7 @@ import geo4cambodia as geo
 geo.load("gdppc", years=2022, geometry=True).plot(column="y")
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)
 
 ## Trusted Publishing workflow (option B)
 

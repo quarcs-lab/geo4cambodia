@@ -13,8 +13,7 @@ from ..project import PACKAGE
 
 TYPES = {"string": "string", "integer": "int64", "number": "float64"}
 COLAB_EMPTY = "https://colab.research.google.com/notebooks/empty.ipynb"
-COLAB_BADGE = (f"[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]({COLAB_EMPTY}) "
-               f"[Open Google Colab.]({COLAB_EMPTY})")
+COLAB_BADGE = f"[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]({COLAB_EMPTY})"
 
 
 def read_json(path: str) -> dict:
