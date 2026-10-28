@@ -35,7 +35,7 @@ An annual panel for Cambodia's 25 provinces that aggregates five global gridded 
 ## Load it
 
 ```python
-# pip install geo4cambodia
+!pip install -q geo4cambodia                       # Google Colab
 import geo4cambodia as geo
 
 geo.dictionary("env")                     # variables, units, aggregation rules

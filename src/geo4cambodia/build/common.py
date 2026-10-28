@@ -94,7 +94,7 @@ def write_docs(dataset: str) -> None:
                          f"{coverage(df, f['name'])} | {agg} | {f.get('geo:source', '')} |")
     native = pkg["resources"][0]
     lines += ["", "## Load it", "", "```python",
-              f"# pip install {PACKAGE}",
+              f"!pip install -q {PACKAGE}                       # Google Colab",
               f"import {PACKAGE} as geo", "",
               f'geo.dictionary("{dataset}")                     # variables, units, aggregation rules',
               f'df = geo.load("{dataset}")                      # panel: one row per unit and year',

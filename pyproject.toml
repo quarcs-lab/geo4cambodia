@@ -1,6 +1,6 @@
 [project]
 name = "geo4cambodia"
-version = "0.3.1"
+version = "0.3.2"
 description = "Load, link, aggregate and build subnational development data for Cambodia across spatial scales (GeoDevelopment Observatory of Cambodia)"
 readme = "docs/python-package.md"
 license = {text = "MIT"}

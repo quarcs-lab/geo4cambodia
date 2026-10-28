@@ -113,7 +113,8 @@ Every unit has one **geo ID** (`geo_id`). Administrative IDs follow the GADM 4.1
 ## Loading data and building indicators
 
 ```python
-import geo4cambodia as geo                          # pip install geo4cambodia
+!pip install -q geo4cambodia                        # Google Colab
+import geo4cambodia as geo
 geo.datasets(); geo.dictionary("gdppc")             # catalog and variables
 df  = geo.load("gdppc")                             # panel: geo_id, year, variables
 gdf = geo.load("gdppc", years=2022, geometry=True)  # with boundaries
@@ -145,8 +146,15 @@ All content is data in the `CONTENT_REGISTRY` array in `index.html`. To add an i
 2. Put images in `images/<section>/` as WebP, at most 1600 px wide.
 3. The item automatically gets a card and a shareable detail page at `#/<section>/<id>`.
 4. Type-specific fields:
-   - **New indicator:** first add the data (see `CONTRIBUTING_DATA.md`). Then set `dataset`, `folder` (`data/<scale>`), `docs`, `key: 'geo_id'` and `idExample`. Add `code` with the tabs `python` (package), `pandas` (plain URL), `r` and `stata`. Add a `Dataset` entry to the JSON-LD block in `<head>`.
+   - **New indicator:** first add the data (see `CONTRIBUTING_DATA.md`). Then set `dataset`, `folder` (`data/<scale>`), `docs`, `key: 'geo_id'` and `idExample`. Add `code` with the tabs `python` (package) and `pandas` (plain URL). Add a `Dataset` entry to the JSON-LD block in `<head>`.
    - **Package:** `scope` (the pip command), `install`, `quickstart` (code tabs), optionally `build`, `features` (`{title, fns, text}`) and `links` (kinds `colab`, `docs`, `pypi`, `github`).
+
+**Every code box assumes Google Colab.**
+- Each Python snippet on the website (indicator tabs, package quickstarts, the build example) starts with a runnable `!pip install -q <what it needs>`. The same goes for code blocks in README and docs.
+- Install `geo4cambodia` (plus `expdpy` or `geometrics` when used). Add `mapclassify` when a snippet maps with `scheme=`, and use `"geo4cambodia[raster]"` when it calls `geo.zonal()`.
+- Plain-URL snippets that only use pandas or geopandas need no install line, since Colab has them.
+- There are no R or Stata examples.
+- Maintainer commands (`uv ...`, releasing) stay as terminal commands.
 
 Design tokens are defined in `tailwind.config`: `navy-950…500`, `brand-red` (#d23c3c), `brand-sky` (#7cc4ff). Packages use teal accents. Keep text contrast at WCAG AA or better, keep `prefers-reduced-motion` working, and give every image meaningful `alt` text.
 

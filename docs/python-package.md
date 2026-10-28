@@ -2,11 +2,10 @@
 
 **Subnational development data for Cambodia, ready to analyse, at every spatial scale.**
 
-`geo4cambodia` is the Python package of the [GeoDevelopment Observatory of Cambodia](https://quarcs-lab.github.io/geo4cambodia/). It loads the observatory's indicators (district GDP per capita, province population, night-time lights, PM2.5, Global Data Lab HDI...) as tidy panels, with boundaries for every scale. It also lets you **build your own indicators**: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab.
+`geo4cambodia` is the Python package of the [GeoDevelopment Observatory of Cambodia](https://quarcs-lab.github.io/geo4cambodia/). It loads the observatory's indicators (district GDP per capita, province population, night-time lights, PM2.5, Global Data Lab HDI...) as tidy panels, with boundaries for every scale. It also lets you **build your own indicators**: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab: every example below runs as-is in a new Colab notebook.
 
 ```python
-!pip install geo4cambodia -q            # in Colab; `pip install geo4cambodia` elsewhere
-
+!pip install -q geo4cambodia mapclassify           # mapclassify: for scheme="quantiles"
 import geo4cambodia as geo
 
 geo.datasets()                                       # what is available, at which scale and years
@@ -39,6 +38,7 @@ Every unit has a **geo ID** that nests by prefix (GADM 4.1 hierarchy): district 
 ## Build your own indicator in five lines
 
 ```python
+!pip install -q geo4cambodia
 import pandas as pd
 import geo4cambodia as geo
 
@@ -52,13 +52,19 @@ geo.save(panel, "schools", scale="province", directory="my_data")
 From a raster:
 
 ```python
+!pip install -q "geo4cambodia[raster]"            # [raster] adds rasterio
+import geo4cambodia as geo
+
 lights = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 ```
 
 Then explore and model the panel with expdpy:
 
 ```python
+!pip install -q geo4cambodia expdpy
+import geo4cambodia as geo
 import expdpy as ex
+
 df, df_def = geo.for_expdpy("hdi")
 df = ex.set_labels(df, df_def, set_panel=True)
 ex.analyze_panel_table(df, "HDI", ["lnNTLpc"])            # pooled, between, fixed and random effects
@@ -67,7 +73,10 @@ ex.analyze_panel_table(df, "HDI", ["lnNTLpc"])            # pooled, between, fix
 Or analyse it spatially with geometrics:
 
 ```python
+!pip install -q geo4cambodia geometrics
+import geo4cambodia as geo
 import geometrics as gm
+
 gdf, df, df_dict = geo.for_geometrics("gdppc")
 df = gm.set_labels(df, df_dict, set_panel=True)
 gm.analyze_beta_convergence(df, "y", gdf=gdf, w=gm.make_weights(gdf)).interpret()   # levels: logged internally
@@ -75,7 +84,7 @@ gm.analyze_beta_convergence(df, "y", gdf=gdf, w=gm.make_weights(gdf)).interpret(
 
 ## Without the package
 
-Every file is also a plain URL, for R, Stata, Excel or pandas alone:
+Every file is also a plain URL, readable with pandas alone (preinstalled in Colab, so nothing to install):
 
 ```python
 import pandas as pd
@@ -84,10 +93,12 @@ df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main
 
 ## Installation
 
-```bash
-pip install geo4cambodia                    # core: pandas, geopandas, pyarrow, requests, pyyaml
-pip install "geo4cambodia[raster]"          # + rasterio, for zonal()
-pip install git+https://github.com/quarcs-lab/geo4cambodia   # development version
+In a Google Colab cell:
+
+```python
+!pip install -q geo4cambodia                    # core: pandas, geopandas, pyarrow, requests, pyyaml (Colab has them)
+!pip install -q "geo4cambodia[raster]"          # + rasterio, for zonal()
+!pip install -q git+https://github.com/quarcs-lab/geo4cambodia   # development version
 ```
 
 Python 3.11 or later. The data are not inside the package. It reads them from the [GitHub repository](https://github.com/quarcs-lab/geo4cambodia), so installation is quick and you always get the files the website links to. For reproducible research, pin a release of the data with `geo.load(..., ref="v0.3.0")` or the environment variable `GEO4CAMBODIA_REF=v0.3.0`.

@@ -36,7 +36,8 @@ IDs nest by prefix: `$iso2` › `$iso2-NN` › `$iso2-NN-NN` (GADM order). Scale
 ## Loading data
 
 ```python
-import $package as geo        # pip install $package
+!pip install -q $package       # Google Colab
+import $package as geo
 geo.load("<dataset>", years=2020, geometry=True)
 geo.link(my_table, scale="$coarsest", on="Name")      # names or codes -> geo_id
 geo.zonal("raster.tif", scale="$finest", name="ntl")    # raster -> panel

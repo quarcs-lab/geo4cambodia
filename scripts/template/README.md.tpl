@@ -3,7 +3,7 @@
 Open subnational development data for $country, at every spatial scale, with a Python package to load them, link your own data to them and build new indicators.
 
 - **Website:** $website
-- **Package:** `pip install $package` ([guide](docs/python-package.md))
+- **Package:** `!pip install -q $package` in Google Colab ([guide](docs/python-package.md))
 - **How the data infrastructure works:** [docs/data-infrastructure.md](docs/data-infrastructure.md)
 
 ## Data
@@ -17,7 +17,8 @@ Every spatial unit has a **geo ID** that nests by prefix (GADM 4.1 hierarchy): `
 ### Load the data, with or without the package
 
 ```python
-# With the package
+# With the package (every snippet runs as-is in Google Colab)
+!pip install -q $package
 import $package as geo
 geo.datasets()
 df = geo.load("<dataset>", geometry=True)

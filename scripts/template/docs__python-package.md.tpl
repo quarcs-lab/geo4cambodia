@@ -5,7 +5,7 @@
 `$package` is the Python package of the [$name]($website). It loads the observatory's indicators as tidy panels with boundaries for every scale. It also lets you build your own indicators: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab.
 
 ```python
-!pip install $package -q          # in Colab; `pip install $package` elsewhere
+!pip install -q $package          # every example runs as-is in Google Colab
 import $package as geo
 
 geo.datasets()                    # what is available, at which scale and years

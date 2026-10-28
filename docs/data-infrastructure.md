@@ -30,8 +30,8 @@ flowchart LR
     build --> docs["docs/datasets/<br/>catalog CSV"]
     geo --> use["Use"]
     data --> use
-    use --> url["Plain URLs<br/>(pandas, R, Stata)"]
-    use --> pkg["Python package<br/>pip install geo4cambodia"]
+    use --> url["Plain URLs<br/>(pandas, geopandas)"]
+    use --> pkg["Python package<br/>!pip install -q geo4cambodia"]
     use --> web["Website"]
 ```
 
@@ -162,11 +162,11 @@ Each table is a **long panel**: one row per unit and year, sorted by `geo_id` an
 
 ## 5. Loading data: two ways
 
-### A. Without the package (any language)
+All code below assumes **Google Colab**: each block starts with the line that installs what Colab lacks, so it runs as-is in a new notebook.
 
-Every file is a plain URL: `https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/<path>`. Use `main` for the latest data, or a release tag (e.g. `v0.3.0`) for a frozen version.
+### A. Without the package
 
-**Python (pandas, geopandas)**
+Every file is a plain URL: `https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/<path>`. Use `main` for the latest data, or a release tag (e.g. `v0.3.0`) for a frozen version. pandas and geopandas are preinstalled in Colab, so nothing needs installing:
 
 ```python
 import pandas as pd
@@ -184,28 +184,10 @@ gdf.merge(df[df.year == 2022], on="geo_id").plot(column="y", legend=True)
 xw = pd.read_csv(BASE + "geo/crosswalks/district__province.csv")    # district -> province
 ```
 
-**R**
-
-```r
-library(readr); library(dplyr); library(sf)
-base <- "https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/"
-df    <- read_csv(paste0(base, "data/district/gdppc.csv"))
-units <- read_csv(paste0(base, "geo/units.csv"))
-map   <- st_read(paste0(base, "geo/boundaries/district.geojson")) |> left_join(filter(df, year == 2022), by = "geo_id")
-```
-
-**Stata**
-
-```stata
-import delimited "https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/district/gdppc.csv", clear
-encode geo_id, gen(uid)
-xtset uid year
-```
-
 ### B. With the package (Python)
 
 ```python
-# pip install geo4cambodia          (in Colab: !pip install geo4cambodia -q)
+!pip install -q geo4cambodia
 import geo4cambodia as geo
 
 geo.datasets()                                     # datasets x scales x years
@@ -224,8 +206,7 @@ Inside a clone of the repository the package reads the local files. Anywhere els
 
 | | Without the package | With the package |
 | --- | --- | --- |
-| Install | nothing | `pip install geo4cambodia` |
-| Languages | any | Python |
+| Install (Colab) | nothing | `!pip install -q geo4cambodia` |
 | Names, boundaries | merge `geo/units.csv`, `geo/boundaries/*.geojson` yourself | `geometry=True`, `geo.units()` |
 | Filters, wide format | by hand | `years=`, `variables=`, `wide=` |
 | Across scales | join a crosswalk and aggregate by hand | `geo.aggregate()`, `geo.overlay()`, `geo.combine()` |
@@ -237,13 +218,14 @@ Inside a clone of the repository the package reads the local files. Anywhere els
 
 ## 6. Building your own indicators with the package
 
-Everything below works in Google Colab with only `!pip install geo4cambodia -q` (add `"geo4cambodia[raster]"` for `zonal()` outside Colab, which already has rasterio).
+Everything below runs in Google Colab. Each block starts with its install line: `!pip install -q geo4cambodia`, or `!pip install -q "geo4cambodia[raster]"` when it uses `zonal()` (the extra adds rasterio).
 
 ### Recipe 1: link your own table by unit names or codes
 
 Data from a report, survey or ministry usually identifies units by name, often spelled differently. `geo.link()` attaches `geo_id`, ignoring accents, case, spaces and punctuation, and tries every name and code column of `geo.units()`:
 
 ```python
+!pip install -q geo4cambodia
 import pandas as pd
 import geo4cambodia as geo
 
@@ -263,6 +245,9 @@ Unmatched values raise an error that suggests the closest spelling (`errors="war
 Summarise any GeoTIFF (an Earth Engine export, WorldPop, a land-cover map) over the units of a scale:
 
 ```python
+!pip install -q "geo4cambodia[raster]"
+import geo4cambodia as geo
+
 lights = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 # geo_id, year, ntl_sum, ntl_mean
 
@@ -276,6 +261,9 @@ Pixels count when their centre falls inside a unit (`all_touched=True` for very 
 `geo.combine()` loads several datasets at one scale, aggregating finer ones with their metadata rules:
 
 ```python
+!pip install -q geo4cambodia
+import geo4cambodia as geo
+
 panel = geo.combine(["env", "hdi"], scale="gdl", years=(2013, 2019))
 panel["lights_per_capita"] = panel["total_VNL"] / panel["total_GlobPOP_Count"]
 
@@ -288,6 +276,9 @@ Variables without an aggregation rule are dropped with a warning when they would
 ### Recipe 4: move data across scales
 
 ```python
+!pip install -q geo4cambodia
+import geo4cambodia as geo
+
 env = geo.load("env", years=2020)
 
 # up a nested hierarchy, with the metadata rules
@@ -307,6 +298,11 @@ weights = geo.overlay_weights("district", my_zones, id_col="zone")   # the area 
 ### Recipe 5: save it like a published dataset
 
 ```python
+!pip install -q geo4cambodia
+import geo4cambodia as geo
+
+panel = geo.combine(["env", "hdi"], scale="gdl", years=(2013, 2019))
+panel["lights_per_capita"] = panel["total_VNL"] / panel["total_GlobPOP_Count"]
 geo.save(panel, "lights_pc", scale="gdl", directory="my_data",
          title="Night-time lights per capita",
          description="VIIRS-like lights divided by population, 17 GDL regions.",
@@ -323,7 +319,7 @@ The output has the same layout and metadata as the published datasets, so it is 
 [geometrics](https://quarcs-lab.github.io/geometrics/) is the companion package for the analysis: maps, spatial weights, Moran's I and LISA, β-, σ- and club convergence, spatial regressions, distribution dynamics and inequality decompositions. It takes three inputs, `gdf`, `df` and `df_dict`; `geo.for_geometrics()` returns them for any dataset, or for a panel you built:
 
 ```python
-# !pip install geo4cambodia geometrics -q
+!pip install -q geo4cambodia geometrics
 import geo4cambodia as geo
 import geometrics as gm
 
@@ -346,7 +342,7 @@ print(res.interpret())
 It takes a long panel and a data dictionary; `geo.for_expdpy()` returns both, labelled from the metadata. `groups=` adds the names of coarser units (e.g. the province of each district) for by-group views:
 
 ```python
-# !pip install geo4cambodia expdpy -q
+!pip install -q geo4cambodia expdpy
 import numpy as np
 import geo4cambodia as geo
 import expdpy as ex
@@ -433,7 +429,7 @@ How-tos:
 
 - **GADM as the administrative backbone.** It covers every country in one consistent format, and its codes give stable nested IDs. Other sources (geoBoundaries, ISO, Global Data Lab) are linked through columns of `geo/units`.
 - **Long panels, not wide files.** One shape for every dataset makes loading, combining, validating and aggregating generic. Wide tables are one `pivot` (or `wide=`) away.
-- **CSV and Parquet.** CSV for universal access (Excel, R, Stata); Parquet for exact types and speed. The validator keeps them identical.
+- **CSV and Parquet.** CSV for universal access (Excel, any tool); Parquet for exact types and speed. The validator keeps them identical.
 - **Aggregation rules in the metadata.** Whether a variable can be summed or must be weighted is a property of the data, so it is recorded once by whoever knows the data best.
 - **A small package that reads from GitHub.** The data are not inside the package, so `pip install` is quick and the package always reads the files the website links to. Pin a release tag (`ref=`) for reproducible research.
 - **Everything regenerated from `raw/`.** Any correction is a line of code in a builder, so it is documented and repeatable.

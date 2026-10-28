@@ -26,8 +26,7 @@ It serves:
 ## 🚀 Quickstart
 
 ```python
-!pip install geo4cambodia -q                         # in Google Colab; `pip install geo4cambodia` elsewhere
-
+!pip install -q geo4cambodia mapclassify             # every snippet runs as-is in Google Colab
 import geo4cambodia as geo
 
 geo.datasets()                                       # what is available, at which scale and years
@@ -58,6 +57,7 @@ Each dataset has three descriptions:
 **1. With the package.** One line gives a panel with names and boundaries, filtered by years and variables:
 
 ```python
+!pip install -q geo4cambodia
 import geo4cambodia as geo
 
 geo.dictionary("gdppc")                                    # variables, units, aggregation rules
@@ -70,7 +70,7 @@ geo.combine(["env", "hdi"], scale="gdl")                   # two datasets, one s
 geo.load("gdppc", ref="v0.3.0")                            # a frozen release of the data
 ```
 
-**2. Without the package.** Every file is a plain URL, for pandas, R, Stata or Excel:
+**2. Without the package.** Every file is a plain URL that pandas and geopandas (both preinstalled in Colab) read directly:
 
 ```python
 import pandas as pd
@@ -82,8 +82,6 @@ units = pd.read_csv(BASE + "geo/units.csv")                     # names, parents
 gdf = gpd.read_file(BASE + "geo/boundaries/district.geojson")   # polygons keyed by geo_id
 ```
 
-The same files work in R (`readr::read_csv`, `sf::st_read`) and Stata (`import delimited`); see each indicator's page on the [website](https://quarcs-lab.github.io/geo4cambodia/#indicators).
-
 ### Build your own indicators
 
 The package can also:
@@ -93,6 +91,9 @@ The package can also:
 - save the results in the same documented format
 
 ```python
+!pip install -q "geo4cambodia[raster]"                              # [raster] adds rasterio for geo.zonal()
+import geo4cambodia as geo
+
 mine = geo.link(my_table, scale="province", on="Province")         # "BântéayMéanchey" -> KH-01
 ntl = geo.zonal("viirs_2020.tif", scale="district", name="ntl", year=2020)
 panel = geo.combine(["env"], scale="province", extra=[mine])
@@ -109,11 +110,11 @@ The full guide is [`docs/data-infrastructure.md`](docs/data-infrastructure.md). 
 
 ### Python packages
 
-| Package | What it does | Install |
+| Package | What it does | Install (Google Colab) |
 | --- | --- | --- |
-| **[geo4cambodia](docs/python-package.md)** | Load every indicator as a panel with boundaries, link your own data, extract indicators from rasters, move data across scales | `pip install geo4cambodia` |
-| **[expdpy](https://cmg777.github.io/expdpy/)** | Panel exploration and econometrics: within/between variation, trajectories, fixed and random effects, Hausman tests, clustered SEs; `geo.for_expdpy()` prepares the observatory's data for it in one line | `pip install expdpy` |
-| **[geometrics](https://quarcs-lab.github.io/geometrics/)** | Regional growth, convergence and inequality with spatial methods; `geo.for_geometrics()` prepares the observatory's data for it in one line | `pip install geometrics` |
+| **[geo4cambodia](docs/python-package.md)** | Load every indicator as a panel with boundaries, link your own data, extract indicators from rasters, move data across scales | `!pip install -q geo4cambodia` |
+| **[expdpy](https://cmg777.github.io/expdpy/)** | Panel exploration and econometrics: within/between variation, trajectories, fixed and random effects, Hausman tests, clustered SEs; `geo.for_expdpy()` prepares the observatory's data for it in one line | `!pip install -q geo4cambodia expdpy` |
+| **[geometrics](https://quarcs-lab.github.io/geometrics/)** | Regional growth, convergence and inequality with spatial methods; `geo.for_geometrics()` prepares the observatory's data for it in one line | `!pip install -q geo4cambodia geometrics` |
 
 ### Cloud-based notebooks
 

@@ -52,7 +52,7 @@ uv publish --token pypi-XXXXXXXX              # or set UV_PUBLISH_TOKEN
 Then check that it works in a fresh Google Colab notebook:
 
 ```python
-!pip install geo4cambodia -q
+!pip install -q geo4cambodia
 import geo4cambodia as geo
 geo.load("gdppc", years=2022, geometry=True).plot(column="y")
 ```

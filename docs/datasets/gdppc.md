@@ -34,7 +34,7 @@ Annual estimates of GDP per capita (PPP, constant 2017 international dollars) fo
 ## Load it
 
 ```python
-# pip install geo4cambodia
+!pip install -q geo4cambodia                       # Google Colab
 import geo4cambodia as geo
 
 geo.dictionary("gdppc")                     # variables, units, aggregation rules

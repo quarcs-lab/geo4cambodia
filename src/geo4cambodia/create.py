@@ -206,15 +206,15 @@ def zonal(raster, scale="district", stats=("sum", "mean"), name: str = "value", 
     year : year to record when ``raster`` is a single file
     all_touched : count every pixel a unit touches (default: pixel centres inside)
 
-    Needs ``rasterio`` (``pip install "geo4cambodia[raster]"``; preinstalled in
-    Colab). Pixels are not split at unit edges, so use a fine raster, or
+    Needs ``rasterio``: in Colab, ``!pip install -q "geo4cambodia[raster]"``.
+    Pixels are not split at unit edges, so use a fine raster, or
     ``all_touched=True`` for very small units. Nodata pixels are ignored.
     """
     try:
         import rasterio
         from rasterio.mask import mask as rio_mask
     except ImportError as exc:  # pragma: no cover
-        raise ImportError(f'zonal() needs rasterio: pip install "{project.PACKAGE}[raster]"') from exc
+        raise ImportError(f'zonal() needs rasterio: !pip install -q "{project.PACKAGE}[raster]"') from exc
     bad = [s for s in stats if s not in ZONAL_STATS]
     if bad:
         raise ValueError(f"Unknown stats {bad}; use {ZONAL_STATS}")

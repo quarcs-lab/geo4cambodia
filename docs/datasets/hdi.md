@@ -38,7 +38,7 @@ An annual panel of Cambodia's 17 Global Data Lab (GDL) subnational regions, 2013
 ## Load it
 
 ```python
-# pip install geo4cambodia
+!pip install -q geo4cambodia                       # Google Colab
 import geo4cambodia as geo
 
 geo.dictionary("hdi")                     # variables, units, aggregation rules
