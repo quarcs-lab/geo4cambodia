@@ -28,6 +28,8 @@ import pandas as pd
 df = pd.read_csv("https://raw.githubusercontent.com/$repository/main/data/<scale>/<dataset>.csv")
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 ## Repository structure
 
 ```

@@ -34,6 +34,8 @@ gdf = geo.load("gdppc", years=2022, geometry=True)   # 202 districts with bounda
 gdf.plot(column="y", cmap="magma", scheme="quantiles", k=5, legend=True)
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 ---
 
 ## 📊 GeoDevelopment Indicators
@@ -70,6 +72,8 @@ geo.combine(["env", "hdi"], scale="gdl")                   # two datasets, one s
 geo.load("gdppc", ref="v0.3.0")                            # a frozen release of the data
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 **2. Without the package.** Every file is a plain URL that pandas and geopandas (both preinstalled in Colab) read directly:
 
 ```python
@@ -81,6 +85,8 @@ df = pd.read_csv(BASE + "data/district/gdppc.csv")             # geo_id, year, v
 units = pd.read_csv(BASE + "geo/units.csv")                     # names, parents, source codes
 gdf = gpd.read_file(BASE + "geo/boundaries/district.geojson")   # polygons keyed by geo_id
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 ### Build your own indicators
 
@@ -101,6 +107,8 @@ geo.save(panel, "my_indicator", scale="province", directory="my_data")
 df, df_def = geo.for_expdpy(panel)                                  # inputs for expdpy (panel econometrics)
 gdf, df, df_dict = geo.for_geometrics("gdppc")                      # inputs for geometrics (spatial analysis)
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 The full guide is [`docs/data-infrastructure.md`](docs/data-infrastructure.md). It covers the scales and IDs, the metadata and aggregation rules, and recipes for building indicators. To add a dataset to the observatory, see [`CONTRIBUTING_DATA.md`](CONTRIBUTING_DATA.md).
 

@@ -12,6 +12,8 @@ geo.datasets()                    # what is available, at which scale and years
 gdf = geo.load("<dataset>", geometry=True)
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 | Task | Functions |
 | --- | --- |
 | Load panels, names and boundaries | `datasets`, `dictionary`, `load`, `units`, `boundaries`, `crosswalk` |

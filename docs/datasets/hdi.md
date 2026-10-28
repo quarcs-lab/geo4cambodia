@@ -46,6 +46,8 @@ df = geo.load("hdi")                      # panel: one row per unit and year
 gdf = geo.load("hdi", geometry=True)      # with gdl boundaries
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 Without the package:
 
 ```python
@@ -53,6 +55,8 @@ import pandas as pd
 
 df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/gdl/hdi.csv")
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 ## Notes
 

@@ -155,6 +155,7 @@ All content is data in the `CONTENT_REGISTRY` array in `index.html`. To add an i
 - Plain-URL snippets that only use pandas or geopandas need no install line, since Colab has them.
 - There are no R or Stata examples.
 - Maintainer commands (`uv ...`, releasing) stay as terminal commands.
+- Below every Python code box (website, README, docs, generated dataset docs) put the Open-in-Colab badge plus the text "Open Google Colab.", both linking to `https://colab.research.google.com/notebooks/empty.ipynb`. On the website this is the `ColabHint` component, and `CodeTabs` adds it automatically. Not for BibTeX or terminal commands.
 
 Design tokens are defined in `tailwind.config`: `navy-950…500`, `brand-red` (#d23c3c), `brand-sky` (#7cc4ff). Packages use teal accents. Keep text contrast at WCAG AA or better, keep `prefers-reduced-motion` working, and give every image meaningful `alt` text.
 

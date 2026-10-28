@@ -211,6 +211,7 @@
         const REPO_URL = 'https://github.com/quarcs-lab/geo4cambodia';
         const RAW_URL = 'https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/';
         const COLAB_URL = 'https://colab.research.google.com/github/quarcs-lab/geo4cambodia/blob/main/notebooks/';
+        const COLAB_EMPTY = 'https://colab.research.google.com/notebooks/empty.ipynb';
         const DEFAULT_TITLE = 'GeoDevelopment Observatory of Cambodia | GDO-Cambodia';
         const GLOBE_JS_URL = 'https://unpkg.com/globe.gl@2.46.2/dist/globe.gl.min.js';
 
@@ -1174,6 +1175,16 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
           );
         };
 
+        // Below every Python code box: a blank Colab notebook to paste the snippet into
+        const ColabHint = () => (
+          <p className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+            <a href={COLAB_EMPTY} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+              <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab (new tab)" width="117" height="20" />
+            </a>
+            <a href={COLAB_EMPTY} target="_blank" rel="noopener noreferrer" className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2">Open Google Colab.</a>
+          </p>
+        );
+
         const CodeBlock = ({ code, language = 'python', title }) => {
           const highlighted = useMemo(() => highlightCode(code, language), [code, language]);
           return (
@@ -1230,6 +1241,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                   <CodeBlock code={code[k]} language={CODE_LANG[k] || k} title={CODE_TITLE[k] || 'example'} />
                 </div>
               ))}
+              <ColabHint />
             </div>
           );
         };
@@ -1907,12 +1919,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
                     <span className="font-mono text-sm text-brand-sky">02</span>
                     Start coding in seconds
                   </h3>
-                  <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
-                    <p className="text-slate-400 max-w-2xl">Two ways in. With the <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2" href="#/tools/geo4cambodia-package">geo4cambodia</a> package, one line gives you a panel with names and boundaries. Without it, every file is a plain URL that pandas reads directly. Every snippet runs as-is in a blank Google Colab notebook: its first line installs what Colab lacks.</p>
-                    <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open a blank notebook in Google Colab (opens in a new tab)" width="117" height="20" />
-                    </a>
-                  </div>
+                  <p className="text-slate-400 max-w-2xl mb-6">Two ways in. With the <a className="text-brand-sky underline decoration-brand-sky/50 underline-offset-2" href="#/tools/geo4cambodia-package">geo4cambodia</a> package, one line gives you a panel with names and boundaries. Without it, every file is a plain URL that pandas reads directly. Every snippet runs as-is in a blank Google Colab notebook: its first line installs what Colab lacks.</p>
                   <CodeTabs code={REGISTRY_BY_ID['districts202-gdppc'].code} idPrefix="home-code" />
                 </AnimateIn>
               </div>
@@ -2382,6 +2389,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
             <Block title="About this package" id="p-about"><p className="text-slate-300 leading-relaxed">{item.description}</p></Block>
             <Block title="Install" id="p-install">
               <CodeBlock title="Colab" language="text" code={item.install} />
+              <ColabHint />
               <p className="text-sm text-slate-400 mt-3">Run this in a Google Colab code cell (Python 3.11+).{item.installNote ? ` ${item.installNote}` : ''}</p>
             </Block>
             <Block title="Quickstart" id="p-quick">
@@ -2392,6 +2400,7 @@ print(ex.analyze_hausman_test(hd, "HDI", ["lnNTLpc", "ln_pop"]).interpret())`,
               <Block title="Build your own indicator" id="p-build">
                 <p className="text-slate-300 leading-relaxed mb-4">Link your own data to the observatory’s units, extract indicators from rasters, combine them with the published datasets, and save the result in the same documented format.</p>
                 <CodeBlock title="my_indicator.py" language="python" code={item.build} />
+                <ColabHint />
               </Block>
             )}
             <Block title="What it does" id="p-features">

@@ -12,6 +12,9 @@ from .. import metadata, project, store
 from ..project import PACKAGE
 
 TYPES = {"string": "string", "integer": "int64", "number": "float64"}
+COLAB_EMPTY = "https://colab.research.google.com/notebooks/empty.ipynb"
+COLAB_BADGE = (f"[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]({COLAB_EMPTY}) "
+               f"[Open Google Colab.]({COLAB_EMPTY})")
 
 
 def read_json(path: str) -> dict:
@@ -99,8 +102,8 @@ def write_docs(dataset: str) -> None:
               f'geo.dictionary("{dataset}")                     # variables, units, aggregation rules',
               f'df = geo.load("{dataset}")                      # panel: one row per unit and year',
               f'gdf = geo.load("{dataset}", geometry=True)      # with {native["geo:scale"]} boundaries',
-              "```", "", "Without the package:", "", "```python", "import pandas as pd", "",
-              f'df = pd.read_csv("{store.raw_url(native["geo:path"])}")', "```"]
+              "```", "", COLAB_BADGE, "", "Without the package:", "", "```python", "import pandas as pd", "",
+              f'df = pd.read_csv("{store.raw_url(native["geo:path"])}")', "```", "", COLAB_BADGE]
     if pkg.get("geo:notes"):
         lines += ["", "## Notes", ""] + [f"- {n}" for n in pkg["geo:notes"]]
     if pkg.get("geo:notebooks"):

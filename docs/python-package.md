@@ -13,6 +13,8 @@ gdf = geo.load("gdppc", years=2022, geometry=True)   # 202 districts, with bound
 gdf.plot(column="y", scheme="quantiles", k=5, legend=True)
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 ## What it does
 
 | Task | Functions |
@@ -49,6 +51,8 @@ panel["schools_per_10k"] = panel["schools"] / panel["total_GlobPOP_Count"] * 1e4
 geo.save(panel, "schools", scale="province", directory="my_data")
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 From a raster:
 
 ```python
@@ -57,6 +61,8 @@ import geo4cambodia as geo
 
 lights = geo.zonal("viirs_2020.tif", scale="district", stats=["sum", "mean"], name="ntl", year=2020)
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Then explore and model the panel with expdpy:
 
@@ -70,6 +76,8 @@ df = ex.set_labels(df, df_def, set_panel=True)
 ex.analyze_panel_table(df, "HDI", ["lnNTLpc"])            # pooled, between, fixed and random effects
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 Or analyse it spatially with geometrics:
 
 ```python
@@ -82,6 +90,8 @@ df = gm.set_labels(df, df_dict, set_panel=True)
 gm.analyze_beta_convergence(df, "y", gdf=gdf, w=gm.make_weights(gdf)).interpret()   # levels: logged internally
 ```
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
+
 ## Without the package
 
 Every file is also a plain URL, readable with pandas alone (preinstalled in Colab, so nothing to install):
@@ -90,6 +100,8 @@ Every file is also a plain URL, readable with pandas alone (preinstalled in Cola
 import pandas as pd
 df = pd.read_csv("https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/data/district/gdppc.csv")
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 ## Installation
 
@@ -100,6 +112,8 @@ In a Google Colab cell:
 !pip install -q "geo4cambodia[raster]"          # + rasterio, for zonal()
 !pip install -q git+https://github.com/quarcs-lab/geo4cambodia   # development version
 ```
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb) [Open Google Colab.](https://colab.research.google.com/notebooks/empty.ipynb)
 
 Python 3.11 or later. The data are not inside the package. It reads them from the [GitHub repository](https://github.com/quarcs-lab/geo4cambodia), so installation is quick and you always get the files the website links to. For reproducible research, pin a release of the data with `geo.load(..., ref="v0.3.0")` or the environment variable `GEO4CAMBODIA_REF=v0.3.0`.
 
