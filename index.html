@@ -108,7 +108,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="images/hero.webp">
+    <link rel="preload" as="image" href="images/hero-day.webp">
 
     <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -1066,7 +1066,7 @@ twoway scatter HDI lnNTL`,
         // ====================================================================
         // Landing page sections
         // ====================================================================
-        // Night-Earth globe (globe.gl), loaded on demand so it never blocks first paint
+        // Satellite globe (globe.gl), loaded on demand so it never blocks first paint
         const HERO_CITIES = [
           { id: 'phnom-penh', name: 'Phnom Penh', lat: 11.5564, lng: 104.9282 },
           { id: 'siem-reap', name: 'Siem Reap', lat: 13.3633, lng: 103.8564 },
@@ -1074,7 +1074,9 @@ twoway scatter HDI lnNTL`,
           { id: 'sihanoukville', name: 'Sihanoukville', lat: 10.6093, lng: 103.5296 },
         ];
         const HERO_THEMES = ['Measure regional development', 'Explore with open tools', 'Turn evidence into insight'];
-        const GLOBE_ALT = { intro: 2.6, overview: 0.9, city: 0.5, min: 0.3, max: 2.6 };
+        const GLOBE_ALT = { intro: 2.6, overview: 0.9, city: 0.22, min: 0.12, max: 2.6 };
+        // Sentinel-2 cloudless 2016 (EOX, CC BY 4.0) level-8 tiles, columns 401-409 and rows 106-113
+        const CAMBODIA_PATCH = { url: 'images/hero-cambodia-s2.webp', lat: 12.65625, lng: 105.1171875, width: 6.328125, height: 5.625 };
 
         const loadScript = (() => {
           const cache = {};
@@ -1099,7 +1101,26 @@ twoway scatter HDI lnNTL`,
           return best;
         };
 
-        const useNightGlobe = (containerRef, enabled, handlers) => {
+        // Drape the sharp Cambodia patch over the base globe, reusing globe.gl's bundled three.js classes
+        const addCambodiaPatch = (world) => {
+          const base = world.globeMaterial();
+          if (!base || !base.map) return;
+          const img = new Image();
+          img.onload = () => {
+            const texture = new base.map.constructor(img);
+            texture.colorSpace = base.map.colorSpace;
+            texture.anisotropy = world.renderer().capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            const material = new base.constructor({ map: texture, transparent: true });
+            world.tilesData([CAMBODIA_PATCH])
+              .tileLat('lat').tileLng('lng').tileWidth('width').tileHeight('height')
+              .tileAltitude(0.0015).tileCurvatureResolution(0.25)
+              .tileMaterial(() => material);
+          };
+          img.src = CAMBODIA_PATCH.url;
+        };
+
+        const useSatelliteGlobe = (containerRef, enabled, handlers) => {
           const worldRef = useRef(null);
           const handlersRef = useRef(handlers);
           handlersRef.current = handlers;
@@ -1118,20 +1139,23 @@ twoway scatter HDI lnNTL`,
                 world = new window.Globe(el, { animateIn: false })
                   .width(el.clientWidth).height(el.clientHeight)
                   .backgroundColor('rgba(0,0,0,0)')
-                  .globeImageUrl('images/hero-globe-night.webp')
+                  .globeImageUrl('images/hero-globe-day.webp')
                   .showAtmosphere(true).atmosphereColor('#7cc4ff').atmosphereAltitude(0.18)
                   .polygonsData(outline.features)
-                  .polygonCapColor(() => 'rgba(255, 107, 107, 0.12)')
-                  .polygonSideColor(() => 'rgba(255, 107, 107, 0.55)')
+                  .polygonSideColor(() => 'rgba(255, 107, 107, 0.35)')
                   .polygonStrokeColor(() => '#ff6b6b')
-                  .polygonAltitude(0.008)
+                  .polygonAltitude(0.0025)
                   .pointsData(HERO_CITIES).pointLat('lat').pointLng('lng')
-                  .pointColor(() => '#e8f4ff').pointAltitude(0.006).pointRadius(0.08)
+                  .pointColor(() => '#ffffff').pointAltitude(0.003).pointRadius(0.045)
                   .ringsData(HERO_CITIES).ringLat('lat').ringLng('lng')
                   .ringColor(() => (t) => `rgba(124, 196, 255, ${1 - t})`)
                   .ringMaxRadius(0.9).ringPropagationSpeed(0.6).ringRepeatPeriod(1800)
                   .pointOfView({ lat: 12.5, lng: 75, altitude: GLOBE_ALT.intro })
-                  .onGlobeReady(() => { if (!cancelled) handlersRef.current.onReady(); });
+                  .onGlobeReady(() => { if (cancelled) return; addCambodiaPatch(world); handlersRef.current.onReady(); });
+                // An invisible cap that doesn't hide the Cambodia patch underneath
+                const capMaterial = new (world.globeMaterial().constructor)({ transparent: true, opacity: 0, depthWrite: false });
+                world.polygonCapMaterial(() => capMaterial);
+                world.lights().forEach((light) => { light.intensity *= light.isDirectionalLight ? 1.6 : 1.15; });
                 const controls = world.controls();
                 controls.enableZoom = false; // the mouse wheel keeps scrolling the page
                 controls.enablePan = false;
@@ -1174,7 +1198,7 @@ twoway scatter HDI lnNTL`,
           const [activeId, setActiveId] = useState(HERO_CITIES[0].id);
           const [view, setView] = useState({ lat: HERO_CITIES[0].lat, lng: HERO_CITIES[0].lng });
 
-          const worldRef = useNightGlobe(containerRef, globeEnabled, {
+          const worldRef = useSatelliteGlobe(containerRef, globeEnabled, {
             onReady: () => setReady(true),
             onError: () => setReady(false),
             onMove: (lat, lng) => setView({ lat, lng }),
@@ -1229,15 +1253,15 @@ twoway scatter HDI lnNTL`,
           return (
             <div id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden bg-navy-950">
               <div className="absolute inset-0 z-0" aria-hidden="true">
-                <img src="images/hero.webp" alt="" fetchpriority="high"
+                <img src="images/hero-day.webp" alt="" fetchpriority="high"
                      className={`w-full h-full object-cover transition-opacity duration-[1200ms] ${ready ? 'opacity-0' : 'opacity-100'}`} />
               </div>
               {globeEnabled && (
                 <div ref={containerRef} tabIndex={ready ? 0 : -1} role="group" onKeyDown={onGlobeKeyDown}
-                     aria-hidden={!ready} aria-label="Interactive night-time globe centred on Cambodia. Use the left and right arrow keys to fly between cities, and plus or minus to zoom."
+                     aria-hidden={!ready} aria-label="Interactive satellite globe centred on Cambodia. Use the left and right arrow keys to fly between cities, and plus or minus to zoom."
                      className={`hero-globe absolute inset-0 z-[1] lg:left-[24%] lg:-right-[6%] transition-opacity duration-[1500ms] ${ready ? 'opacity-100' : 'opacity-0'}`}></div>
               )}
-              <div className="absolute inset-0 z-[2] pointer-events-none bg-navy-950/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-navy-950/95 lg:via-navy-950/60 lg:to-transparent" aria-hidden="true"></div>
+              <div className="absolute inset-0 z-[2] pointer-events-none bg-navy-950/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-navy-950/95 lg:via-navy-950/50 lg:via-35% lg:to-transparent lg:to-60%" aria-hidden="true"></div>
               <div className="absolute inset-x-0 top-0 h-32 z-[2] pointer-events-none bg-gradient-to-b from-navy-950/80 to-transparent" aria-hidden="true"></div>
               <div className="absolute inset-x-0 bottom-0 h-48 z-[2] pointer-events-none bg-gradient-to-t from-navy-950 to-transparent" aria-hidden="true"></div>
 
@@ -1294,7 +1318,7 @@ twoway scatter HDI lnNTL`,
                 <div className="pointer-events-auto md:w-1/3 md:text-right font-mono uppercase">
                   <p className="text-sm sm:text-base tracking-[0.15em] text-white whitespace-pre">{formatCoord(view.lat, view.lng)}</p>
                   <p className="mt-1 text-[11px] sm:text-xs tracking-[0.25em] text-brand-sky" aria-live="polite">{place ? `${place.name}, KH` : 'In orbit'}</p>
-                  <p className="mt-2 text-[11px] tracking-[0.2em] text-slate-400">{ready ? 'Night lights · NASA Black Marble 2016' : 'Cambodia at night'}</p>
+                  <p className="mt-2 text-[11px] tracking-[0.2em] text-slate-400">Sentinel-2 cloudless 2016 · NASA Blue Marble</p>
                 </div>
               </div>
 
@@ -1780,7 +1804,7 @@ twoway scatter HDI lnNTL`,
               </div>
               <div className="border-t border-white/5 pt-8 space-y-3 text-xs text-slate-400 leading-relaxed">
                 <p><strong className="text-slate-400">Disclaimer.</strong> The indicators, tools, and insights are the responsibility of the individual researchers and do not necessarily represent the views of their affiliated institutions or related organizations. Maps on this website are for geo-statistical use only and have a referential, informational character. They represent indicators spatially and do not constitute an official definition of Cambodia’s territorial boundaries.</p>
-                <p><strong className="text-slate-400">Credits.</strong> Hero and section illustrations were generated with OpenAI image generation (via Codex). The night-lights globe uses NASA Earth Observatory's Black Marble 2016 (public domain), rendered with globe.gl. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
+                <p><strong className="text-slate-400">Credits.</strong> Section illustrations were generated with OpenAI image generation (via Codex). The hero globe uses <a href="https://s2maps.eu" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), licensed under CC BY 4.0, over NASA's Blue Marble Next Generation (public domain), and is rendered with globe.gl. App screenshots, figures, and photos belong to their respective authors. Code and data are released under the <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">MIT License</a>; the original data sources are credited on each dataset page.</p>
                 <p>Found an error? <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">Open an issue</a> or start a thread in <a href={`${REPO_URL}/discussions`} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-300">GitHub Discussions</a>.</p>
               </div>
             </div>
