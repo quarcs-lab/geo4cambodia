@@ -5,12 +5,14 @@
 `geo4cambodia` is the Python package of the [GeoDevelopment Observatory of Cambodia](https://quarcs-lab.github.io/geo4cambodia/). It loads the observatory's indicators (district GDP per capita, province population, night-time lights, PM2.5, Global Data Lab HDI...) as tidy panels, with boundaries for every scale. It also lets you **build your own indicators**: link your tables to the same unit IDs, summarise rasters over units, move data across scales and combine datasets. It works out of the box in Google Colab: every example below runs in a new Colab notebook (replace the placeholder files, such as your own table or raster, with yours).
 
 ```python
-!pip install -q geo4cambodia mapclassify           # mapclassify: for scheme="quantiles"
+!pip install -q geo4cambodia
 import geo4cambodia as geo
+import plotly.express as px                          # interactive maps and charts (preinstalled in Colab)
 
 geo.datasets()                                       # what is available, at which scale and years
 gdf = geo.load("gdppc", years=2022, geometry=True)   # 202 districts, with boundaries
-gdf.plot(column="y", scheme="quantiles", k=5, legend=True)
+px.choropleth_map(gdf, geojson=gdf.geometry, locations=gdf.index, color="y",
+                  hover_name="name", center={"lat": 12.5, "lon": 105}, zoom=5.5)
 ```
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/empty.ipynb)

@@ -166,11 +166,12 @@ All code below assumes **Google Colab**: each block starts with the line that in
 
 ### A. Without the package
 
-Every file is a plain URL: `https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/<path>`. Use `main` for the latest data, or a release tag (e.g. `v0.3.0`) for a frozen version. pandas and geopandas are preinstalled in Colab, so nothing needs installing:
+Every file is a plain URL: `https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/<path>`. Use `main` for the latest data, or a release tag (e.g. `v0.3.0`) for a frozen version. pandas, geopandas and plotly are preinstalled in Colab, so nothing needs installing:
 
 ```python
 import pandas as pd
 import geopandas as gpd
+import plotly.express as px
 
 BASE = "https://raw.githubusercontent.com/quarcs-lab/geo4cambodia/main/"
 
@@ -178,8 +179,10 @@ df = pd.read_csv(BASE + "data/district/gdppc.csv")                 # panel: geo_
 units = pd.read_csv(BASE + "geo/units.csv")                         # names, parents, source keys
 df = df.merge(units[["geo_id", "name", "province_id"]], on="geo_id")
 
-gdf = gpd.read_file(BASE + "geo/boundaries/district.geojson")       # polygons with geo_id
-gdf.merge(df[df.year == 2022], on="geo_id").plot(column="y", legend=True)
+gdf = gpd.read_file(BASE + "geo/boundaries/district.geojson")       # polygons with geo_id, name
+gdf = gdf.merge(df.loc[df.year == 2022, ["geo_id", "y"]], on="geo_id")
+px.choropleth_map(gdf, geojson=gdf.geometry, locations=gdf.index, color="y",
+                  hover_name="name", center={"lat": 12.5, "lon": 105}, zoom=5.5).show()
 
 xw = pd.read_csv(BASE + "geo/crosswalks/district__province.csv")    # district -> province
 ```
